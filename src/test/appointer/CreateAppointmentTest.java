@@ -22,7 +22,8 @@ public class CreateAppointmentTest {
 	 * @throws URISyntaxException
 	 */
 	public static void main(String[] args) throws URISyntaxException {
-
+		//ADDED MORE COMMENTS
+		
 		//Attendee creates appointemnt and packs it into a dto with unique UID; 
 		VEvent testEvent = createDemoEvent();
 		
