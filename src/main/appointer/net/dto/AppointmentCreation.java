@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class AppointmentCreation {
 	
-	UUID uid;	
+	UUID uid;	 /// ID of the application's request;
 	String organizer;
 	String attendee;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -23,7 +23,10 @@ public class AppointmentCreation {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	LocalDateTime end; 
 	
-	UUID EventID;
+	String  EventID; //ID of the event payload;
+	// biWeekly's Uid can't be deserialised easily;
+	//https://stackoverflow.com/questions/47570931/jackson-deserialize-class-with-private-fields-and-arg-constructor-without-annot?rq=1
+	
 	boolean created;
 	boolean approved;
 	

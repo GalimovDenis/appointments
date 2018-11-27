@@ -2,6 +2,7 @@ package appointer.calendar.facades;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAmount;
 import java.util.Date;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -13,20 +14,24 @@ import appointer.util.date.DateAdapter;
 import biweekly.component.VEvent;
 import biweekly.property.Attendee;
 import biweekly.property.Organizer;
+import biweekly.property.Uid;
 import biweekly.util.Duration;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
 import biweekly.util.com.google.ical.compat.javautil.DateIterator;
 
 public class EventFacade {
-	
-	// is that a future event composite class to hold events and call groups of them?
+
+	public static void setEventID(VEvent event, Uid uid) {
+		event.setUid(uid);
+	}
+
+	// is that a future event composite class to hold events and call groups of
+	// them?
 	/**
 	 * VEvent is the Biweekly implementation of calendar event; creating VEvent for
-	 * now;
-	 * https://github.com/mangstadt/biweekly
-	 * biweekly won by comparison to older iCal4j library;
-	 * EventFacade is the facade over VEvent + helper methods;
+	 * now; https://github.com/mangstadt/biweekly biweekly won by comparison to
+	 * older iCal4j library; EventFacade is the facade over VEvent + helper methods;
 	 */
 	public static VEvent createEventCurrentTime() {
 		VEvent vEventOne = new VEvent();
@@ -58,6 +63,13 @@ public class EventFacade {
 		return event;
 	}
 
+	public static VEvent moveEventStart(VEvent event, TemporalAmount offset) {
+		LocalDateTime localDateStart = DateAdapter.asLocalDateTime(event.getDateStart().getValue());
+		localDateStart.plus(offset);
+		event.setDateStart(DateAdapter.asDate(localDateStart));
+		return event;
+	}
+
 	public static void setEventEnd(VEvent event, LocalDateTime endTime) {
 		// what if the endtime is below starttime?
 	}
@@ -82,7 +94,7 @@ public class EventFacade {
 		event.setOrganizer(new Organizer(organiserName, ""));
 		return event;
 	}
-	
+
 	/**
 	 * 
 	 * @param event
@@ -93,8 +105,7 @@ public class EventFacade {
 		event.addAttendee(new Attendee(attendeeName, ""));
 		return event;
 	}
-	
-	
+
 	/**
 	 * @param event
 	 * @return stream of localdates for recurring event
