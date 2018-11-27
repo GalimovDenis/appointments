@@ -10,7 +10,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import appointer.net.dto.AppointmentCreation;
+import appointer.net.dto.AppointmentCreate;
 
 public class ReportRESTClient {
 
@@ -19,24 +19,23 @@ public class ReportRESTClient {
 	static HttpHeaders headers = new HttpHeaders();
 	
 	/**
-	 * Idempotent event report from organiser; event must include organiser name
+	 * Idempotent event report from organizer; event must include organizer name
 	 * 
 	 * @param event
 	 * @throws URISyntaxException
 	 */
-	public static void organiserReportEvent(AppointmentCreation appEvent) throws URISyntaxException {
+	public static void organizerReportEvent(AppointmentCreate appEvent) throws URISyntaxException {
 
-		String organiserName = appEvent.getOrganizer();
+		String organizerName = appEvent.getOrganizer();
 
-		if (organiserName == "")
+		if (organizerName == "")
 			throw new IllegalArgumentException();
 
-		final String url = "http://localhost:8080/organiser/report/";
-
+		final String url = "http://localhost:8080/organizer/report/create";
 		
 
-		RequestEntity<AppointmentCreation> requestEntity = new RequestEntity<AppointmentCreation>(appEvent, headers,
-				HttpMethod.POST, new URI(url + "?orgname=" + organiserName));
+		RequestEntity<AppointmentCreate> requestEntity = new RequestEntity<AppointmentCreate>(appEvent, headers,
+				HttpMethod.POST, new URI(url + "?orgname=" + organizerName));
 
 		
 		
@@ -44,7 +43,7 @@ public class ReportRESTClient {
 
 		Boolean body = response.getBody();
 
-		System.out.println("Printing event report result on server: " + body + " With ID " + appEvent.getUid());
+		System.out.println("Printing event report result on server: " + body + " With ID " + appEvent.getEventId());
 
 	}
 
@@ -55,14 +54,14 @@ public class ReportRESTClient {
 	 */
 	public static void attendeeReportEvent(String organiserName, UUID uid) throws URISyntaxException {
 		
-		final String url = "http://localhost:8080/attendee/read/";
+		final String url = "http://localhost:8080/attendee/report/create";
 		
 		RequestEntity requestEntity = new RequestEntity(headers,
 				HttpMethod.GET, new URI(url +"?orgname="+organiserName+"&uid=" + uid.toString()));
 		
-		ResponseEntity<AppointmentCreation> response = restTemplate.exchange(requestEntity, AppointmentCreation.class); // printing // without
+		ResponseEntity<AppointmentCreate> response = restTemplate.exchange(requestEntity, AppointmentCreate.class); // printing // without
 		
-		AppointmentCreation body = response.getBody();
+		AppointmentCreate body = response.getBody();
 
 		System.out.println("Printing event report result for attendee: " + body);
 	}

@@ -10,7 +10,7 @@ import appointer.calendar.facades.EventFacade;
 import appointer.net.adapters.DTOAdapter;
 import appointer.net.client.CreateRESTClient;
 import appointer.net.client.ReportRESTClient;
-import appointer.net.dto.AppointmentCreation;
+import appointer.net.dto.AppointmentCreate;
 import appointer.util.io.console.CalendarPrinter;
 import biweekly.component.VEvent;
 import biweekly.property.Uid;
@@ -63,47 +63,48 @@ public class CRUDAppointmentTest {
 	private static Uid createAppointmentTest(VEvent attendeeEvent) throws URISyntaxException {
 
 		// Attendee creates appointment and packs it into a dto with unique UID;
-		AppointmentCreation appCreation = DTOAdapter.toAppointmentCreation(attendeeEvent);
+		AppointmentCreate appCreationAttendee = DTOAdapter.toAppointmentCreation(attendeeEvent);
 
 		// Attendee sends a new appointment request
-		CreateRESTClient.attendeeNewAppointment(appCreation);
+		CreateRESTClient.attendeeNewAppointment(appCreationAttendee);
 
-		CreateRESTClient.attendeeNewAppointment(appCreation);
+		CreateRESTClient.attendeeNewAppointment(appCreationAttendee);
 
-		CreateRESTClient.attendeeNewAppointment(appCreation);
+		CreateRESTClient.attendeeNewAppointment(appCreationAttendee);
+		
+		AppointmentCreate appCreationOrganizer;
+		
+		// Organizer receives appointment to create
+		appCreationOrganizer = CreateRESTClient.organizerPendingApproval(appCreationAttendee.getOrganizer());
 
-		// Organiser receives appointment to create
-		CreateRESTClient.organiserPendingAppoinmentPrint(appCreation.getOrganizer());
+		appCreationOrganizer = CreateRESTClient.organizerPendingApproval(appCreationAttendee.getOrganizer());
 
-		CreateRESTClient.organiserPendingAppoinmentPrint(appCreation.getOrganizer());
+		appCreationOrganizer = CreateRESTClient.organizerPendingApproval(appCreationAttendee.getOrganizer());
 
-		CreateRESTClient.organiserPendingAppoinmentPrint(appCreation.getOrganizer());
-
-		// organiser adds event to Calendar;	
-		VEvent organiserEvent = DTOAdapter.toAppointmentEvent(appCreation);
+		// organizer adds event to Calendar;	
+		VEvent organiserEvent = DTOAdapter.toAppointmentEvent(appCreationOrganizer);
 		
 		OrganiserCalendars.getLocalCalenar().addEvent(organiserEvent);
 		
-		appCreation.setCreated(true);
+		appCreationOrganizer.setResponded(true);
 
+		// Organizer reports events
+		ReportRESTClient.organizerReportEvent(appCreationOrganizer);
 
-		// Organiser reports events
-		ReportRESTClient.organiserReportEvent(appCreation);
+		ReportRESTClient.organizerReportEvent(appCreationOrganizer);
 
-		ReportRESTClient.organiserReportEvent(appCreation);
-
-		ReportRESTClient.organiserReportEvent(appCreation);
+		ReportRESTClient.organizerReportEvent(appCreationOrganizer);
 
 		// Attendee now must see Created as True;
-		ReportRESTClient.attendeeReportEvent(appCreation.getOrganizer(), appCreation.getUid());
+		ReportRESTClient.attendeeReportEvent(appCreationAttendee.getOrganizer(), appCreationAttendee.getRequestId());
 
-		ReportRESTClient.attendeeReportEvent(appCreation.getOrganizer(), appCreation.getUid());
+		ReportRESTClient.attendeeReportEvent(appCreationAttendee.getOrganizer(), appCreationAttendee.getRequestId());
 
-		ReportRESTClient.attendeeReportEvent(appCreation.getOrganizer(), appCreation.getUid());
+		ReportRESTClient.attendeeReportEvent(appCreationAttendee.getOrganizer(), appCreationAttendee.getRequestId());
 
-		AttendeeCalendars.getLocalCalenar().addEvent(DTOAdapter.toAppointmentEvent(appCreation)); //
+		AttendeeCalendars.getLocalCalenar().addEvent(DTOAdapter.toAppointmentEvent(appCreationAttendee)); //
 
-		return new Uid(appCreation.getEventID());
+		return new Uid(appCreationAttendee.getEventId());
 	}
 	
 	private static VEvent createDemoEvent(String Attendee, String Organiser) {

@@ -12,22 +12,20 @@ import lombok.Data;
  *
  */
 @Data
-public class AppointmentCreation {
-	
-	UUID uid;	 /// ID of the application's request;
+public class AppointmentCreate implements IAppointmentDTO {
+
+	final RequestType requestType = RequestType.CREATE;
+	UUID requestId;
+	String eventId; 
 	String organizer;
 	String attendee;
+	boolean registered;
+	boolean responded;
+	boolean complete;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	LocalDateTime start; 
-
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	LocalDateTime end; 
-	
-	String  EventID; //ID of the event payload;
-	// biWeekly's Uid can't be deserialised easily;
-	//https://stackoverflow.com/questions/47570931/jackson-deserialize-class-with-private-fields-and-arg-constructor-without-annot?rq=1
-	
-	boolean created;
-	boolean approved;
 	
 }
