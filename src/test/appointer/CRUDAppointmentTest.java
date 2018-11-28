@@ -37,11 +37,11 @@ public class CRUDAppointmentTest {
 
 		Uid uid = createAppointmentTest(event);
 		
-		CalendarPrinter.printCalendar(AttendeeCalendars.getLocalCalenar());
+		CalendarPrinter.printCalendar(AttendeeCalendars.getLocalCalendar());
 
-		CalendarPrinter.printCalendar(OrganiserCalendars.getLocalCalenar());
+		CalendarPrinter.printCalendar(OrganiserCalendars.getLocalCalendar());
 		
-		List<VEvent> events = AttendeeCalendars.getLocalCalenar().getEvents();
+		List<VEvent> events = AttendeeCalendars.getLocalCalendar().getEvents();
 		
 		for(VEvent ve : events ) {
 			if (ve.getUid() == uid) event = ve;
@@ -55,7 +55,8 @@ public class CRUDAppointmentTest {
 
 		EventFacade.moveEventStart(attendeeEvent, Duration.ofHours(24));
 	
-		//AppointmentUpdate appUpd = DTOAdapter.toAppointmentUpdate(event);
+		//AppointmentUpdate appUpd = DTOAdapter.toAppointmentUpdate(attendeeEvent);
+		
 		// UpdateRESTClient.attendeeUpdateAppointment;
 
 	}
@@ -84,7 +85,7 @@ public class CRUDAppointmentTest {
 		// organizer adds event to Calendar;	
 		VEvent organiserEvent = DTOAdapter.toAppointmentEvent(appCreationOrganizer);
 		
-		OrganiserCalendars.getLocalCalenar().addEvent(organiserEvent);
+		OrganiserCalendars.getLocalCalendar().addEvent(organiserEvent);
 		
 		appCreationOrganizer.setResponded(true);
 
@@ -95,14 +96,14 @@ public class CRUDAppointmentTest {
 
 		ReportRESTClient.organizerReportEvent(appCreationOrganizer);
 
-		// Attendee now must see Created as True;
+		// Attendee now must see Responded as True;
 		ReportRESTClient.attendeeReportEvent(appCreationAttendee.getOrganizer(), appCreationAttendee.getRequestId());
 
 		ReportRESTClient.attendeeReportEvent(appCreationAttendee.getOrganizer(), appCreationAttendee.getRequestId());
 
 		ReportRESTClient.attendeeReportEvent(appCreationAttendee.getOrganizer(), appCreationAttendee.getRequestId());
 
-		AttendeeCalendars.getLocalCalenar().addEvent(DTOAdapter.toAppointmentEvent(appCreationAttendee)); //
+		AttendeeCalendars.getLocalCalendar().addEvent(DTOAdapter.toAppointmentEvent(appCreationAttendee)); //
 
 		return new Uid(appCreationAttendee.getEventId());
 	}

@@ -29,7 +29,7 @@ public class Calendars {
 		return user;
 	}
 	
-	public ICalendar getLocalCalenar() {
+	public ICalendar getLocalCalendar() {
 		return localCalendar;
 	}
 

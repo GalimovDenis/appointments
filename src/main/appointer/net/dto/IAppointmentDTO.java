@@ -16,6 +16,15 @@ public interface IAppointmentDTO {
 	
 	public String getAttendee();
 	
+	
+	
+	public void setEventId(String eventId);
+	
+	public void setOrganizer(String organizer);
+	
+	public void setAttendee(String attendee);
+	
+	
 	public boolean isRegistered();
 	
 	public boolean isResponded();
