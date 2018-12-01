@@ -76,7 +76,7 @@ public class DTOAdapter {
 	
 	public static AppointmentDelete toAppointmentDelete(VEvent event) {
 
-		IDateRange range = new DateRangeEmpty();
+		IDateRange range = IDateRange.empty();
 		
 		AppointmentDelete appEvent = DTOFactory.appointmentDelete(range);
 

@@ -6,10 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class DateRangeEmpty implements IDateRange {
 
-	@JsonCreator
-	public DateRangeEmpty() {
-	}
-
 	@Override
 	public boolean isEmpty() {
 		return true;
