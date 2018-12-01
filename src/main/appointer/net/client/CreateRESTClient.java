@@ -9,7 +9,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import appointer.net.dto.AppointmentCreate;
+import appointer.net.dto.AppointmentDTO;
+import appointer.net.dto.IAppointmentDTO;
 
 /**
  *Calls the server to create an appointment; 
@@ -20,44 +21,44 @@ public class CreateRESTClient {
 
 	static HttpHeaders headers = new HttpHeaders();
 	
-	public static void attendeeNewAppointment(AppointmentCreate appEvent) throws URISyntaxException {
+	public static void attendeeNewAppointment(IAppointmentDTO appDTO) throws URISyntaxException {
 				
 		final String url = "http://localhost:8080/attendee/request/create/";
 
 		
-		RequestEntity<AppointmentCreate> requestEntity = new RequestEntity<AppointmentCreate>(appEvent, headers,
+		RequestEntity<IAppointmentDTO> requestEntity = new RequestEntity<IAppointmentDTO>(appDTO, headers,
 				HttpMethod.POST, new URI(url));
 
 		ResponseEntity<Boolean> response = restTemplate.exchange(requestEntity, Boolean.class); // printing // without
 
 		Boolean body = response.getBody();
 
-		System.out.println("Printing event creation result on server: " + body + " with ID " + appEvent.getRequestId());
+		System.out.println("Printing event creation result on server: " + body + " with ID " + appDTO.getRequestId());
 
 	}
 	
 	
 
-	public static AppointmentCreate organizerPendingApproval(String organizerName) throws URISyntaxException {
+	public static IAppointmentDTO organizerPendingApproval(String organizerName) throws URISyntaxException {
 		
 		final String url = "http://localhost:8080/organizer/request/create/";
 	
-		RequestEntity<AppointmentCreate> requestEntity = new RequestEntity<AppointmentCreate>(headers,
+		RequestEntity<AppointmentDTO> requestEntity = new RequestEntity<AppointmentDTO>(headers,
 				HttpMethod.GET, new URI(url + "?orgname=" + organizerName));
 
 		
-		ResponseEntity<AppointmentCreate> response = restTemplate.exchange(requestEntity, AppointmentCreate.class); // printing // without
+		ResponseEntity<IAppointmentDTO> response = restTemplate.exchange(requestEntity, IAppointmentDTO.class); // printing // without
 
-		AppointmentCreate appCreate = response.getBody();
+		IAppointmentDTO appDTO = response.getBody();
 		
-		organizerPendingAppoinmentPrint(appCreate);
+		organizerPendingAppoinmentPrint(appDTO);
 		
-		return appCreate;
+		return appDTO;
 	}
 	
-	private static void organizerPendingAppoinmentPrint(AppointmentCreate appCreate) {
+	private static void organizerPendingAppoinmentPrint(IAppointmentDTO appDTO) {
 	
-		System.out.println("Printing pulled event from server: " + appCreate.toString());
+		System.out.println("Printing pulled event from server: " + appDTO.toString());
 
 	}
 

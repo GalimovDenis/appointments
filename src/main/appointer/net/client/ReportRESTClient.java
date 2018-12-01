@@ -10,7 +10,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import appointer.net.dto.AppointmentCreate;
+import appointer.net.dto.AppointmentDTO;
+import appointer.net.dto.IAppointmentDTO;
 
 public class ReportRESTClient {
 
@@ -24,7 +25,7 @@ public class ReportRESTClient {
 	 * @param event
 	 * @throws URISyntaxException
 	 */
-	public static void organizerReportEvent(AppointmentCreate appEvent) throws URISyntaxException {
+	public static void organizerReportEvent(IAppointmentDTO appEvent) throws URISyntaxException {
 
 		String organizerName = appEvent.getOrganizer();
 
@@ -34,7 +35,7 @@ public class ReportRESTClient {
 		final String url = "http://localhost:8080/organizer/report/create";
 		
 
-		RequestEntity<AppointmentCreate> requestEntity = new RequestEntity<AppointmentCreate>(appEvent, headers,
+		RequestEntity<IAppointmentDTO> requestEntity = new RequestEntity<IAppointmentDTO>(appEvent, headers,
 				HttpMethod.POST, new URI(url + "?orgname=" + organizerName));
 
 		
@@ -59,9 +60,9 @@ public class ReportRESTClient {
 		RequestEntity requestEntity = new RequestEntity(headers,
 				HttpMethod.GET, new URI(url +"?orgname="+organiserName+"&uid=" + uid.toString()));
 		
-		ResponseEntity<AppointmentCreate> response = restTemplate.exchange(requestEntity, AppointmentCreate.class); // printing // without
+		ResponseEntity<IAppointmentDTO> response = restTemplate.exchange(requestEntity, IAppointmentDTO.class); // printing // without
 		
-		AppointmentCreate body = response.getBody();
+		IAppointmentDTO body = response.getBody();
 
 		System.out.println("Printing event report result for attendee: " + body);
 	}

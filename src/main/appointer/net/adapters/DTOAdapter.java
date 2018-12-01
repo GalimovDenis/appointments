@@ -2,17 +2,14 @@ package appointer.net.adapters;
 
 import java.time.LocalDateTime;
 
-import com.appointments.util.daterange.DateRange;
-import com.appointments.util.daterange.DateRangeEmpty;
-import com.appointments.util.daterange.IDateRange;
-
 import appointer.calendar.facades.EventFacade;
-import appointer.net.dto.AppointmentCreate;
-import appointer.net.dto.AppointmentDelete;
-import appointer.net.dto.AppointmentRead;
-import appointer.net.dto.AppointmentUpdate;
+import appointer.net.dto.AppointmentDTO;
 import appointer.net.dto.BaseAppointmentDTO;
+import appointer.net.dto.IAppointmentDTO;
+import appointer.net.dto.RequestType;
 import appointer.util.date.DateAdapter;
+import appointer.util.date.range.DateRange;
+import appointer.util.date.range.IDateRange;
 import biweekly.component.VEvent;
 import biweekly.property.Uid;
 
@@ -38,11 +35,11 @@ public class DTOAdapter {
 	}
 	
 	
-	public static AppointmentCreate toAppointmentCreation(VEvent event) {
+	public static AppointmentDTO toAppointmentCreation(VEvent event) {
 
 		IDateRange range = createDateRange(event);
 		
-		AppointmentCreate appEvent = DTOFactory.appointmentCreate(range);
+		AppointmentDTO appEvent = DTOFactory.createAppointmentDTO(range, RequestType.CREATE);
 
 		fillEvent(appEvent, event);
 		
@@ -50,11 +47,11 @@ public class DTOAdapter {
 
 	}
 	
-	public static AppointmentUpdate toAppointmentUpdate(VEvent event) {
+	public static AppointmentDTO toAppointmentUpdate(VEvent event) {
 
 		IDateRange range = createDateRange(event);
 		
-		AppointmentUpdate appEvent = DTOFactory.appointmentUpdate(range);
+		AppointmentDTO appEvent = DTOFactory.createAppointmentDTO(range, RequestType.UPDATE);
 
 		fillEvent(appEvent, event);
 
@@ -62,11 +59,11 @@ public class DTOAdapter {
 
 	}
 	
-	public static AppointmentRead toAppointmentRead(VEvent event) {
+	public static AppointmentDTO toAppointmentRead(VEvent event) {
 
 		IDateRange range = createDateRange(event);
 		
-		AppointmentRead appEvent = DTOFactory.appointmentRead(range);
+		AppointmentDTO appEvent = DTOFactory.createAppointmentDTO(range, RequestType.READ);
 
 		fillEvent(appEvent, event);
 
@@ -74,11 +71,11 @@ public class DTOAdapter {
 
 	}
 	
-	public static AppointmentDelete toAppointmentDelete(VEvent event) {
+	public static AppointmentDTO toAppointmentDelete(VEvent event) {
 
 		IDateRange range = IDateRange.empty();
 		
-		AppointmentDelete appEvent = DTOFactory.appointmentDelete(range);
+		AppointmentDTO appEvent = DTOFactory.createAppointmentDTO(range, RequestType.DELETE);
 
 		fillEvent(appEvent, event);
 
@@ -88,7 +85,7 @@ public class DTOAdapter {
 	
 	
 
-	public static VEvent toAppointmentEvent(AppointmentCreate appCreation) {
+	public static VEvent toAppointmentEvent(IAppointmentDTO appCreation) {
 
 		VEvent event = new VEvent();
 

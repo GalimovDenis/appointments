@@ -10,7 +10,7 @@ import appointer.calendar.facades.EventFacade;
 import appointer.net.adapters.DTOAdapter;
 import appointer.net.client.CreateRESTClient;
 import appointer.net.client.ReportRESTClient;
-import appointer.net.dto.AppointmentCreate;
+import appointer.net.dto.IAppointmentDTO;
 import appointer.util.io.console.CalendarPrinter;
 import biweekly.component.VEvent;
 import biweekly.property.Uid;
@@ -64,7 +64,7 @@ public class CRUDAppointmentTest {
 	private static Uid createAppointmentTest(VEvent attendeeEvent) throws URISyntaxException {
 
 		// Attendee creates appointment and packs it into a dto with unique UID;
-		AppointmentCreate appCreationAttendee = DTOAdapter.toAppointmentCreation(attendeeEvent);
+		IAppointmentDTO appCreationAttendee = DTOAdapter.toAppointmentCreation(attendeeEvent);
 
 		System.out.println(appCreationAttendee);
 		
@@ -75,7 +75,7 @@ public class CRUDAppointmentTest {
 
 		CreateRESTClient.attendeeNewAppointment(appCreationAttendee);
 		
-		AppointmentCreate appCreationOrganizer;
+		IAppointmentDTO appCreationOrganizer;
 		
 		// Organizer receives appointment to create
 		appCreationOrganizer = CreateRESTClient.organizerPendingApproval(appCreationAttendee.getOrganizer());

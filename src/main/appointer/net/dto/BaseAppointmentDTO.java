@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 
+	private final RequestType requestType;
 	private final UUID requestId;
 	private String eventId; 
 	private String organizer;
@@ -17,13 +18,16 @@ public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 	private boolean complete;
 		
 	@JsonCreator
-	public BaseAppointmentDTO(@JsonProperty("requestId") UUID requestId) {
+	public BaseAppointmentDTO(@JsonProperty("requestId") UUID requestId, @JsonProperty("requestType") RequestType requestType) {
 		super();
 		this.requestId = requestId;
+		this.requestType = requestType;
 	}
 	
 	@Override
-	public abstract RequestType getRequestType();
+	public RequestType getRequestType() {
+		return requestType;
+	}
 	
 	public UUID getRequestId() {
 		return requestId;

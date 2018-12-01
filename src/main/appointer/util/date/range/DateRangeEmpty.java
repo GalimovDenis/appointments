@@ -1,4 +1,4 @@
-package com.appointments.util.daterange;
+package appointer.util.date.range;
 
 import java.time.LocalDateTime;
 
