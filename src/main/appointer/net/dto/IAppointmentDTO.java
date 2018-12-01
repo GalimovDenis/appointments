@@ -2,6 +2,8 @@ package appointer.net.dto;
 
 import java.util.UUID;
 
+import com.appointments.util.daterange.IDateRange;
+
 
 
 public interface IAppointmentDTO {
@@ -11,12 +13,12 @@ public interface IAppointmentDTO {
 	public UUID getRequestId();
 	
 	public String getEventId();
-	
+		
 	public String getOrganizer();
 	
 	public String getAttendee();
 	
-	
+	public IDateRange getDateRange();
 	
 	public void setEventId(String eventId);
 	

@@ -36,7 +36,8 @@ public class EventFacade {
 	public static VEvent createEventCurrentTime() {
 		VEvent vEventOne = new VEvent();
 		LocalDateTime timeNow = LocalDateTime.now();
-		vEventOne = EventFacade.setEventStart(vEventOne, timeNow);
+		EventFacade.setEventStart(vEventOne, timeNow);
+		EventFacade.setEventEnd(vEventOne, timeNow);
 		return vEventOne;
 	}
 
@@ -45,10 +46,9 @@ public class EventFacade {
 	 * 
 	 * @return
 	 */
-	public static VEvent addOneHourToEvent(VEvent event) {
+	public static void addOneHourToEvent(VEvent event) {
 		Duration duration = new Duration.Builder().hours(1).build();
 		event.setDuration(duration);
-		return event;
 	}
 
 	/**
@@ -57,21 +57,20 @@ public class EventFacade {
 	 * @param fillTime
 	 * @return
 	 */
-	public static VEvent setEventStart(VEvent event, LocalDateTime fillTime) {
+	public static void setEventStart(VEvent event, LocalDateTime fillTime) {
 		Date start = DateAdapter.asDate(fillTime);
 		event.setDateStart(start);
-		return event;
 	}
 
-	public static VEvent moveEventStart(VEvent event, TemporalAmount offset) {
+	public static void moveEventStart(VEvent event, TemporalAmount offset) {
 		LocalDateTime localDateStart = DateAdapter.asLocalDateTime(event.getDateStart().getValue());
 		localDateStart.plus(offset);
 		event.setDateStart(DateAdapter.asDate(localDateStart));
-		return event;
 	}
 
 	public static void setEventEnd(VEvent event, LocalDateTime endTime) {
-		// what if the endtime is below starttime?
+		Date end = DateAdapter.asDate(endTime);
+		event.setDateEnd(end);
 	}
 
 	public static void rescheduleEvent(VEvent event, Duration duration) {
@@ -90,9 +89,8 @@ public class EventFacade {
 	 *            name of event client
 	 * @return new VEvent
 	 */
-	public static VEvent setOrganiser(VEvent event, String organiserName) {
+	public static void setOrganiser(VEvent event, String organiserName) {
 		event.setOrganizer(new Organizer(organiserName, ""));
-		return event;
 	}
 
 	/**
@@ -101,9 +99,8 @@ public class EventFacade {
 	 * @param attendeeName
 	 * @return
 	 */
-	public static VEvent addAttendee(VEvent event, String attendeeName) {
+	public static void addAttendee(VEvent event, String attendeeName) {
 		event.addAttendee(new Attendee(attendeeName, ""));
-		return event;
 	}
 
 	/**

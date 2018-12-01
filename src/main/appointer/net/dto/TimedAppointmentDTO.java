@@ -1,9 +1,10 @@
 package appointer.net.dto;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.appointments.util.daterange.IDateRange;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * dto for appointment creation; appointment is event with Organizer and Attendee; 
@@ -11,40 +12,28 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 public abstract class TimedAppointmentDTO extends BaseAppointmentDTO implements IAppointmentDTO {
 	
-	public TimedAppointmentDTO(UUID requestId) {
-		super(requestId);
-	}
+	@JsonProperty(value="range", required=true)
+	private final IDateRange range;
 	
-	public TimedAppointmentDTO() {
-		super();
-	}
-
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-	LocalDateTime start; 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-	LocalDateTime end;
-
 	@Override
 	public abstract RequestType getRequestType();
 	
-	public LocalDateTime getStart() {
-		return start;
+	@JsonCreator
+	public TimedAppointmentDTO(@JsonProperty("requestId") UUID requestId, @JsonProperty("range") IDateRange range) {
+		super(requestId);
+		this.range = range;
 	}
-	public void setStart(LocalDateTime start) {
-		this.start = start;
+	
+	@Override
+	public IDateRange getDateRange() {
+		return range;
 	}
-	public LocalDateTime getEnd() {
-		return end;
-	}
-	public void setEnd(LocalDateTime end) {
-		this.end = end;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "TimedAppointmentDTO [requestType=" + getRequestType() + ", start=" + start + ", end=" + end + ", requestId="
-				+ requestId + ", eventId=" + eventId + ", organizer=" + organizer + ", attendee=" + attendee
-				+ ", registered=" + registered + ", responded=" + responded + ", complete=" + complete + "]";
+		return "TimedAppointmentDTO [requestType=" + getRequestType() + ", Time " + getDateRange().toString() + ", requestId="
+				+ getRequestId() + ", eventId=" + getEventId() + ", organizer=" + getOrganizer() + ", attendee=" + getAttendee()
+				+ ", registered=" + isRegistered() + ", responded=" + isResponded() + ", complete=" + isComplete() + "]";
 	}
 
 

@@ -2,6 +2,10 @@ package appointer.net.dto;
 
 import java.util.UUID;
 
+import com.appointments.util.daterange.IDateRange;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * dto for appointment creation; appointment is event with Organizer and Attendee; 
  *
@@ -10,18 +14,17 @@ public class AppointmentCreate extends TimedAppointmentDTO implements IAppointme
 
 	final RequestType requestType = RequestType.CREATE;
 	
-	public AppointmentCreate(UUID requestId) {
-		super(requestId);
+	@JsonCreator
+	public AppointmentCreate(@JsonProperty("requestId") UUID requestId, @JsonProperty("range") IDateRange range) {
+		super(requestId, range);
 	}
 
-	public AppointmentCreate() {
-		super();
-	}
-	
 	@Override
 	public RequestType getRequestType() {
 		return requestType;
-	} 
+	}
+
+
 	
 	
 }

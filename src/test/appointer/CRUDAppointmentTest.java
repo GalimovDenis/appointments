@@ -66,6 +66,8 @@ public class CRUDAppointmentTest {
 		// Attendee creates appointment and packs it into a dto with unique UID;
 		AppointmentCreate appCreationAttendee = DTOAdapter.toAppointmentCreation(attendeeEvent);
 
+		System.out.println(appCreationAttendee);
+		
 		// Attendee sends a new appointment request
 		CreateRESTClient.attendeeNewAppointment(appCreationAttendee);
 

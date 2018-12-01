@@ -2,17 +2,19 @@ package appointer.net.dto;
 
 import java.util.UUID;
 
-public class AppointmentDelete extends BaseAppointmentDTO  implements IAppointmentDTO {
+import com.appointments.util.daterange.IDateRange;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class AppointmentDelete extends TimedAppointmentDTO  implements IAppointmentDTO {
 	
 	final RequestType requestType = RequestType.DELETE;
 	
-	public AppointmentDelete(UUID requestId) {
-		super(requestId);
+	@JsonCreator
+	public AppointmentDelete(@JsonProperty("requestId") UUID requestId, @JsonProperty("range") IDateRange range) {
+		super(requestId, range);
 	}
 	
-	public AppointmentDelete() {
-		super();
-	}
 	
 	@Override
 	public RequestType getRequestType() {
