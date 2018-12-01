@@ -25,7 +25,7 @@ public class PersistenceTest {
 		ICalendar calendar = new ICalendar();
 
 		VEvent vEventOne = EventFacade.createEventCurrentTime();
-		EventFacade.addOneHourToEvent(vEventOne);
+	//	EventFacade.addOneHourToEvent(vEventOne);
 		calendar.addEvent(vEventOne);
 		
 		ArrayList<ICalendar> alc = new ArrayList<ICalendar>();

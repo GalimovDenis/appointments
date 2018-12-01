@@ -94,10 +94,26 @@ public class DTOAdapter {
 		EventFacade.addAttendee(event, appCreation.getAttendee());
 
 		EventFacade.setEventStart(event, appCreation.getDateRange().getStart());
+		
+		EventFacade.setEventEnd(event, appCreation.getDateRange().getEnd());
 
-		EventFacade.setEventID(event, new Uid(appCreation.getEventId()));
+		EventFacade.setEventID(event, appCreation.getEventId());
 
 		return event;
+	}
+
+	public static void updateEvent(VEvent eventToChange, IAppointmentDTO appAnswerOrganizer) {
+		
+		EventFacade.setOrganiser(eventToChange, appAnswerOrganizer.getOrganizer());
+
+		eventToChange.getAttendees().clear(); // refactor to EventFacade please - rep exposure
+		
+		EventFacade.addAttendee(eventToChange, appAnswerOrganizer.getAttendee());
+
+		EventFacade.setEventStart(eventToChange, appAnswerOrganizer.getDateRange().getStart());
+
+		EventFacade.setEventEnd(eventToChange, appAnswerOrganizer.getDateRange().getEnd());
+		
 	}
 
 

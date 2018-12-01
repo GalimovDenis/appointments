@@ -14,7 +14,6 @@ import appointer.util.date.DateAdapter;
 import biweekly.component.VEvent;
 import biweekly.property.Attendee;
 import biweekly.property.Organizer;
-import biweekly.property.Uid;
 import biweekly.util.Duration;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
@@ -22,8 +21,8 @@ import biweekly.util.com.google.ical.compat.javautil.DateIterator;
 
 public class EventFacade {
 
-	public static void setEventID(VEvent event, Uid uid) {
-		event.setUid(uid);
+	public static void setEventID(VEvent event, String string) {
+		event.setUid(string);
 	}
 
 	// is that a future event composite class to hold events and call groups of
@@ -41,15 +40,15 @@ public class EventFacade {
 		return vEventOne;
 	}
 
-	/**
-	 * You can't set Event.end when an event has Duration
-	 * 
-	 * @return
-	 */
-	public static void addOneHourToEvent(VEvent event) {
-		Duration duration = new Duration.Builder().hours(1).build();
-		event.setDuration(duration);
-	}
+//	/**
+//	 * You can't set Event.end when an event has Duration; therefore it's a good idea to ban Duration;
+//	 * 
+//	 * @return
+//	 */
+//	public static void addOneHourToEvent(VEvent event) {
+//		Duration duration = new Duration.Builder().hours(1).build();
+//		event.setDuration(duration);
+//	}
 
 	/**
 	 * 
@@ -61,32 +60,53 @@ public class EventFacade {
 		Date start = DateAdapter.asDate(fillTime);
 		event.setDateStart(start);
 	}
-
-	public static void moveEventStart(VEvent event, TemporalAmount offset) {
-		LocalDateTime localDateStart = DateAdapter.asLocalDateTime(event.getDateStart().getValue());
-		localDateStart.plus(offset);
-		event.setDateStart(DateAdapter.asDate(localDateStart));
-	}
-
+	
+	/**
+	 * 
+	 * @param event
+	 * @param endTime
+	 */
 	public static void setEventEnd(VEvent event, LocalDateTime endTime) {
 		Date end = DateAdapter.asDate(endTime);
 		event.setDateEnd(end);
 	}
 
+
+	/**
+	 * 
+	 * @param event
+	 * @param offset
+	 */
+	public static void adjustEventTime(VEvent event, TemporalAmount offset) {
+		LocalDateTime localDateStart = DateAdapter.asLocalDateTime(event.getDateStart().getValue());
+		LocalDateTime localDateEnd = DateAdapter.asLocalDateTime(event.getDateEnd().getValue());
+		event.setDateStart(DateAdapter.asDate(localDateStart.plus(offset)));
+		event.setDateEnd(DateAdapter.asDate(localDateEnd.plus(offset)));
+	}
+
+
+	/**
+	 * 
+	 * @param event
+	 * @param duration
+	 */
 	public static void rescheduleEvent(VEvent event, Duration duration) {
 		// what if other event is there?
 	}
 
+	/**
+	 * 
+	 * @param event
+	 * @param frequency
+	 */
 	public static void setEventRepeats(VEvent event, Frequency frequency) {
 		Recurrence recur = new Recurrence.Builder(frequency).build();
 		event.setRecurrenceRule(recur);
 	}
 
 	/**
-	 * @param event
-	 *            any VEvent;
-	 * @param organiserName
-	 *            name of event client
+	 * @param event         any VEvent;
+	 * @param organiserName name of event client
 	 * @return new VEvent
 	 */
 	public static void setOrganiser(VEvent event, String organiserName) {
