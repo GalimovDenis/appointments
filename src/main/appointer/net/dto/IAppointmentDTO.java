@@ -2,13 +2,10 @@ package appointer.net.dto;
 
 import java.util.UUID;
 
+import appointer.util.date.range.IDateRange;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import appointer.util.date.range.DateRange;
-import appointer.util.date.range.DateRangeEmpty;
-import appointer.util.date.range.IDateRange;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
