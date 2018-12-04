@@ -11,10 +11,15 @@ import appointer.util.date.DateAdapter;
 import appointer.util.date.range.DateRange;
 import appointer.util.date.range.IDateRange;
 import biweekly.component.VEvent;
-import biweekly.property.Uid;
 
 public class DTOAdapter {
 	
+	/**
+	 * Setting mutable content onto event
+	 * @param appDTO
+	 * @param event
+	 * @return
+	 */
 	private static <T extends BaseAppointmentDTO> T fillEvent(T appDTO, VEvent event) {
 
 		appDTO.setOrganizer(event.getOrganizer().getCommonName());
@@ -26,7 +31,12 @@ public class DTOAdapter {
 		return appDTO;
 	}
 	
-	private static IDateRange createDateRange(VEvent event) {
+	/**
+	 * extracting IDateRange range out of VEvent
+	 * @param event
+	 * @return
+	 */
+	private static IDateRange createDateRange(VEvent event) { // consider refactoring elsewhere
 	
 		LocalDateTime start = DateAdapter.asLocalDateTime(event.getDateStart().getValue());
 		LocalDateTime end = DateAdapter.asLocalDateTime(event.getDateEnd().getValue());
@@ -35,6 +45,11 @@ public class DTOAdapter {
 	}
 	
 	
+	/**
+	 * doing AppointmentDTO for CREATE 
+	 * @param event
+	 * @return
+	 */
 	public static AppointmentDTO toAppointmentCreation(VEvent event) {
 
 		IDateRange range = createDateRange(event);
@@ -47,6 +62,11 @@ public class DTOAdapter {
 
 	}
 	
+	/**
+	 * doing AppointmentDTO for UPDATE 
+	 * @param event
+	 * @return
+	 */
 	public static AppointmentDTO toAppointmentUpdate(VEvent event) {
 
 		IDateRange range = createDateRange(event);
@@ -59,6 +79,11 @@ public class DTOAdapter {
 
 	}
 	
+	/**
+	 * doing AppointmentDTO for READ 
+	 * @param event
+	 * @return
+	 */
 	public static AppointmentDTO toAppointmentRead(VEvent event) {
 
 		IDateRange range = createDateRange(event);
@@ -71,6 +96,11 @@ public class DTOAdapter {
 
 	}
 	
+	/**
+	 * doing AppointmentDTO for DELETE 
+	 * @param event
+	 * @return
+	 */
 	public static AppointmentDTO toAppointmentDelete(VEvent event) {
 
 		IDateRange range = IDateRange.empty();
@@ -84,7 +114,11 @@ public class DTOAdapter {
 	}
 	
 	
-
+	/**
+	 * Converting appointmentDTO into VEvent
+	 * @param appCreation
+	 * @return
+	 */
 	public static VEvent toAppointmentEvent(IAppointmentDTO appCreation) {
 
 		VEvent event = new VEvent();
@@ -102,6 +136,11 @@ public class DTOAdapter {
 		return event;
 	}
 
+	/**
+	 * updating an event based on the DTO;
+	 * @param eventToChange
+	 * @param appAnswerOrganizer
+	 */
 	public static void updateEvent(VEvent eventToChange, IAppointmentDTO appAnswerOrganizer) {
 		
 		EventFacade.setOrganiser(eventToChange, appAnswerOrganizer.getOrganizer());
