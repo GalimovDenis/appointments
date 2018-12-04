@@ -1,4 +1,4 @@
-package appointer.net.client;
+package appointer.net.client.users;
 
 public class NamesRESTClient {
 	//Future address to server;

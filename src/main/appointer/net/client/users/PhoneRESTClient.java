@@ -1,4 +1,4 @@
-package appointer.net.client;
+package appointer.net.client.users;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;

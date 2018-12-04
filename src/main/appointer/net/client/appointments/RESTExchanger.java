@@ -1,4 +1,4 @@
-package appointer.net.appointclient;
+package appointer.net.client.appointments;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,13 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import appointer.net.dto.IAppointmentDTO;
-
+import appointer.util.checks.ArgumentsChecker;
 
 public class RESTExchanger {
-	
+
 	static final RestTemplate restTemplate = new RestTemplate();
 
-	static final  HttpHeaders headers = new HttpHeaders();
+	static final HttpHeaders headers = new HttpHeaders();
 
 	public static IAppointmentDTO getAppointmentDTO(final String uri) throws URISyntaxException {
 		
@@ -31,8 +31,10 @@ public class RESTExchanger {
 		return appDTO;
 	}
 
-	
 	public static HttpStatus postAppointmentDTO(IAppointmentDTO appEvent, final String uri) throws URISyntaxException {
+
+		ArgumentsChecker.checkAppDTO(appEvent);
+		
 		final String organizerName = appEvent.getOrganizer();
 
 		if (organizerName == "")
@@ -41,19 +43,20 @@ public class RESTExchanger {
 		final RequestEntity<IAppointmentDTO> requestEntity = new RequestEntity<IAppointmentDTO>(appEvent, headers,
 				HttpMethod.POST, new URI(uri));
 
-		final ResponseEntity<Boolean> response = restTemplate.exchange(requestEntity, Boolean.class); // printing // without
+		final ResponseEntity<Boolean> response = restTemplate.exchange(requestEntity, Boolean.class); // printing //
+																										// without
 
 		return response.getStatusCode();
 	}
-	
+
 	public static HttpStatus postReportComplete(final String uri) throws URISyntaxException {
-		
-		final RequestEntity<Boolean> requestEntity = new RequestEntity<Boolean>(headers,
-				HttpMethod.POST, new URI(uri));
 
-		final ResponseEntity<Boolean> response = restTemplate.exchange(requestEntity, Boolean.class); // printing // without
+		final RequestEntity<Boolean> requestEntity = new RequestEntity<Boolean>(headers, HttpMethod.POST, new URI(uri));
+
+		final ResponseEntity<Boolean> response = restTemplate.exchange(requestEntity, Boolean.class); // printing //
+																										// without
 
 		return response.getStatusCode();
 	}
-	
+
 }

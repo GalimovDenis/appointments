@@ -1,4 +1,4 @@
-package appointer.net.appointclient;
+package appointer.net.client.appointments;
 
 import static org.junit.Assert.assertTrue;
 

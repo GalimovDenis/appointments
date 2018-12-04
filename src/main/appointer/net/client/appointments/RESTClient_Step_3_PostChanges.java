@@ -1,4 +1,4 @@
-package appointer.net.appointclient;
+package appointer.net.client.appointments;
 
 import java.net.URISyntaxException;
 
@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 
 import appointer.net.dto.IAppointmentDTO;
 
+//see step 1 for refactoring
 /**
  * Double-CRUD Step number 3. Organizer uploads the changes he did to the
  * server;

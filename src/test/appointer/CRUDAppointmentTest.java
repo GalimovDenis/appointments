@@ -10,11 +10,11 @@ import java.util.UUID;
 import appointer.calendar.allcalendars.Calendars;
 import appointer.calendar.facades.EventFacade;
 import appointer.net.adapters.DTOAdapter;
-import appointer.net.appointclient.RESTClient_Step_5_PostComplete;
-import appointer.net.appointclient.RESTClient_Step_1_PostNewRequest;
-import appointer.net.appointclient.RESTClient_Step_2_GetPending;
-import appointer.net.appointclient.RESTClient_Step_3_PostChanges;
-import appointer.net.appointclient.RESTClient_Step_4_GetResults;
+import appointer.net.client.appointments.RESTClient_Step_1_PostNewRequest;
+import appointer.net.client.appointments.RESTClient_Step_2_GetPending;
+import appointer.net.client.appointments.RESTClient_Step_3_PostChanges;
+import appointer.net.client.appointments.RESTClient_Step_4_GetResults;
+import appointer.net.client.appointments.RESTClient_Step_5_PostComplete;
 import appointer.net.dto.IAppointmentDTO;
 import appointer.util.io.console.CalendarPrinter;
 import biweekly.component.VEvent;
@@ -52,15 +52,15 @@ public class CRUDAppointmentTest {
 
 		printAttendeAndOrganizerCalendars();//One event moved 24 hours forward
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) { // testing that > 2 creations are ok;
 
 			createAppointmentTest(createDemoEvent(Attendee, Organizer));
 			
 		}
 		
-		printAttendeAndOrganizerCalendars();//Second event added
+		printAttendeAndOrganizerCalendars();
 
-		printAttendeAndOrganizerCalendars();//Second event added
+		// where is calendar count? 
 
 	}
 

@@ -1,6 +1,6 @@
 package appointer.user;
 
-import appointer.net.client.NamesRESTClient;
+import appointer.net.client.users.NamesRESTClient;
 
 /**
  * User class, final for correct equals()
