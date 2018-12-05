@@ -1,8 +1,22 @@
 package appointer.net.dto;
 
 public enum RequestType {
-	CREATE,
-	READ,
-	UPDATE,
-	DELETE;
+	CREATE{ 
+		public String getURN(){
+			return "create";}
+		},
+	READ{ 
+		public String getURN(){
+			return "read";}
+		},
+	UPDATE{ 
+		public String getURN(){
+			return "update";}
+		},
+	DELETE{ 
+		public String getURN(){
+			return "delete";}
+		};
+	
+	public abstract String getURN();
 }

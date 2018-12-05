@@ -1,6 +1,7 @@
 package appointer.util.checks;
 
 import appointer.net.dto.IAppointmentDTO;
+import appointer.net.dto.RequestType;
 
 public class ArgumentsChecker {
 	/**
@@ -28,16 +29,27 @@ public class ArgumentsChecker {
 	/**
 	 * Checks a string is not null
 	 * @param string you want to check
-	 * @param nameOfString the name will be used in the exception text
+	 * @param stringName the name will be used in the exception text
 	 */
-	public static void checkStringNotEmpty(String string, String nameOfString) {
+	public static void checkStringNotEmpty(String string, String stringName) {
 			
-		if(nameOfString == null) throw new IllegalArgumentException("Name of checked string is null, can't throw proper exception");
+		if(stringName == null) throw new IllegalArgumentException("Name of checked string is null, can't throw proper exception");
 		
 		if (string == null)
-			throw new IllegalArgumentException(nameOfString + " is null");
+			throw new IllegalArgumentException(stringName + " is null");
 		if (string == "")
-			throw new IllegalArgumentException(nameOfString + " is empty");
+			throw new IllegalArgumentException(stringName + " is empty");
 		
+	}
+
+	/**
+	 * Checks is an object is not null
+	 * @param obj you want to check
+	 * @param objectName the name will be used in the exception text
+	 */
+	public static <T extends Object> void checkNotNull(T obj, String objectName) {
+		if(objectName == null) throw new IllegalArgumentException("Name of checked string is null, can't throw proper exception");
+		if (obj == null)
+			throw new IllegalArgumentException(objectName + " is null");
 	}
 }

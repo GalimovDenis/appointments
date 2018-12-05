@@ -32,9 +32,7 @@ public class RESTExchanger {
 	}
 
 	public static HttpStatus postAppointmentDTO(IAppointmentDTO appEvent, final String uri) throws URISyntaxException {
-
-		ArgumentsChecker.checkAppDTO(appEvent);
-		
+	
 		final String organizerName = appEvent.getOrganizer();
 
 		if (organizerName == "")
@@ -53,8 +51,7 @@ public class RESTExchanger {
 
 		final RequestEntity<Boolean> requestEntity = new RequestEntity<Boolean>(headers, HttpMethod.POST, new URI(uri));
 
-		final ResponseEntity<Boolean> response = restTemplate.exchange(requestEntity, Boolean.class); // printing //
-																										// without
+		final ResponseEntity<Boolean> response = restTemplate.exchange(requestEntity, Boolean.class); // printing //																										// without
 
 		return response.getStatusCode();
 	}

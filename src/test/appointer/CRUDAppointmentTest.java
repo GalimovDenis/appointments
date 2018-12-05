@@ -16,6 +16,7 @@ import appointer.net.client.appointments.RESTClient_Step_3_PostChanges;
 import appointer.net.client.appointments.RESTClient_Step_4_GetResults;
 import appointer.net.client.appointments.RESTClient_Step_5_PostComplete;
 import appointer.net.dto.IAppointmentDTO;
+import appointer.net.dto.RequestType;
 import appointer.util.io.console.CalendarPrinter;
 import biweekly.component.VEvent;
 import biweekly.property.Uid;
@@ -73,11 +74,11 @@ public class CRUDAppointmentTest {
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentUpdate(attendeeEvent);
 
 		// Attendee sends a change appointment request
-		RESTClient_Step_1_PostNewRequest.attendeeRequestUpdate(appRequestAttendee);
+		RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
-		RESTClient_Step_1_PostNewRequest.attendeeRequestUpdate(appRequestAttendee);
+		RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
-		RESTClient_Step_1_PostNewRequest.attendeeRequestUpdate(appRequestAttendee);
+		RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
 		IAppointmentDTO appAnswerOrganizer;
 
@@ -85,11 +86,11 @@ public class CRUDAppointmentTest {
 																		// devices
 
 		// Organizer receives appointment to change
-		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetUpdateRequest(appRequestAttendee.getOrganizer());
+		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.UPDATE, appRequestAttendee.getOrganizer());
 
-		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetUpdateRequest(appRequestAttendee.getOrganizer());
+		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.UPDATE, appRequestAttendee.getOrganizer());
 
-		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetUpdateRequest(appRequestAttendee.getOrganizer());
+		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.UPDATE, appRequestAttendee.getOrganizer());
 
 		// organizer adds event to Calendar;
 		String organiserEventID = appAnswerOrganizer.getEventId();
@@ -113,18 +114,18 @@ public class CRUDAppointmentTest {
 		appAnswerOrganizer.setResponded(true);
 
 		// Organizer reports events
-		RESTClient_Step_3_PostChanges.organizerReportUpdate(appAnswerOrganizer);
+		RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
-		RESTClient_Step_3_PostChanges.organizerReportUpdate(appAnswerOrganizer);
+		RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
-		RESTClient_Step_3_PostChanges.organizerReportUpdate(appAnswerOrganizer);
+		RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
 		// Attendee now must see Responded as True;
-		RESTClient_Step_4_GetResults.attendeeReceiveUpdateReport(organizerName, appRequestAttendee.getRequestId());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.UPDATE, organizerName, appRequestAttendee.getRequestId());
 
-		RESTClient_Step_4_GetResults.attendeeReceiveUpdateReport(organizerName, appRequestAttendee.getRequestId());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.UPDATE, organizerName, appRequestAttendee.getRequestId());
 
-		RESTClient_Step_4_GetResults.attendeeReceiveUpdateReport(organizerName, appRequestAttendee.getRequestId());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.UPDATE, organizerName, appRequestAttendee.getRequestId());
 
 		appRequestAttendee.setComplete(true);
 
@@ -142,11 +143,11 @@ public class CRUDAppointmentTest {
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentCreation(attendeeEvent);
 
 		// Attendee sends a new appointment request
-		RESTClient_Step_1_PostNewRequest.attendeeRequestCreate(appRequestAttendee);
+		RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
-		RESTClient_Step_1_PostNewRequest.attendeeRequestCreate(appRequestAttendee);
+		RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
-		RESTClient_Step_1_PostNewRequest.attendeeRequestCreate(appRequestAttendee);
+		RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
 		IAppointmentDTO appAnswerOrganizer;
 
@@ -154,11 +155,11 @@ public class CRUDAppointmentTest {
 																		// devices
 
 		// Organizer receives appointment to create
-		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetCreateRequest(organizerName);
+		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
 
-		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetCreateRequest(organizerName);
+		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
 
-		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetCreateRequest(organizerName);
+		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
 
 		// organizer adds event to Calendar;
 		VEvent organiserEvent = DTOAdapter.toAppointmentEvent(appAnswerOrganizer);
@@ -168,18 +169,18 @@ public class CRUDAppointmentTest {
 		appAnswerOrganizer.setResponded(true);
 
 		// Organizer reports events
-		RESTClient_Step_3_PostChanges.organizerReportCreate(appAnswerOrganizer);
+		RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
-		RESTClient_Step_3_PostChanges.organizerReportCreate(appAnswerOrganizer);
+		RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
-		RESTClient_Step_3_PostChanges.organizerReportCreate(appAnswerOrganizer);
+		RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
 		// Attendee now must see Responded as True;
-		RESTClient_Step_4_GetResults.attendeeReceiveCreateReport(organizerName, appRequestAttendee.getRequestId());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.CREATE, organizerName, appRequestAttendee.getRequestId());
 
-		RESTClient_Step_4_GetResults.attendeeReceiveCreateReport(organizerName, appRequestAttendee.getRequestId());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.CREATE, organizerName, appRequestAttendee.getRequestId());
 
-		RESTClient_Step_4_GetResults.attendeeReceiveCreateReport(organizerName, appRequestAttendee.getRequestId());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.CREATE, organizerName, appRequestAttendee.getRequestId());
 
 		AttendeeCalendars.getLocalCalendar().addEvent(DTOAdapter.toAppointmentEvent(appRequestAttendee)); //
 

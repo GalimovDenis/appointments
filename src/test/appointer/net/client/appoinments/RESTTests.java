@@ -23,92 +23,29 @@ public class RESTTests {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullIC() throws URISyntaxException {
-		RESTClient_Step_1_PostNewRequest.attendeeRequestCreate(null);
+		RESTClient_Step_1_PostNewRequest.attendeeRequest(null);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIR() throws URISyntaxException {
-		RESTClient_Step_1_PostNewRequest.attendeeRequestRead(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIU() throws URISyntaxException {
-		RESTClient_Step_1_PostNewRequest.attendeeRequestUpdate(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullID() throws URISyntaxException {
-		RESTClient_Step_1_PostNewRequest.attendeeRequestDelete(null);
-	}
+
 	
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullIIC() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetCreateRequest(null);
+		RESTClient_Step_2_GetPending.organizerGetRequest(null, null);
 	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIIR() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetReadRequest(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIIU() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetUpdateRequest(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIID() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetDeleteRequest(null);
-	}
-	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testEmptyIIC() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetCreateRequest("");
+		RESTClient_Step_2_GetPending.organizerGetRequest(null, "");
 	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIIR() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetReadRequest("");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIIU() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetUpdateRequest("");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIID() throws URISyntaxException {
-		RESTClient_Step_2_GetPending.organizerGetDeleteRequest("");
-	}
-	
 	
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullIIIC() throws URISyntaxException {
-		RESTClient_Step_3_PostChanges.organizerReportCreate(null);
+		RESTClient_Step_3_PostChanges.organizerReport(null);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIIIR() throws URISyntaxException {
-		RESTClient_Step_3_PostChanges.organizerReportRead(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIIIU() throws URISyntaxException {
-		RESTClient_Step_3_PostChanges.organizerReportUpdate(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testNullIIID() throws URISyntaxException {
-		RESTClient_Step_3_PostChanges.organizerReportDelete(null);
-	}
-	
-	
-
-
 	
 	
 }
