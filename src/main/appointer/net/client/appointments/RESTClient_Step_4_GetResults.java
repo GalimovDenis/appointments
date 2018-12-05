@@ -7,12 +7,11 @@ import appointer.net.dto.IAppointmentDTO;
 import appointer.net.dto.RequestType;
 import appointer.util.checks.ArgumentsChecker;
 
-// see step 2 for refactoring
 /**
  * Double-CRUD Step number 4. Attendee downloads the changes from to the server;
  *
  */
-public class RESTClient_Step_4_GetResults {
+public final class RESTClient_Step_4_GetResults {
 
 	static final String url = "http://localhost:8080/attendee/report/";
 

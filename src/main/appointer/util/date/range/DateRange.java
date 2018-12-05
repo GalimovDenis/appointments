@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Immutable dateRange, safe from setting end before start
  * Can be serialized
  */
-public class DateRange implements IDateRange {
+public final class DateRange implements IDateRange {
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private final LocalDateTime start;

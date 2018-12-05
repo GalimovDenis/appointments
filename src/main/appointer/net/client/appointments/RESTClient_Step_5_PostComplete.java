@@ -13,7 +13,7 @@ import appointer.util.checks.ArgumentsChecker;
  * Double-CRUD Step number 5. Attendee confirms to the server that he received the results of the changes. 
  *
  */
-public class RESTClient_Step_5_PostComplete {
+public final class RESTClient_Step_5_PostComplete {
 	
 	static final  String url = "http://localhost:8080/attendee/complete";
 	

@@ -2,6 +2,7 @@ package appointer.calendar.facades;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.Date;
 import java.util.Spliterator;
@@ -25,8 +26,6 @@ public class EventFacade {
 		event.setUid(string);
 	}
 
-	// is that a future event composite class to hold events and call groups of
-	// them?
 	/**
 	 * VEvent is the Biweekly implementation of calendar event; creating VEvent for
 	 * now; https://github.com/mangstadt/biweekly biweekly won by comparison to
@@ -34,9 +33,9 @@ public class EventFacade {
 	 */
 	public static VEvent createEventCurrentTime() {
 		VEvent vEventOne = new VEvent();
-		LocalDateTime timeNow = LocalDateTime.now();
-		EventFacade.setEventStart(vEventOne, timeNow);
-		EventFacade.setEventEnd(vEventOne, timeNow);
+		final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+		EventFacade.setEventStart(vEventOne, now);
+		EventFacade.setEventEnd(vEventOne, now);
 		return vEventOne;
 	}
 
@@ -50,6 +49,15 @@ public class EventFacade {
 //		event.setDuration(duration);
 //	}
 
+	/**
+	 * 
+	 * @param event
+	 * @param timestamp
+	 */
+	public static void setEventTimestamp(VEvent event, LocalDateTime timestamp) {
+		event.setDateTimeStamp(DateAdapter.asDate(timestamp));
+	}
+	
 	/**
 	 * 
 	 * @param event

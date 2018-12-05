@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import appointer.net.dto.IAppointmentDTO;
-import appointer.util.checks.ArgumentsChecker;
 
 public class RESTExchanger {
 
@@ -25,7 +24,7 @@ public class RESTExchanger {
 				new URI(uri));
 
 		final ResponseEntity<IAppointmentDTO> response = restTemplate.exchange(requestEntity, IAppointmentDTO.class);
-
+		
 		final IAppointmentDTO appDTO = response.getBody();
 
 		return appDTO;

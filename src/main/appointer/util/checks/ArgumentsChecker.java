@@ -1,7 +1,7 @@
 package appointer.util.checks;
 
 import appointer.net.dto.IAppointmentDTO;
-import appointer.net.dto.RequestType;
+import biweekly.component.VEvent;
 
 public class ArgumentsChecker {
 	/**
@@ -51,5 +51,13 @@ public class ArgumentsChecker {
 		if(objectName == null) throw new IllegalArgumentException("Name of checked string is null, can't throw proper exception");
 		if (obj == null)
 			throw new IllegalArgumentException(objectName + " is null");
+	}
+	
+	/**
+	 * Should check that an event is prepared for creating into Appointment; 
+	 * business invariants
+	 */
+	public static void checkEventOK(VEvent event) {
+		//TODO: stub
 	}
 }

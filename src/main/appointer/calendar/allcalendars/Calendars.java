@@ -1,8 +1,12 @@
 package appointer.calendar.allcalendars;
 
+import java.util.List;
+
 import appointer.user.AppUser;
 import appointer.user.IUser;
 import biweekly.ICalendar;
+import biweekly.component.VEvent;
+import biweekly.property.Uid;
 
 
 /**
@@ -36,6 +40,21 @@ public class Calendars {
 	public String toString() {
 		return localCalendar.toString() + "\n" + 
 			CalendarStorage.toStaticString();
+	}
+	
+
+	public VEvent findEventInLocalCalendar(Uid uid) {
+		
+		List<VEvent> events = getLocalCalendar().getEvents();
+
+		VEvent event = null; 
+		
+		for (VEvent ve : events) {
+			if (ve.getUid().equals(uid)) {
+				event = ve;
+			}
+		}
+		return event;
 	}
 	
 }

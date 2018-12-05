@@ -7,12 +7,11 @@ import appointer.net.dto.RequestType;
 import appointer.util.checks.ArgumentsChecker;
 
 
-//Can refactor this into one method by sending requestType enum;
 /**
  * Double-CRUD Step number 2. Organizer downloads pending requests to do; 
  *
  */
-public class RESTClient_Step_2_GetPending {
+public final class RESTClient_Step_2_GetPending {
 
 	static final String url = "http://localhost:8080/organizer/request/";
 
