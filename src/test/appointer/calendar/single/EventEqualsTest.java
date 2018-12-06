@@ -1,4 +1,4 @@
-package appointer;
+package appointer.calendar.single;
 
 import java.time.LocalDateTime;
 import java.time.Month;

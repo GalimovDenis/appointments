@@ -1,4 +1,4 @@
-package appointer;
+package appointer.integration;
 
 import java.io.IOException;
 import java.util.ArrayList;

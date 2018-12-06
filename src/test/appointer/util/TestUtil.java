@@ -23,7 +23,7 @@ import biweekly.property.Uid;
  * Class with reusable test routines
  *
  */
-public class AppointerUtil {
+public class TestUtil {
 
 	/**
 	 * Does compliant demo event;

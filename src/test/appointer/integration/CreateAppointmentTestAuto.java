@@ -1,4 +1,4 @@
-package appointer;
+package appointer.integration;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,7 +7,7 @@ import java.net.URISyntaxException;
 import org.junit.Test;
 
 import appointer.calendar.allcalendars.Calendars;
-import appointer.util.AppointerUtil;
+import appointer.util.TestUtil;
 import appointer.util.io.console.CalendarPrinter;
 import biweekly.component.VEvent;
 import biweekly.property.Uid;
@@ -32,13 +32,13 @@ public class CreateAppointmentTestAuto {
 	@Test
 	public void testSingleCreation() throws URISyntaxException {
 
-		VEvent eventToCreateI = AppointerUtil.createDemoEvent(Attendee, Organizer);
+		VEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
 
-		Uid eventI_UID = AppointerUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
+		Uid eventI_UID = TestUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
 
-		VEvent createdEventAttendee = AttendeeCalendars.findEventInLocalCalendar(eventI_UID);
+		VEvent createdEventAttendee = AttendeeCalendars.readEvent(eventI_UID);
 
-		VEvent createdEventOrganizer = OrganizerCalendars.findEventInLocalCalendar(eventI_UID);
+		VEvent createdEventOrganizer = OrganizerCalendars.readEvent(eventI_UID);
 
 		printAttendeAndOrganizerCalendars();
 
@@ -57,7 +57,7 @@ public class CreateAppointmentTestAuto {
 
 		for (int i = 0; i < CREATECOUNT; i++) {
 
-			AppointerUtil.createAppointmentTest(AppointerUtil.createDemoEvent(Attendee, Organizer), OrganizerCalendars,
+			TestUtil.createAppointmentTest(TestUtil.createDemoEvent(Attendee, Organizer), OrganizerCalendars,
 					AttendeeCalendars);
 
 		}

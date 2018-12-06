@@ -1,4 +1,4 @@
-package appointer;
+package appointer.integration;
 
 import appointer.net.client.users.PhoneRESTClient;
 
