@@ -23,7 +23,7 @@ public class DTOAdapter {
 	 * @param event
 	 * @return
 	 */
-	private static <T extends BaseAppointmentDTO> T updateDTOFromEvent(T appDTO, VEvent event) {
+	private static <T extends BaseAppointmentDTO> T updateDTOFromEvent(AppointmentDTO appDTO, EventFacade event) {
 
 		appDTO.setOrganizer(event.getOrganizer().getCommonName());
 
@@ -63,7 +63,7 @@ public class DTOAdapter {
 
 		ArgumentsChecker.checkNotNull(event, "VEvent");
 
-		final IDateRange range = createDateRange(event);
+		final IDateRange range = event.createDateRange();
 
 		final AppointmentDTO appDTO = DTOFactory.createAppointmentDTO(range, type);
 

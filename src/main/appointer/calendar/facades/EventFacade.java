@@ -12,15 +12,19 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import appointer.util.date.DateAdapter;
+import appointer.util.date.range.IDateRange;
 import biweekly.component.VEvent;
 import biweekly.property.Attendee;
+import biweekly.property.ICalProperty;
 import biweekly.property.Organizer;
+import biweekly.property.ValuedProperty;
 import biweekly.util.Duration;
 import biweekly.util.Frequency;
+import biweekly.util.ICalDate;
 import biweekly.util.Recurrence;
 import biweekly.util.com.google.ical.compat.javautil.DateIterator;
 
-public  interface EventFacade   {
+public interface EventFacade {
 
 	public static void setEventID(VEvent event, String string) {
 		event.setUid(string);
@@ -39,15 +43,16 @@ public  interface EventFacade   {
 		return vEventOne;
 	}
 
-//	/**
-//	 * You can't set Event.end when an event has Duration; therefore it's a good idea to ban Duration;
-//	 * 
-//	 * @return
-//	 */
-//	public static void addOneHourToEvent(VEvent event) {
-//		Duration duration = new Duration.Builder().hours(1).build();
-//		event.setDuration(duration);
-//	}
+	// /**
+	// * You can't set Event.end when an event has Duration; therefore it's a good
+	// idea to ban Duration;
+	// *
+	// * @return
+	// */
+	// public static void addOneHourToEvent(VEvent event) {
+	// Duration duration = new Duration.Builder().hours(1).build();
+	// event.setDuration(duration);
+	// }
 
 	/**
 	 * 
@@ -57,7 +62,7 @@ public  interface EventFacade   {
 	public static void setEventTimestamp(VEvent event, LocalDateTime timestamp) {
 		event.setDateTimeStamp(DateAdapter.asDate(timestamp));
 	}
-	
+
 	/**
 	 * 
 	 * @param event
@@ -68,7 +73,7 @@ public  interface EventFacade   {
 		Date start = DateAdapter.asDate(fillTime);
 		event.setDateStart(start);
 	}
-	
+
 	/**
 	 * 
 	 * @param event
@@ -78,7 +83,6 @@ public  interface EventFacade   {
 		Date end = DateAdapter.asDate(endTime);
 		event.setDateEnd(end);
 	}
-
 
 	/**
 	 * 
@@ -91,7 +95,6 @@ public  interface EventFacade   {
 		event.setDateStart(DateAdapter.asDate(localDateStart.plus(offset)));
 		event.setDateEnd(DateAdapter.asDate(localDateEnd.plus(offset)));
 	}
-
 
 	/**
 	 * 
@@ -113,8 +116,10 @@ public  interface EventFacade   {
 	}
 
 	/**
-	 * @param event         any VEvent;
-	 * @param organiserName name of event client
+	 * @param event
+	 *            any VEvent;
+	 * @param organiserName
+	 *            name of event client
 	 * @return new VEvent
 	 */
 	public static void setOrganiser(VEvent event, String organiserName) {
@@ -140,5 +145,21 @@ public  interface EventFacade   {
 		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(dates, Spliterator.ORDERED), false)
 				.map(DateAdapter::asLocalDate);
 	}
+
+	public ValuedProperty<String> getDateStart();
+
+	public ValuedProperty<String> getDateEnd();
+
+	public default IDateRange createDateRange() {
+			return IDateRange.empty();
+	}
+
+	public ICalProperty getOrganizer();
+
+	public LocalDateTime getAttendees();
+
+	public ValuedProperty<ICalDate> getUid();
+
+	public ValuedProperty<ICalDate> getDateTimeStamp();
 
 }
