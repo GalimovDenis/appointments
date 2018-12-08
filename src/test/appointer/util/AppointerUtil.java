@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import appointer.calendar.allcalendars.Calendars;
+import appointer.calendar.allcalendars.ICalendarFacade;
 import appointer.calendar.facades.EventFacade;
 import appointer.net.adapters.DTOAdapter;
 import appointer.net.client.appointments.RESTClient_Step_1_PostNewRequest;
@@ -115,7 +116,7 @@ public class AppointerUtil {
 	 * @throws URISyntaxException
 	 */
 	public static void updateAppointmentTest(VEvent attendeeEvent, Calendars OrganizerCalendars,
-			Calendars AttendeeCalendars) throws URISyntaxException {
+			ICalendarFacade AttendeeCalendars) throws URISyntaxException {
 
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentDTO(RequestType.CREATE, attendeeEvent);
 

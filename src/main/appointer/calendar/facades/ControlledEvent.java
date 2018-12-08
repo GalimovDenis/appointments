@@ -19,24 +19,30 @@ import biweekly.util.Duration;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
 import biweekly.util.com.google.ical.compat.javautil.DateIterator;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-public  interface EventFacade   {
-
-	public static void setEventID(VEvent event, String string) {
-		event.setUid(string);
+@EqualsAndHashCode
+public class ControlledEvent implements EventFacade {
+	
+	VEvent event = new VEvent();
+	
+	public void setEventID(String string) {
+		this.event.setUid(string);
 	}
+	
+	
 
 	/**
 	 * VEvent is the Biweekly implementation of calendar event; creating VEvent for
 	 * now; https://github.com/mangstadt/biweekly biweekly won by comparison to
 	 * older iCal4j library; EventFacade is the facade over VEvent + helper methods;
 	 */
-	public static VEvent createEventCurrentTime() {
-		VEvent vEventOne = new VEvent();
+	public ControlledEvent() {
+
 		final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-		EventFacade.setEventStart(vEventOne, now);
-		EventFacade.setEventEnd(vEventOne, now);
-		return vEventOne;
+		setEventStart(now);
+		setEventEnd(now);
 	}
 
 //	/**
@@ -54,7 +60,7 @@ public  interface EventFacade   {
 	 * @param event
 	 * @param timestamp
 	 */
-	public static void setEventTimestamp(VEvent event, LocalDateTime timestamp) {
+	public void setEventTimestamp(LocalDateTime timestamp) {
 		event.setDateTimeStamp(DateAdapter.asDate(timestamp));
 	}
 	
@@ -64,7 +70,7 @@ public  interface EventFacade   {
 	 * @param fillTime
 	 * @return
 	 */
-	public static void setEventStart(VEvent event, LocalDateTime fillTime) {
+	public void setEventStart(LocalDateTime fillTime) {
 		Date start = DateAdapter.asDate(fillTime);
 		event.setDateStart(start);
 	}
@@ -74,9 +80,9 @@ public  interface EventFacade   {
 	 * @param event
 	 * @param endTime
 	 */
-	public static void setEventEnd(VEvent event, LocalDateTime endTime) {
+	public void setEventEnd(LocalDateTime endTime) {
 		Date end = DateAdapter.asDate(endTime);
-		event.setDateEnd(end);
+		this.event.setDateEnd(end);
 	}
 
 
@@ -85,7 +91,7 @@ public  interface EventFacade   {
 	 * @param event
 	 * @param offset
 	 */
-	public static void adjustEventTime(VEvent event, TemporalAmount offset) {
+	public void adjustEventTime(VEvent event, TemporalAmount offset) {
 		LocalDateTime localDateStart = DateAdapter.asLocalDateTime(event.getDateStart().getValue());
 		LocalDateTime localDateEnd = DateAdapter.asLocalDateTime(event.getDateEnd().getValue());
 		event.setDateStart(DateAdapter.asDate(localDateStart.plus(offset)));
@@ -141,4 +147,19 @@ public  interface EventFacade   {
 				.map(DateAdapter::asLocalDate);
 	}
 
+
+
+	public void setOrganiser(String organizer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void addAttendee(String attendee) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }

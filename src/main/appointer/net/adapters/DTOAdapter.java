@@ -2,6 +2,7 @@ package appointer.net.adapters;
 
 import java.time.LocalDateTime;
 
+import appointer.calendar.facades.ControlledEvent;
 import appointer.calendar.facades.EventFacade;
 import appointer.net.dto.AppointmentDTO;
 import appointer.net.dto.BaseAppointmentDTO;
@@ -49,13 +50,14 @@ public class DTOAdapter {
 
 	}
 
+	// should accept controlled event
 	/**
 	 * doing AppointmentDTO
 	 * 
 	 * @param event
 	 * @return
 	 */
-	public static AppointmentDTO toAppointmentDTO(RequestType type, VEvent event) {
+	public static AppointmentDTO toAppointmentDTO(RequestType type, EventFacade event) {
 
 		ArgumentsChecker.checkNotNull(type, "RequestType");
 
@@ -71,31 +73,33 @@ public class DTOAdapter {
 
 	}
 
+	// should be controlledevent
 	/**
 	 * Converting appointmentDTO into VEvent
 	 * 
 	 * @param appCreation
 	 * @return
 	 */
-	public static VEvent toAppointmentEvent(IAppointmentDTO appCreation) {
+	public static EventFacade toAppointmentEvent(IAppointmentDTO appCreation) {
 
-		final VEvent event = new VEvent();
+		final ControlledEvent controlledEvent = new ControlledEvent();
 
-		EventFacade.setOrganiser(event, appCreation.getOrganizer());
+		controlledEvent.setOrganiser(appCreation.getOrganizer());
 
-		EventFacade.addAttendee(event, appCreation.getAttendee());
+		controlledEvent.addAttendee(appCreation.getAttendee());
 
-		EventFacade.setEventStart(event, appCreation.getDateRange().getStart());
+		controlledEvent.setEventStart(appCreation.getDateRange().getStart());
 
-		EventFacade.setEventEnd(event, appCreation.getDateRange().getEnd());
+		controlledEvent.setEventEnd(appCreation.getDateRange().getEnd());
 
-		EventFacade.setEventID(event, appCreation.getEventId());
+		controlledEvent.setEventID(appCreation.getEventId());
 
-		EventFacade.setEventTimestamp(event, appCreation.getTimestamp());
+		controlledEvent.setEventTimestamp(appCreation.getTimestamp());
 		
-		return event;
+		return controlledEvent;
 	}
 
+	// should accept controlled event
 	/**
 	 * updating an event based on the DTO;
 	 * returns DTO with the timestamp of Event modifiacation; 
