@@ -3,14 +3,13 @@ package appointer;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
+import java.util.UUID;
 
 import org.junit.Test;
 
 import appointer.calendar.allcalendars.Calendars;
+import appointer.calendar.facades.IEvent;
 import appointer.util.AppointerUtil;
-import appointer.util.io.console.CalendarPrinter;
-import biweekly.component.VEvent;
-import biweekly.property.Uid;
 
 /**
  * Integration test for create operation;
@@ -32,15 +31,13 @@ public class CreateAppointmentTestAuto {
 	@Test
 	public void testSingleCreation() throws URISyntaxException {
 
-		VEvent eventToCreateI = AppointerUtil.createDemoEvent(Attendee, Organizer);
+		IEvent eventToCreateI = AppointerUtil.createDemoEvent(Attendee, Organizer);
 
-		Uid eventI_UID = AppointerUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
+		UUID eventI_UID = AppointerUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
 
-		VEvent createdEventAttendee = AttendeeCalendars.findEventInLocalCalendar(eventI_UID);
+		IEvent createdEventAttendee = AttendeeCalendars.getEvent(eventI_UID);
 
-		VEvent createdEventOrganizer = OrganizerCalendars.findEventInLocalCalendar(eventI_UID);
-
-		//printAttendeAndOrganizerCalendars();
+		IEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventI_UID);
 
 		assertTrue(createdEventAttendee.equals(createdEventOrganizer));
 
@@ -64,16 +61,12 @@ public class CreateAppointmentTestAuto {
 					AttendeeCalendars);
 		}
 
-		assertTrue(AttendeeCalendars.getLocalCalendar().getEvents()
-				.equals(OrganizerCalendars.getLocalCalendar().getEvents())
-				);
+		assertTrue(OrganizerCalendars.eventEquals(AttendeeCalendars));
 
 	}
 
 	public static void printAttendeAndOrganizerCalendars() {
-		System.out.println("Attendee " + Attendee);
-		CalendarPrinter.printCalendar(AttendeeCalendars.getLocalCalendar());
-		System.out.println("Organizer " + Organizer);
-		CalendarPrinter.printCalendar(OrganizerCalendars.getLocalCalendar());
+		System.out.println(AttendeeCalendars.toString());
+		System.out.println(OrganizerCalendars.toString());
 	}
 }

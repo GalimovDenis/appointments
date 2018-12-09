@@ -9,10 +9,13 @@ import java.util.Date;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.TimeZone;
+import java.util.UUID;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import appointer.util.date.DateAdapter;
+import appointer.util.date.range.DateRange;
+import appointer.util.date.range.IDateRange;
 import biweekly.component.VEvent;
 import biweekly.property.Attendee;
 import biweekly.property.Organizer;
@@ -22,19 +25,26 @@ import biweekly.util.com.google.ical.compat.javautil.DateIterator;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public class ControlledEvent implements EventFacade {
+public class ControlledEvent implements IEvent {
 
-	VEvent event = new VEvent();
+	private final VEvent event;
 
-	@Override
-	public void setEventID(String string) {
-		this.event.setUid(string);
-	}
+
 
 	public ControlledEvent() {
+		event = new VEvent();
 		final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-		setEventStart(now);
-		setEventEnd(now);
+		setTimeStart(now);
+		setTimeEnd(now);
+	}
+	
+	public ControlledEvent(VEvent event) {
+		this.event = new VEvent(event);
+	}
+	
+	@Override
+	public void setEventID(UUID uid) {
+		this.event.setUid(uid.toString());
 	}
 
 	@Override
@@ -43,13 +53,13 @@ public class ControlledEvent implements EventFacade {
 	}
 
 	@Override
-	public void setEventStart(LocalDateTime fillTime) {
+	public void setTimeStart(LocalDateTime fillTime) {
 		Date start = DateAdapter.asDate(fillTime);
 		event.setDateStart(start);
 	}
 
 	@Override
-	public void setEventEnd(LocalDateTime endTime) {
+	public void setTimeEnd(LocalDateTime endTime) {
 		Date end = DateAdapter.asDate(endTime);
 		event.setDateEnd(end);
 	}
@@ -69,12 +79,13 @@ public class ControlledEvent implements EventFacade {
 	}
 
 	@Override
-	public void setOrganiser(String organiserName) {
+	public void setOrganizer(String organiserName) {
 		event.setOrganizer(new Organizer(organiserName, ""));
 	}
 
 	@Override
 	public void setAttendee(String attendeeName) {
+		event.getAttendees().clear();
 		event.addAttendee(new Attendee(attendeeName, ""));
 	}
 
@@ -107,13 +118,23 @@ public class ControlledEvent implements EventFacade {
 	}
 
 	@Override
-	public String getUid() {
-		return event.getUid().getValue();
+	public UUID getUid() {
+		return UUID.fromString(event.getUid().getValue());
 	}
 
 	@Override
 	public LocalDateTime getDateTimeStamp() {
 		return DateAdapter.asLocalDateTime(event.getDateTimeStamp().getValue());
+	}
+
+	@Override
+	public IDateRange createDateRange() {
+		return new DateRange(getDateStart(), getDateEnd());
+	}	
+
+	@Override
+	public String toString() {
+		return event.toString();
 	}
 
 }

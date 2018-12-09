@@ -4,10 +4,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.UUID;
 
-import appointer.calendar.facades.EventFacade;
-import appointer.util.date.DateAdapter;
-import biweekly.component.VEvent;
-import biweekly.property.Uid;
+import appointer.calendar.facades.IEvent;
 
 public class EventEqualsTest {
 	
@@ -17,7 +14,7 @@ public class EventEqualsTest {
 
 	final static LocalDateTime timeStart = LocalDateTime.of(2018, Month.DECEMBER, 31, 19, 0, 0);
 	final static LocalDateTime timeFinish = LocalDateTime.of(2018, Month.DECEMBER, 31, 20, 0, 0);
-	final static Uid uid = new Uid(UUID.randomUUID().toString());
+	final static UUID uid = UUID.randomUUID();
 	
 	/**
 	 * Demonstrates steps to undertake in order to have events pass Equal tests; 
@@ -26,29 +23,29 @@ public class EventEqualsTest {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		
-		VEvent eventA = new VEvent();
+		IEvent eventA = IEvent.create();
 		Thread.sleep(500); //If events have different timestamp, they are not equal. 
-		VEvent eventB = new VEvent();
+		IEvent eventB = IEvent.create();
 		
 		//therefore we set timestamp as of now;
-		eventA.setDateTimeStamp(DateAdapter.asDate(timeNow));
-		eventB.setDateTimeStamp(DateAdapter.asDate(timeNow));
+		eventA.setEventTimestamp(timeNow);
+		eventB.setEventTimestamp(timeNow);
 		
 		
-		eventA.setUid(uid);
-		eventB.setUid(uid);
+		eventA.setEventID(uid);
+		eventB.setEventID(uid);
 		
 		eventA.setOrganizer(Organizer);
 		eventB.setOrganizer(Organizer);
 		
-		eventA.addAttendee(Attendee);
-		eventB.addAttendee(Attendee);
+		eventA.setAttendee(Attendee);
+		eventB.setAttendee(Attendee);
 		
-		EventFacade.setEventStart(eventA, timeStart);
-		EventFacade.setEventStart(eventB, timeStart);
+		eventA.setTimeStart(timeStart);
+		eventB.setTimeStart(timeStart);
 
-		EventFacade.setEventStart(eventA, timeFinish);
-		EventFacade.setEventStart(eventB, timeFinish);
+		eventA.setTimeEnd(timeFinish);
+		eventB.setTimeEnd(timeFinish);
 		
 		System.out.println(eventA);
 		System.out.println(eventB);

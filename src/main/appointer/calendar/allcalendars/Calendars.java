@@ -1,136 +1,133 @@
 package appointer.calendar.allcalendars;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import appointer.calendar.facades.ControlledEvent;
+import appointer.calendar.facades.IEvent;
 import appointer.user.AppUser;
 import appointer.user.IUser;
+import appointer.util.date.DateAdapter;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
-import biweekly.property.Uid;
-
 
 /**
- * Represents user, local calendar and all remote calendars; 
- * Responsible for creating and approving events across the network of app users;
+ * Represents user, local calendar and all remote calendars; Responsible for
+ * creating and approving events across the network of app users;
  */
-public class Calendars implements ICalendarFacade {
-	
-	IUser user;
-	ICalendar localCalendar; 
+public class Calendars implements ICalendars {
+
+	private final IUser user;
+	private final ICalendar localCalendar;
+	private final HashSet<UUID> uids;
 	
 	public Calendars(String name) {
 		user = new AppUser(name);
 		CalendarStorage.addCalendar(name);
 		localCalendar = CalendarStorage.getCalendar(name);
+		uids = new HashSet<UUID>();
 	}
-	
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendar#AddRemoteUser(java.lang.String)
-	 */
-	
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendarFacade#AddRemoteUser(java.lang.String)
-	 */
+
 	@Override
 	public void AddRemoteUser(String name) {
-		if (name == user.getName()) throw new IllegalArgumentException();
+		if (name == user.getName())
+			throw new IllegalArgumentException();
 		CalendarStorage.getCalendar(name);
 	}
+
 	
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendar#getUser()
-	 */
-	
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendarFacade#getUser()
-	 */
 	@Override
 	public IUser getUser() {
 		return user;
 	}
-	
-	public ICalendar getLocalCalendar() {
-		return localCalendar;
+
+	@Override
+	public Set<UUID> getUids() {
+		return Collections.unmodifiableSet(uids);
 	}
 	
-	
-
-	
-	
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendar#toString()
-	 */
-	
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendarFacade#toString()
-	 */
 	@Override
 	public String toString() {
-		return localCalendar.toString() + "\n" + 
-			CalendarStorage.toStaticString();
+		return localCalendar.toString() + "\n" + CalendarStorage.toStaticString();
 	}
-	
 
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendar#findEventInLocalCalendar(biweekly.property.Uid)
-	 */
-	
-	/* (non-Javadoc)
-	 * @see appointer.calendar.allcalendars.ICalendarFacade#findEventInLocalCalendar(biweekly.property.Uid)
-	 */
 	@Override
-	public ControlledEvent findEventInLocalCalendar(Uid uid) {
-		
-		List<VEvent> events = getLocalCalendar().getEvents();
+	public IEvent getEvent(UUID uid) {
 
-		VEvent event = null; 
-	
+		assertTrue(uids.contains(uid));
+		
+		List<VEvent> events = localCalendar.getEvents();
+
+		VEvent event = null;
+
 		for (VEvent ve : events) {
-			if (ve.getUid().equals(uid)) {
+			
+			if (UUID.fromString(ve.getUid().getValue()).equals(uid)) {
 				event = ve;
 			}
 		}
-		return event;
+		return new ControlledEvent(event); // flywheel pattern here needed
+
 	}
 
-	//flywheel pattern here needed
+	@Override
+	public boolean putEvent(IEvent event) { // unflexible due to NPE in getters; needs only appointment
+		VEvent vEvent = new VEvent();
+		vEvent.setOrganizer(event.getOrganizer());
+		vEvent.addAttendee(event.getAttendee());
+		vEvent.setDateTimeStamp(DateAdapter.asDate(event.getDateTimeStamp()));
+		vEvent.setDateStart(DateAdapter.asDate(event.getDateStart()));
+		vEvent.setDateEnd(DateAdapter.asDate(event.getDateEnd()));
+		UUID uid = UUID.fromString(event.getUid().toString());
+		uids.add(uid);
+		vEvent.setUid(uid.toString());
+		localCalendar.addEvent(vEvent);
+		return true; 
+	}
+
 	
-//	public ControlledEvent findEventInLocalCalendar(Uid uid) {
-//		
-//		VEvent event = localCalendar.findEventInLocalCalendar(Uid uid);
-//		pool.getEvent
-//		
-//	}
-
 	@Override
-	public boolean getEvent(Uid uid) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteEvent(IEvent event) {
+
+		return deleteEvent(event.getUid()); // expensive
 	}
 
 	@Override
-	public boolean putEvent(ControlledEvent event) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteEvent(UUID uid) {
+	
+		assertTrue(uids.contains(uid));
+		List<VEvent> events = localCalendar.getEvents();
+		for (VEvent ve : events) {
+			if (ve.getUid().getValue().equals(uid.toString())) {
+				localCalendar.removeComponent(ve);
+				return true;
+			}
+		}
+		return false; 
+	
 	}
 
 	@Override
-	public boolean deleteEvent(ControlledEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean eventEquals(ICalendars other) {
+		
+		return getUids().equals(other.getUids());
 
-	@Override
-	public boolean deleteEvent(Uid uid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ControlledEvent newEvent() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
+	@SuppressWarnings("unused")
+	private void checkrep() {
+		//TODO: rep check
+	};
+	
+	public String toString(ICalendar calendar) {
+		return user.toString() + System.lineSeparator() + Stream.of(localCalendar.getEvents())
+				.map(e -> e.toString()).collect(Collectors.joining());
+	}
 }

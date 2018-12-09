@@ -1,11 +1,7 @@
 package appointer.commands;
 
-import java.util.List;
-
-import biweekly.ICalendar;
-import biweekly.component.VEvent;
-
 import java.util.ArrayList;
+import java.util.List;
 
 // next best thing is to make static factory for appCalendar and event;
 // you ask CmdAddEvent.class and get new CmdAddEvent(this.appCalendar, this.event)

@@ -3,12 +3,11 @@ package appointer.util;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.UUID;
 
 import appointer.calendar.allcalendars.Calendars;
-import appointer.calendar.allcalendars.ICalendarFacade;
-import appointer.calendar.facades.EventFacade;
+import appointer.calendar.allcalendars.ICalendars;
+import appointer.calendar.facades.IEvent;
 import appointer.net.adapters.DTOAdapter;
 import appointer.net.client.appointments.RESTClient_Step_1_PostNewRequest;
 import appointer.net.client.appointments.RESTClient_Step_2_GetPending;
@@ -17,8 +16,6 @@ import appointer.net.client.appointments.RESTClient_Step_4_GetResults;
 import appointer.net.client.appointments.RESTClient_Step_5_PostComplete;
 import appointer.net.dto.IAppointmentDTO;
 import appointer.net.dto.RequestType;
-import biweekly.component.VEvent;
-import biweekly.property.Uid;
 
 /**
  * Class with reusable test routines
@@ -29,20 +26,18 @@ public class AppointerUtil {
 	/**
 	 * Does compliant demo event;
 	 * @param Attendee
-	 * @param Organiser
+	 * @param Organizer
 	 * @return
 	 */
-	public static VEvent createDemoEvent(String Attendee, String Organiser) {
+	public static IEvent createDemoEvent(String Attendee, String Organizer) {
 
-		VEvent event = EventFacade.createEventCurrentTime();
+		IEvent event = IEvent.create();
 
-		EventFacade.addAttendee(event, Attendee);
+		event.setAttendee(Attendee);
 
-		EventFacade.setOrganiser(event, Organiser);
+		event.setOrganizer(Organizer);
 
-		EventFacade.setEventID(event, UUID.randomUUID().toString());
-
-//		System.out.println("Did event: " + event.getUid().getValue());
+		event.setEventID(UUID.randomUUID());
 
 		return event;
 
@@ -57,8 +52,8 @@ public class AppointerUtil {
 	 * @return
 	 * @throws URISyntaxException
 	 */
-	public static Uid createAppointmentTest(VEvent attendeeEvent, Calendars OrganizerCalendars,
-			Calendars AttendeeCalendars) throws URISyntaxException {
+	public static UUID createAppointmentTest(IEvent attendeeEvent, ICalendars OrganizerCalendars,
+			ICalendars AttendeeCalendars) throws URISyntaxException {
 
 		// Attendee creates appointment and packs it into a dto with unique UID;
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentDTO(RequestType.CREATE, attendeeEvent);
@@ -78,9 +73,9 @@ public class AppointerUtil {
 		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
 
 		// organizer adds event to Calendar;
-		VEvent organiserEvent = DTOAdapter.toAppointmentEvent(appAnswerOrganizer);
+		IEvent organiserEvent = DTOAdapter.toAppointmentEvent(appAnswerOrganizer);
 
-		OrganizerCalendars.getLocalCalendar().addEvent(organiserEvent);
+		OrganizerCalendars.putEvent(organiserEvent);
 
 		appAnswerOrganizer.setResponded(true);
 
@@ -96,7 +91,7 @@ public class AppointerUtil {
 		appRequestAttendee = RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.CREATE, organizerName,
 				appRequestAttendee.getRequestId());
 
-		AttendeeCalendars.getLocalCalendar().addEvent(DTOAdapter.toAppointmentEvent(appRequestAttendee)); //
+		AttendeeCalendars.putEvent(DTOAdapter.toAppointmentEvent(appRequestAttendee)); //
 
 		appRequestAttendee.setComplete(true);
 
@@ -104,7 +99,7 @@ public class AppointerUtil {
 
 		RESTClient_Step_5_PostComplete.attendeeConfirmComplete(appRequestAttendee);
 
-		return new Uid(appRequestAttendee.getEventId());
+		return UUID.fromString(appRequestAttendee.getEventId());
 
 	}
 
@@ -115,8 +110,8 @@ public class AppointerUtil {
 	 * @param AttendeeCalendars must include attendeeEvent
 	 * @throws URISyntaxException
 	 */
-	public static void updateAppointmentTest(VEvent attendeeEvent, Calendars OrganizerCalendars,
-			ICalendarFacade AttendeeCalendars) throws URISyntaxException {
+	public static void updateAppointmentTest(IEvent attendeeEvent, Calendars OrganizerCalendars,
+			ICalendars AttendeeCalendars) throws URISyntaxException {
 
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentDTO(RequestType.CREATE, attendeeEvent);
 
@@ -143,22 +138,12 @@ public class AppointerUtil {
 				appRequestAttendee.getOrganizer());
 
 		// organizer adds event to Calendar;
-		String organiserEventID = appAnswerOrganizer.getEventId();
+		UUID organiserEventID = UUID.fromString(appAnswerOrganizer.getEventId());
 
-		List<VEvent> orgEvents = OrganizerCalendars.getLocalCalendar().getEvents();
+		IEvent organizerChangeEvent = OrganizerCalendars.getEvent(organiserEventID);
 
-		VEvent organizerChangeEvent = null;
-
-		for (VEvent event : orgEvents) {
-
-			if (event.getUid().getValue().equals(organiserEventID)) {
-
-				organizerChangeEvent = event;
-			}
-		}
 		assertTrue(organizerChangeEvent != null); // assuming the eventtoChange was found in the Calendar of the
 													// organizer;
-
 		DTOAdapter.updateEvent(organizerChangeEvent, appAnswerOrganizer);
 
 		appAnswerOrganizer.setResponded(true);

@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.junit.Test;
 
 import appointer.calendar.allcalendars.Calendars;
-import appointer.calendar.allcalendars.ICalendarFacade;
+import appointer.calendar.allcalendars.ICalendars;
 import appointer.net.client.appointments.RESTClient_Step_1_PostNewRequest;
 import appointer.net.client.appointments.RESTClient_Step_2_GetPending;
 import appointer.net.client.appointments.RESTClient_Step_3_PostChanges;
@@ -22,8 +22,8 @@ public class RESTTests {
 
 	final static String Attendee = "Alyssa_P._Hacker";
 	final static String Organizer = "Ben_Bitdiddle";
-	final static ICalendarFacade AttendeeCalendars = new Calendars(Attendee);
-	final static ICalendarFacade OrganizerCalendars = new Calendars(Organizer);
+	final static ICalendars AttendeeCalendars = new Calendars(Attendee);
+	final static ICalendars OrganizerCalendars = new Calendars(Organizer);
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testINull() throws URISyntaxException {

@@ -7,6 +7,7 @@ package appointer.commands;
  * Each command stores the ICalendarsLocal object;
  */
 public interface AppCommand {
+	
 	public void execute();
 
 	public void undo();
@@ -16,4 +17,5 @@ public interface AppCommand {
 	public void remove(AppCommand appCommand);
 
 	public AppCommand getChild(int i);
+
 }
