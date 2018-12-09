@@ -37,7 +37,6 @@ public interface IEvent {
 
 	public void setTimeEnd(LocalDateTime endTime);
 
-
 	/**
 	 * Moves the event's time slot
 	 */
@@ -45,6 +44,7 @@ public interface IEvent {
 
 	public void setEventRepeats(Frequency frequency); //coupling to Biweekly again
 
+	
 	public String getOrganizer();
 
 	public void setOrganizer(String organiserName);

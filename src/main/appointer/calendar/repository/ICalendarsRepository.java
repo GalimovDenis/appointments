@@ -7,10 +7,10 @@ import biweekly.ICalendar;
  */
 public interface ICalendarsRepository {
 
-	public String toStaticString();
+	public String toStringAllCalendars();
 
 	// TODO: We need a method that prints only the calendars relevant to the name;
-	public String toStaticString(String name);
+	public String toStringByName(String name);
 
 	/**
 	 * Returns the local calendar for any application user, if it exists; can return
@@ -22,7 +22,7 @@ public interface ICalendarsRepository {
 	 * Returns the local calendar for any application user; will create calendar if
 	 * it does not exist;
 	 */
-	public ICalendar getCalendarLazy(String userName);
+	public ICalendar getOrCreateCalendar(String userName);
 
 	/**
 	 */

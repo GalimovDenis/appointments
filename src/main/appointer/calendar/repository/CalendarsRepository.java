@@ -19,14 +19,14 @@ public class CalendarsRepository implements ICalendarsRepository {
 	}
 
 	@Override
-	public  String toStaticString() {
+	public  String toStringAllCalendars() {
 		return getMap().entrySet().stream().map(entry -> entry.getKey() + " - " + entry.getValue())
 				.collect(Collectors.joining());
 	}
 
 	// TODO: We need a method that prints only the calendars relevant to the name;
 	@Override
-	public  String toStaticString(String name) {
+	public  String toStringByName(String name) {
 		return null;
 	}
 
@@ -44,7 +44,7 @@ public class CalendarsRepository implements ICalendarsRepository {
 	 * will create calendar if it does not exist; 
 	 */
 	@Override
-	public  ICalendar getCalendarLazy(String userName) {
+	public  ICalendar getOrCreateCalendar(String userName) {
 		if (getCalendar(userName) == null) {
 			addCalendar(userName);
 		}

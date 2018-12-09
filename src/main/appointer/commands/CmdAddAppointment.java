@@ -4,7 +4,7 @@ import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IEvent;
 import appointer.user.SingletonAppUser;
 
-public class CmdAddAppointment extends CmdComposite implements AppCommand {
+public class CmdAddAppointment extends CmdSpecialComposite implements IAppCommand {
 	
 	private final ICalendars appCalendar;
 	private final IEvent event;

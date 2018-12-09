@@ -5,16 +5,16 @@ package appointer.commands;
  * Can composite several commands into one. 
  * Warning: when undo-redoing a chain of commands, you need to reverse the chain before redoing.
  */
-public interface AppCommand {
+public interface IAppCommand {
 	
 	public void execute();
 
 	public void undo();
 
-	public void add(AppCommand appCommand);
+	public void add(IAppCommand appCommand);
 
-	public void remove(AppCommand appCommand);
+	public void remove(IAppCommand appCommand);
 
-	public AppCommand getChild(int i);
+	public IAppCommand getChild(int i);
 
 }

@@ -2,7 +2,7 @@ package appointer.commands;
 
 import appointer.calendar.event.IEvent;
 
-public class CmdAddAttendee extends CmdLeaf implements AppCommand {
+public class CmdAddAttendee extends CmdSpecialLeaf implements IAppCommand {
 	
 	private final String user; 
 	private final IEvent event;  

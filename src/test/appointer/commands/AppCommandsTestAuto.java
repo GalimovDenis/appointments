@@ -37,15 +37,15 @@ public class AppCommandsTestAuto {
 
 		IEvent event = IEvent.create();
 
-		List<AppCommand> commands = createTestCommandAddRemove(appCalendar, event);
+		List<IAppCommand> commands = createTestCommandAddRemove(appCalendar, event);
 
-		commands.stream().forEach(AppCommand::execute);
+		commands.stream().forEach(IAppCommand::execute);
 
 		final Set<UUID> eventsEnd = appCalendar.getUids();
 
 		Collections.reverse(commands);
 
-		commands.stream().forEach(AppCommand::undo);
+		commands.stream().forEach(IAppCommand::undo);
 
 //		commands.stream().forEach(c -> System.out.println(c.getClass()));
 
@@ -70,7 +70,7 @@ public class AppCommandsTestAuto {
 
 		IEvent event = IEvent.create();
 
-		List<AppCommand> commands = createTestCommandList(appCalendar, event);
+		List<IAppCommand> commands = createTestCommandList(appCalendar, event);
 
 		int size = commands.size();
 
@@ -78,16 +78,16 @@ public class AppCommandsTestAuto {
 
 		Collections.shuffle(commands);
 
-		List<AppCommand> commandsTrimmed = commands.stream().limit(testMaxCommands)
+		List<IAppCommand> commandsTrimmed = commands.stream().limit(testMaxCommands)
 				.collect(Collectors.toCollection(ArrayList::new));
 
-		commandsTrimmed.stream().forEach(AppCommand::execute);
+		commandsTrimmed.stream().forEach(IAppCommand::execute);
 
 		Collections.reverse(commandsTrimmed);
 		// Command stack is ADT by itself; we must preserve order of the commands
 		// when doint execute() and redo();
 
-		commandsTrimmed.stream().forEach(AppCommand::undo);
+		commandsTrimmed.stream().forEach(IAppCommand::undo);
 
 		final Set<UUID> eventsEnd = appCalendar.getUids();
 
@@ -117,14 +117,14 @@ public class AppCommandsTestAuto {
 	}
 
 	/**
-	 * Creates a list of commands for unit testing AppCommand;
+	 * Creates a list of commands for unit testing IAppCommand;
 	 * 
 	 * @param appCalendar
 	 * @param event
 	 * @return
 	 */
-	private List<AppCommand> createTestCommandList(ICalendars appCalendar, IEvent event) {
-		List<AppCommand> appCommands = new ArrayList<>();
+	private List<IAppCommand> createTestCommandList(ICalendars appCalendar, IEvent event) {
+		List<IAppCommand> appCommands = new ArrayList<>();
 
 		appCommands.add(new CmdAddEvent(appCalendar, event));
 
@@ -148,15 +148,15 @@ public class AppCommandsTestAuto {
 	}
 
 	/**
-	 * Creates a list of add/remove for unit testing AppCommand;
+	 * Creates a list of add/remove for unit testing IAppCommand;
 	 * 
 	 * @param appCalendar
 	 * @param event
 	 * @return
 	 */
-	private List<AppCommand> createTestCommandAddRemove(ICalendars appCalendar, IEvent event) {
+	private List<IAppCommand> createTestCommandAddRemove(ICalendars appCalendar, IEvent event) {
 
-		List<AppCommand> appCommands = new ArrayList<>();
+		List<IAppCommand> appCommands = new ArrayList<>();
 
 		appCommands.add(new CmdAddEvent(appCalendar, event));
 

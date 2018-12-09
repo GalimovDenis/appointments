@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import appointer.calendar.event.IEvent;
 
-public class CmdSetEventStart extends CmdLeaf implements AppCommand {
+public class CmdSetEventStart extends CmdSpecialLeaf implements IAppCommand {
 	
 	private final IEvent event;
 	private LocalDateTime currentStart;

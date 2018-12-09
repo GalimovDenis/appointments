@@ -9,7 +9,7 @@ import appointer.calendar.event.IEvent;
  * Removing event from local user's calendar;
  *
  */
-public class CmdRemoveEvent extends CmdLeaf implements AppCommand {
+public class CmdRemoveEvent extends CmdSpecialLeaf implements IAppCommand {
 
 	private final ICalendars appCalendar;
 	private final IEvent event;

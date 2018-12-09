@@ -3,7 +3,7 @@ package appointer.commands;
 import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IEvent;
 
-public class CmdAddEvent extends CmdLeaf implements AppCommand {
+public class CmdAddEvent extends CmdSpecialLeaf implements IAppCommand {
 
 	private final ICalendars appCalendar;
 	private final IEvent event;

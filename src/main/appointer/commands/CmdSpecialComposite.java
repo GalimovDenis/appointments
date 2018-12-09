@@ -8,22 +8,22 @@ import java.util.List;
 /**
  *  A list of commands that behaves as command;
  */
-public class CmdComposite implements AppCommand {
+public class CmdSpecialComposite implements IAppCommand {
 
-	protected List<AppCommand> appCommands = new ArrayList<>();
+	protected List<IAppCommand> appCommands = new ArrayList<>();
  
-	public CmdComposite() {
+	public CmdSpecialComposite() {
 	}
 	
-	public void add(AppCommand appCommand) {
+	public void add(IAppCommand appCommand) {
 		appCommands.add(appCommand);
 	}
 
-	public void remove(AppCommand appCommand) {
+	public void remove(IAppCommand appCommand) {
 		appCommands.remove(appCommand);
 	}
 
-	public AppCommand getChild(int i) {
+	public IAppCommand getChild(int i) {
 		return appCommands.get(i);
 	}
 

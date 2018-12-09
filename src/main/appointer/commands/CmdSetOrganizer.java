@@ -3,7 +3,7 @@ package appointer.commands;
 import appointer.calendar.event.IEvent;
 import biweekly.property.Organizer;
 
-public class CmdSetOrganizer extends CmdLeaf implements AppCommand {
+public class CmdSetOrganizer extends CmdSpecialLeaf implements IAppCommand {
 	
 	private final IEvent event;  
 	private final String currentOrgName;
