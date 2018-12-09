@@ -18,7 +18,7 @@ import appointer.net.dto.IAppointmentDTO;
 import appointer.net.dto.RequestType;
 
 /**
- * Class with reusable test routines
+ * Class with reusable test routines; is not a test itself
  *
  */
 public class AppointerUtil {

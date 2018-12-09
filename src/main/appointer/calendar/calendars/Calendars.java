@@ -31,7 +31,7 @@ public class Calendars implements ICalendars {
 	private final ICalendar localCalendar;
 	private final HashSet<UUID> uids;
 
-	public Calendars(String name) {
+	protected Calendars(String name) {
 		repo = new CalendarsRepository();
 		repo.addCalendar(name);
 		localCalendar = repo.getCalendar(name);

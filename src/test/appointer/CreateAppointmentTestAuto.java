@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import appointer.calendar.calendars.Calendars;
+import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IEvent;
 import appointer.util.AppointerUtil;
 
@@ -19,8 +19,8 @@ public class CreateAppointmentTestAuto {
 	private static final int CREATECOUNT = 10;
 	final static String Attendee = "Alyssa_P._Hacker";
 	final static String Organizer = "Ben_Bitdiddle";
-	final static Calendars AttendeeCalendars = new Calendars(Attendee);
-	final static Calendars OrganizerCalendars = new Calendars(Organizer);
+	final static ICalendars AttendeeCalendars = ICalendars.create(Attendee);
+	final static ICalendars OrganizerCalendars = ICalendars.create(Organizer);
 
 	/**
 	 * Tests that an appointment created produces the same event on attendee and

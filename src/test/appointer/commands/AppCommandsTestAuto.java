@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import appointer.calendar.calendars.Calendars;
 import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IEvent;
 
@@ -30,7 +29,7 @@ public class AppCommandsTestAuto {
 	@Test
 	public void addRemoveExecRedo() {
 
-		ICalendars appCalendar = new Calendars(ALYSSA_P_HACKER);
+		ICalendars appCalendar = ICalendars.create(ALYSSA_P_HACKER);
 
 		addNEvents(appCalendar, STARTINGEVENTS);
 
@@ -63,7 +62,7 @@ public class AppCommandsTestAuto {
 	@Test
 	public void randomExecRedo() {
 
-		ICalendars appCalendar = new Calendars(ALYSSA_P_HACKER);
+		ICalendars appCalendar = ICalendars.create(ALYSSA_P_HACKER);
 
 		addNEvents(appCalendar, STARTINGEVENTS);
 

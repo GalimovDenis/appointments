@@ -12,19 +12,31 @@ import appointer.user.IUser;
 public interface ICalendars {
 
 	/**
-	 * The remote user for querying free-busy 
-	 * @param name
+	 * Creates calendars for the given user name.
+	 * @param userName
+	 * @return
 	 */
-	public void AddRemoteUser(String name);
-		
+	public static Calendars create(String userName) {
+		return new Calendars(userName);
+	}
+
 	/**
 	 * The local user's name; gives us the phone holder
 	 * @return
 	 */
 	public IUser getUser();
 
+	/**
+	 * The remote user for querying free-busy 
+	 * @param name
+	 */
+	public void AddRemoteUser(String name);
+		
 	public String toString();
-	
+
+	/**
+	 * Creates a new blank event.
+	 */
 	static IEvent newEvent() {
 		return IEvent.create();
 	}
@@ -37,6 +49,9 @@ public interface ICalendars {
 	
 	public boolean deleteEvent(UUID uid);
 
+	/**
+	 * Gets a set of UUIDs that corresponds to the stored Events. 
+	 */
 	public Set<UUID> getUids();
 
 	/**
