@@ -1,17 +1,11 @@
-package appointer.calendar.facades;
-
-import static org.junit.Assert.assertTrue;
+package appointer.calendar.event;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.Date;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.TimeZone;
+import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import appointer.util.date.DateAdapter;
 import appointer.util.date.range.DateRange;
@@ -21,15 +15,12 @@ import biweekly.property.Attendee;
 import biweekly.property.Organizer;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
-import biweekly.util.com.google.ical.compat.javautil.DateIterator;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public class ControlledEvent implements IEvent {
 
 	private final VEvent event;
-
-
 
 	public ControlledEvent() {
 		event = new VEvent();
@@ -85,36 +76,49 @@ public class ControlledEvent implements IEvent {
 
 	@Override
 	public void setAttendee(String attendeeName) {
+		
 		event.getAttendees().clear();
+		
 		event.addAttendee(new Attendee(attendeeName, ""));
+		
 	}
-
+	
 	@Override
-	public Stream<LocalDateTime> getLocalDateStream() {
-		DateIterator dates = event.getDateIterator(TimeZone.getDefault());
-		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(dates, Spliterator.ORDERED), false)
-				.map(DateAdapter::asLocalDateTime);
-	}
-
-	@Override
-	public LocalDateTime getDateStart() {
+	public LocalDateTime getDateTimeStart() {
 		return DateAdapter.asLocalDateTime(event.getDateStart().getValue());
 	}
 
 	@Override
-	public LocalDateTime getDateEnd() {
+	public LocalDateTime getDateTimeEnd() {
 		return DateAdapter.asLocalDateTime(event.getDateEnd().getValue());
 	}
 
 	@Override
 	public String getOrganizer() {
-		return event.getOrganizer().getCommonName();
+		
+		Organizer organizer = event.getOrganizer();
+		
+		if(organizer!=null) return organizer.getCommonName();
+		
+		return null; //mb empty string?
 	}
 
 	@Override
 	public String getAttendee() {
-		assertTrue(event.getAttendees().size() == 1); // one attendee for event max
-		return event.getAttendees().get(0).getCommonName();
+		
+		List<Attendee> attendees = event.getAttendees();
+		
+		switch(attendees.size()) {
+		case 0:
+			return null;
+		case 1:
+			return attendees.get(0).getCommonName();
+		default: 
+			assert false; //either 0 or 1 attendee;
+		}
+
+		return null;
+		
 	}
 
 	@Override
@@ -129,7 +133,7 @@ public class ControlledEvent implements IEvent {
 
 	@Override
 	public IDateRange createDateRange() {
-		return new DateRange(getDateStart(), getDateEnd());
+		return new DateRange(getDateTimeStart(), getDateTimeEnd());
 	}	
 
 	@Override

@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 import java.net.URISyntaxException;
 import java.util.UUID;
 
-import appointer.calendar.allcalendars.Calendars;
-import appointer.calendar.allcalendars.ICalendars;
-import appointer.calendar.facades.IEvent;
+import appointer.calendar.calendars.Calendars;
+import appointer.calendar.calendars.ICalendars;
+import appointer.calendar.event.IEvent;
 import appointer.net.adapters.DTOAdapter;
 import appointer.net.client.appointments.RESTClient_Step_1_PostNewRequest;
 import appointer.net.client.appointments.RESTClient_Step_2_GetPending;
@@ -43,7 +43,6 @@ public class AppointerUtil {
 
 	}
 
-	//TODO: calls to ArgumentsChecker
 	/**
 	 * Creates demo appointment based on VEvent and returns its UID
 	 * @param attendeeEvent must include Uid, start and end time, organizer and attendee
@@ -174,13 +173,5 @@ public class AppointerUtil {
 		RESTClient_Step_5_PostComplete.attendeeConfirmComplete(appRequestAttendee);
 
 	}
-	
-// TODO: proper refactoring please, not to toss 4 objects around
-//	public static void printAttendeAndOrganizerCalendars() {
-//		System.out.println("Attendee " + Attendee);
-//		CalendarPrinter.printCalendar(AttendeeCalendars.getLocalCalendar());
-//		System.out.println("Organizer " + Organizer);
-//		CalendarPrinter.printCalendar(OrganizerCalendars.getLocalCalendar());
-//	}
 
 }

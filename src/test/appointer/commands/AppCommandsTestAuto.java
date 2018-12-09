@@ -1,7 +1,10 @@
-package appointer.calendar.single;
+package appointer.commands;
 
 import static org.junit.Assert.assertTrue;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,13 +15,9 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import appointer.calendar.allcalendars.Calendars;
-import appointer.calendar.allcalendars.ICalendars;
-import appointer.calendar.facades.IEvent;
-import appointer.commands.AppCommand;
-import appointer.commands.CmdAddEvent;
-import appointer.commands.CmdRemoveEvent;
-import appointer.user.SingletonAppUser;
+import appointer.calendar.calendars.Calendars;
+import appointer.calendar.calendars.ICalendars;
+import appointer.calendar.event.IEvent;
 
 public class AppCommandsTestAuto {
 
@@ -30,8 +29,6 @@ public class AppCommandsTestAuto {
 
 	@Test
 	public void addRemoveExecRedo() {
-
-		SingletonAppUser.lazyGet(ALYSSA_P_HACKER);
 
 		ICalendars appCalendar = new Calendars(ALYSSA_P_HACKER);
 
@@ -45,17 +42,20 @@ public class AppCommandsTestAuto {
 
 		commands.stream().forEach(AppCommand::execute);
 
+		final Set<UUID> eventsEnd = appCalendar.getUids();
+
 		Collections.reverse(commands);
 
 		commands.stream().forEach(AppCommand::undo);
 
-		final Set<UUID> eventsEnd = appCalendar.getUids();
-
-//		System.out.println("Rolled number of commands: " + commands.size());
-//
-//		System.out.println("Events in collection: " + eventsEnd.size() + " Original events " + eventsInit);
-//
 //		commands.stream().forEach(c -> System.out.println(c.getClass()));
+
+		// System.out.println("Rolled number of commands: " + commands.size());
+		//
+		// System.out.println("Events in collection: " + eventsEnd.size() + " Original
+		// events " + eventsInit);
+		//
+		// System.out.println(appCalendar);
 
 		assertTrue(eventsEnd.size() == eventsInit);
 	}
@@ -63,15 +63,11 @@ public class AppCommandsTestAuto {
 	@Test
 	public void randomExecRedo() {
 
-		SingletonAppUser.lazyGet(ALYSSA_P_HACKER);
-
 		ICalendars appCalendar = new Calendars(ALYSSA_P_HACKER);
 
 		addNEvents(appCalendar, STARTINGEVENTS);
 
 		final int eventsInit = appCalendar.getUids().size();
-		// need an immutable event + event list in order to compare pre/post event
-		// states;
 
 		IEvent event = IEvent.create();
 
@@ -134,18 +130,20 @@ public class AppCommandsTestAuto {
 		appCommands.add(new CmdAddEvent(appCalendar, event));
 
 		appCommands.add(new CmdRemoveEvent(appCalendar, event));
-//
-//		appCommands.add(new CmdSetEventDuration(event, Duration.builder().hours(1).build()));
-//
-//		appCommands.add(new CmdSetEventDuration(event, Duration.builder().hours(1).build()));
-//
-//		appCommands.add(new CmdSetEventRepeats(event, Frequency.DAILY));
-//
-//		appCommands.add(new CmdSetEventRepeats(event, Frequency.DAILY));
-//
-//		appCommands.add(new CmdSetEventStart(event, LocalDate.now()));
-//
-//		appCommands.add(new CmdSetEventStart(event, LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY))));
+		//
+		// appCommands.add(new CmdSetEventDuration(event,
+		// Duration.builder().hours(1).build()));
+		//
+		// appCommands.add(new CmdSetEventDuration(event,
+		// Duration.builder().hours(1).build()));
+		//
+		// appCommands.add(new CmdSetEventRepeats(event, Frequency.DAILY));
+		//
+		// appCommands.add(new CmdSetEventRepeats(event, Frequency.DAILY));
+
+		appCommands.add(new CmdSetEventStart(event, LocalDateTime.now()));
+
+		appCommands.add(new CmdSetEventStart(event, LocalDateTime.now().with(TemporalAdjusters.next(DayOfWeek.SUNDAY))));
 
 		return appCommands;
 	}

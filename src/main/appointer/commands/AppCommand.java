@@ -2,9 +2,8 @@ package appointer.commands;
 
 /**
  * Commands for the calendar;
- * uses Composite pattern;
- * Each command stores the event it was applied on;
- * Each command stores the ICalendarsLocal object;
+ * Can composite several commands into one. 
+ * Warning: when undo-redoing a chain of commands, you need to reverse the chain before redoing.
  */
 public interface AppCommand {
 	

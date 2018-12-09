@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import appointer.calendar.allcalendars.Calendars;
-import appointer.calendar.facades.IEvent;
+import appointer.calendar.calendars.Calendars;
+import appointer.calendar.event.IEvent;
 import appointer.util.AppointerUtil;
 
 /**
@@ -61,7 +61,7 @@ public class CreateAppointmentTestAuto {
 					AttendeeCalendars);
 		}
 
-		assertTrue(OrganizerCalendars.eventEquals(AttendeeCalendars));
+		assertTrue(OrganizerCalendars.equalByEventSet(AttendeeCalendars));
 
 	}
 

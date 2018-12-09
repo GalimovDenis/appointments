@@ -1,6 +1,6 @@
 package appointer.commands;
 
-import appointer.calendar.facades.IEvent;
+import appointer.calendar.event.IEvent;
 import biweekly.property.Organizer;
 
 public class CmdSetOrganizer extends CmdLeaf implements AppCommand {

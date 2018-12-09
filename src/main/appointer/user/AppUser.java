@@ -1,6 +1,6 @@
 package appointer.user;
 
-import appointer.net.client.users.NamesRESTClient;
+import appointer.net.client.util.NamesRESTClient;
 
 /**
  * User class, final for correct equals()
@@ -23,6 +23,11 @@ public final class AppUser implements IUser {
 		} else {
 			throw new IllegalArgumentException();
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "AppUser " + name;
 	}
 
 	@Override

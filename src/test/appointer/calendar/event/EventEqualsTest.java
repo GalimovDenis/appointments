@@ -1,10 +1,12 @@
-package appointer;
+package appointer.calendar.event;
+
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.UUID;
 
-import appointer.calendar.facades.IEvent;
+import org.junit.Test;
 
 public class EventEqualsTest {
 	
@@ -16,12 +18,8 @@ public class EventEqualsTest {
 	final static LocalDateTime timeFinish = LocalDateTime.of(2018, Month.DECEMBER, 31, 20, 0, 0);
 	final static UUID uid = UUID.randomUUID();
 	
-	/**
-	 * Demonstrates steps to undertake in order to have events pass Equal tests; 
-	 * @param args
-	 * @throws InterruptedException
-	 */
-	public static void main(String[] args) throws InterruptedException {
+	@Test
+	public void testIEventEquals() throws InterruptedException {
 		
 		IEvent eventA = IEvent.create();
 		Thread.sleep(500); //If events have different timestamp, they are not equal. 
@@ -47,8 +45,6 @@ public class EventEqualsTest {
 		eventA.setTimeEnd(timeFinish);
 		eventB.setTimeEnd(timeFinish);
 		
-		System.out.println(eventA);
-		System.out.println(eventB);
-		System.out.println(eventA.equals(eventB));
+		assertTrue(eventA.equals(eventB));
 	}
 }

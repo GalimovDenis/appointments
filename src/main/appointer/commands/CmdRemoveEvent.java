@@ -1,8 +1,8 @@
 package appointer.commands;
 
 
-import appointer.calendar.allcalendars.ICalendars;
-import appointer.calendar.facades.IEvent;
+import appointer.calendar.calendars.ICalendars;
+import appointer.calendar.event.IEvent;
 
 /**
  * 

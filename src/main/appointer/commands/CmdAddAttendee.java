@@ -1,6 +1,6 @@
 package appointer.commands;
 
-import appointer.calendar.facades.IEvent;
+import appointer.calendar.event.IEvent;
 
 public class CmdAddAttendee extends CmdLeaf implements AppCommand {
 	

@@ -3,8 +3,8 @@ package appointer.net.adapters;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import appointer.calendar.facades.ControlledEvent;
-import appointer.calendar.facades.IEvent;
+import appointer.calendar.event.ControlledEvent;
+import appointer.calendar.event.IEvent;
 import appointer.net.dto.AppointmentDTO;
 import appointer.net.dto.BaseAppointmentDTO;
 import appointer.net.dto.IAppointmentDTO;

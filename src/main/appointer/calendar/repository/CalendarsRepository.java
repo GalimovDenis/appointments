@@ -1,4 +1,4 @@
-package appointer.calendar.allcalendars;
+package appointer.calendar.repository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,24 +7,26 @@ import java.util.stream.Collectors;
 import biweekly.ICalendar;
 
 /**
- * Static map for all ICalendars on the local system rep exposure; not
+ *  map for all ICalendars on the local system rep exposure; not
  * threadsafe;
  */
-public class CalendarStorage {
+public class CalendarsRepository implements ICalendarsRepository {
 
-	private static final Map<String, ICalendar> calendars = new HashMap<>();
+	private  final Map<String, ICalendar> calendars = new HashMap<>();
 
-	private static Map<String, ICalendar> getMap() {
+	private  Map<String, ICalendar> getMap() {
 		return calendars;
 	}
 
-	public static String toStaticString() {
+	@Override
+	public  String toStaticString() {
 		return getMap().entrySet().stream().map(entry -> entry.getKey() + " - " + entry.getValue())
 				.collect(Collectors.joining());
 	}
 
 	// TODO: We need a method that prints only the calendars relevant to the name;
-	public static String toStaticString(String name) {
+	@Override
+	public  String toStaticString(String name) {
 		return null;
 	}
 
@@ -32,7 +34,8 @@ public class CalendarStorage {
 	 * Returns the local calendar for any application user, if it exists;
 	 * can return null; 
 	 */
-	public static ICalendar getCalendar(String userName) {
+	@Override
+	public  ICalendar getCalendar(String userName) {
 		return getMap().get(userName);
 	}
 
@@ -40,7 +43,8 @@ public class CalendarStorage {
 	 * Returns the local calendar for any application user;
 	 * will create calendar if it does not exist; 
 	 */
-	public static ICalendar getCalendarLazy(String userName) {
+	@Override
+	public  ICalendar getCalendarLazy(String userName) {
 		if (getCalendar(userName) == null) {
 			addCalendar(userName);
 		}
@@ -49,7 +53,8 @@ public class CalendarStorage {
 
 	/**
 	 */
-	public static boolean addCalendar(String userName) {
+	@Override
+	public  boolean addCalendar(String userName) {
 		ICalendar newCalendar = getMap().get(userName);
 		if (newCalendar == null) {
 			getMap().put(userName, new ICalendar());
@@ -63,7 +68,8 @@ public class CalendarStorage {
 	 * @param userName
 	 * @return
 	 */
-	public static boolean removeCalendar(String userName) {
+	@Override
+	public  boolean removeCalendar(String userName) {
 		ICalendar oldCalendar = getMap().get(userName);
 		if (oldCalendar != null) {
 			getMap().remove(userName);
