@@ -25,13 +25,13 @@ public class DTOAdapter {
 	 */
 	private static <T extends BaseAppointmentDTO> T updateDTOFromEvent(AppointmentDTO appDTO, EventFacade event) {
 
-		appDTO.setOrganizer(event.getOrganizer().getCommonName());
+		appDTO.setOrganizer(event.getOrganizer());
 
-		appDTO.setAttendee(event.getAttendees().get(0).getCommonName());
+		appDTO.setAttendee(event.getAttendee());
 
-		appDTO.setEventId(event.getUid().getValue());
+		appDTO.setEventId(event.getUid());
 
-		appDTO.setTimestamp(DateAdapter.asLocalDateTime(event.getDateTimeStamp().getValue()));
+		appDTO.setTimestamp(event.getDateTimeStamp());
 		
 		return appDTO;
 	}
@@ -86,7 +86,7 @@ public class DTOAdapter {
 
 		controlledEvent.setOrganiser(appCreation.getOrganizer());
 
-		controlledEvent.addAttendee(appCreation.getAttendee());
+		controlledEvent.setAttendee(appCreation.getAttendee());
 
 		controlledEvent.setEventStart(appCreation.getDateRange().getStart());
 
