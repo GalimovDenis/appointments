@@ -7,10 +7,9 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-
 import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IEvent;
-import appointer.util.AppointerUtil;
+import appointer.util.TestUtil;
 
 /**
  * Integration test for create operation;
@@ -27,15 +26,17 @@ public class CreateAppointmentTestAuto {
 	 * Tests that an appointment created produces the same event on attendee and
 	 * organizer calendars
 	 * 
+	 * Must have the  server running
+	 * 
 	 * @throws URISyntaxException
 	 */
 	@Test
 	public void testSingleCreation() throws URISyntaxException {
 
 
-		IEvent eventToCreateI = AppointerUtil.createDemoEvent(Attendee, Organizer);
+		IEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
 
-		UUID eventI_UID = AppointerUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
+		UUID eventI_UID = TestUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
 
 		IEvent createdEventAttendee = AttendeeCalendars.getEvent(eventI_UID);
 
@@ -50,14 +51,16 @@ public class CreateAppointmentTestAuto {
 	 * the same event list on attendee
 	 * and organizer calendars
 	 * 
+	 * Must have the server running
+	 * 
 	 * @throws URISyntaxException
 	 */
 	@Test
 	public void testMultiCreation() throws URISyntaxException {
 
 		for (int i = 0; i < CREATECOUNT; i++) {			
-			AppointerUtil.createAppointmentTest(
-					AppointerUtil.createDemoEvent(Attendee, Organizer),
+			TestUtil.createAppointmentTest(
+					TestUtil.createDemoEvent(Attendee, Organizer),
 					OrganizerCalendars,
 					AttendeeCalendars);
 		}

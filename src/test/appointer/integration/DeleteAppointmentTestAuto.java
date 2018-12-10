@@ -6,58 +6,55 @@ import java.net.URISyntaxException;
 
 import org.junit.Test;
 
-import appointer.calendar.allcalendars.Calendars;
-import appointer.util.TestUtil;
-import biweekly.component.VEvent;
-import biweekly.property.Uid;
+import appointer.calendar.calendars.ICalendars;
+import appointer.calendar.event.IEvent;
+import appointer.util.TestUtil;	
 
 
 
 public class DeleteAppointmentTestAuto {
-	
-	private static final int DELETECOUNT = 10;
+
 	final static String Attendee = "Alyssa_P._Hacker";
 	final static String Organizer = "Ben_Bitdiddle";
-	final static Calendars AttendeeCalendars = new Calendars(Attendee);
-	final static Calendars OrganizerCalendars = new Calendars(Organizer);
+	final static ICalendars AttendeeCalendars = ICalendars.create(Attendee);
+	final static ICalendars OrganizerCalendars = ICalendars.create(Organizer);
 	
 	
 	/**
-	 * Tests that 
-	 * organizer calendars
+	 * Tests create/delete event in the calendar;
 	 * 
 	 * @throws URISyntaxException
 	 */
 	@Test
-	public void testSingleCreation() throws URISyntaxException {
+	public void testSingleDeletion() throws URISyntaxException {
 
-		VEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
+		IEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
 		
-		OrganizerCalendars.addEvent(eventToCreateI);
+		OrganizerCalendars.putEvent(eventToCreateI);
 		
-		OrganizerCalendars.addEvent(eventToCreateI);
+		OrganizerCalendars.putEvent(eventToCreateI);
 
-		AttendeeCalendars.addEvent(eventToCreateI);
+		AttendeeCalendars.putEvent(eventToCreateI);
 
-		VEvent createdEventAttendee = AttendeeCalendars.readEvent(eventToCreateI.getUid());
+		IEvent createdEventAttendee = AttendeeCalendars.getEvent(eventToCreateI.getUid());
 
-		VEvent createdEventOrganizer = OrganizerCalendars.readEvent(eventToCreateI.getUid());
+		IEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventToCreateI.getUid());
 
 		assertTrue(createdEventAttendee.equals(createdEventOrganizer));
 
 		assertTrue(createdEventAttendee.equals(createdEventOrganizer));
 		
-		assertTrue(AttendeeCalendars.size() == 1);
+		assertTrue(AttendeeCalendars.getUids().size() == 1);
 		
-		assertTrue(OrganizerCalendars.size() == 1);
+		assertTrue(OrganizerCalendars.getUids().size() == 1);
 		
 		AttendeeCalendars.deleteEvent(eventToCreateI);
 
 		OrganizerCalendars.deleteEvent(eventToCreateI);
 		
-		assertTrue(AttendeeCalendars.size() == 0);
+		assertTrue(AttendeeCalendars.getUids().size() == 0);
 		
-		assertTrue(OrganizerCalendars.size() == 0);
+		assertTrue(OrganizerCalendars.getUids().size() == 0);
 
 
 	}
