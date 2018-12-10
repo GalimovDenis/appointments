@@ -62,6 +62,29 @@ public interface IEvent {
 	 * Empty constructor for utility;
 	 */
 	public static IEvent create() {
-		return new ControlledEvent();
+		return new HomebrewEvent();
+	}
+	
+	/**
+	 * Testing that an event is valid appointment; 
+	 * @return
+	 */
+	public default boolean isAppointment() {
+		if (getAttendee() == null) return false;
+		if (getOrganizer() == null) return false;
+		if (getDateTimeStart() == null) return false;
+		if (getDateTimeEnd() == null) return false;
+		if (getUid() == null) return false;
+		return true;
+	}
+	
+	/**
+	 * Test helping method
+	 */
+	public default IEvent makeAppointment() {
+		setAttendee("Alyssa");
+		setOrganizer("Ben");
+		setEventID(UUID.randomUUID());
+		return this;
 	}
 }

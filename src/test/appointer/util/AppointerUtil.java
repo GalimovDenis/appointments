@@ -56,7 +56,7 @@ public class AppointerUtil {
 
 		// Attendee creates appointment and packs it into a dto with unique UID;
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentDTO(RequestType.CREATE, attendeeEvent);
-
+		
 		// Attendee sends a new appointment request
 		RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
@@ -70,7 +70,7 @@ public class AppointerUtil {
 		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
 
 		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
-
+		
 		// organizer adds event to Calendar;
 		IEvent organiserEvent = DTOAdapter.toAppointmentEvent(appAnswerOrganizer);
 

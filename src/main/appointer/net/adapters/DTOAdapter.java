@@ -1,6 +1,7 @@
 package appointer.net.adapters;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import appointer.calendar.event.ControlledEvent;
@@ -65,7 +66,7 @@ public class DTOAdapter {
 	 */
 	public static IEvent toAppointmentEvent(IAppointmentDTO appCreation) {
 
-		final ControlledEvent controlledEvent = new ControlledEvent();
+		final IEvent controlledEvent = IEvent.create();
 
 		controlledEvent.setOrganizer(appCreation.getOrganizer());
 
@@ -77,12 +78,16 @@ public class DTOAdapter {
 
 		controlledEvent.setEventID(UUID.fromString(appCreation.getEventId()));
 
-		controlledEvent.setEventTimestamp(appCreation.getTimestamp());
+		//LocalDateTime timestamp = appCreation.getTimestamp();
 		
+		//controlledEvent.setEventTimestamp(timestamp != null ? timestamp : LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+		
+		controlledEvent.setEventTimestamp(appCreation.getTimestamp());
+				
 		return controlledEvent;
 	}
 
-	// should accept controlled event
+	//refactor as toAppointmentDTO;
 	/**
 	 * updating an event based on the DTO;
 	 * returns DTO with the timestamp of Event modifiacation; 

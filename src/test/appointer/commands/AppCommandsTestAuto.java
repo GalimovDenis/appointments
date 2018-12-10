@@ -35,7 +35,7 @@ public class AppCommandsTestAuto {
 
 		final int eventsInit = appCalendar.getUids().size();
 
-		IEvent event = IEvent.create();
+		IEvent event = IEvent.create().makeAppointment();
 
 		List<IAppCommand> commands = createTestCommandAddRemove(appCalendar, event);
 
@@ -47,14 +47,13 @@ public class AppCommandsTestAuto {
 
 		commands.stream().forEach(IAppCommand::undo);
 
-//		commands.stream().forEach(c -> System.out.println(c.getClass()));
+		commands.stream().forEach(c -> System.out.println(c.getClass()));
 
-		// System.out.println("Rolled number of commands: " + commands.size());
-		//
-		// System.out.println("Events in collection: " + eventsEnd.size() + " Original
-		// events " + eventsInit);
-		//
-		// System.out.println(appCalendar);
+		 System.out.println("Rolled number of commands: " + commands.size());
+		
+		 System.out.println("Events in collection: " + eventsEnd.size() + " Original events " + eventsInit);
+		
+		 //System.out.println(appCalendar);
 
 		assertTrue(eventsEnd.size() == eventsInit);
 	}
@@ -68,8 +67,8 @@ public class AppCommandsTestAuto {
 
 		final int eventsInit = appCalendar.getUids().size();
 
-		IEvent event = IEvent.create();
-
+		IEvent event = IEvent.create().makeAppointment();
+		
 		List<IAppCommand> commands = createTestCommandList(appCalendar, event);
 
 		int size = commands.size();
@@ -106,7 +105,7 @@ public class AppCommandsTestAuto {
 
 		for (int i = 0; i < NEvents; i++) {
 
-			eventOne = IEvent.create();
+			eventOne = IEvent.create().makeAppointment();
 
 			CmdAddEvent cae = new CmdAddEvent(appCalendar, eventOne);
 

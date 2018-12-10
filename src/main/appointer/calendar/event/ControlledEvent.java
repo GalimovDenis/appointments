@@ -17,13 +17,17 @@ import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
 import lombok.EqualsAndHashCode;
 
+/**
+ * Default IEvent implementation, carries VEvent;
+ *
+ */
 @EqualsAndHashCode
 public class ControlledEvent implements IEvent {
 
 	private final VEvent event;
 
 	public ControlledEvent() {
-		event = new VEvent();
+		event = new VEvent(); // timestamp automatically not null! 
 		final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 		setTimeStart(now);
 		setTimeEnd(now);
@@ -140,5 +144,7 @@ public class ControlledEvent implements IEvent {
 	public String toString() {
 		return event.toString();
 	}
+	
+
 
 }

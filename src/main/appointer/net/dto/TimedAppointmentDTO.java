@@ -32,7 +32,7 @@ public abstract class TimedAppointmentDTO extends BaseAppointmentDTO implements 
 	@Override
 	public String toString() {
 		return "TimedAppointmentDTO [requestType=" + getRequestType() + ", Time " + getDateRange().toString() + ", requestId="
-				+ getRequestId() + ", eventId=" + getEventId() + ", organizer=" + getOrganizer() + ", attendee=" + getAttendee()
+				+ getRequestId() + ", timestamp= " + getTimestamp() + ", eventId=" + getEventId() + ", organizer=" + getOrganizer() + ", attendee=" + getAttendee()
 				+ ", registered=" + isRegistered() + ", responded=" + isResponded() + ", complete=" + isComplete() + "]";
 	}
 

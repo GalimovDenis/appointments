@@ -41,7 +41,10 @@ public interface ICalendars {
 		return IEvent.create();
 	}
 	
-	public boolean putEvent(IEvent event);
+	/**
+	 * @param event must be an appointment event (has organizer, attendee, timestamp, uid, date start, date end);
+	 */
+	public boolean putEvent(IEvent event); // nice preconditions. can we make a better type pls?
 	
 	public IEvent getEvent(UUID uid);
 	

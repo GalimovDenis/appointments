@@ -83,6 +83,8 @@ public class Calendars implements ICalendars {
 	@Override
 	public boolean putEvent(IEvent event) { // unflexible due to NPE in getters; needs only appointment
 
+		if(!event.isAppointment()) throw new IllegalArgumentException("Calendars accept only appointment events");
+		
 		UUID uid = UUID.fromString(event.getUid().toString());
 		if (uids.contains(uid))
 			return false;
