@@ -2,28 +2,13 @@ package appointer.util.io.console;
 
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import biweekly.ICalendar;
 import biweekly.component.ICalComponent;
 import biweekly.component.VEvent;
 import biweekly.property.ICalProperty;
 
 public class CalendarPrinter {
-	/**
-	 * print a calendar
-	 * 
-	 * @param calendar
-	 */
-	public static void printCalendar(ICalendar calendar) {
-		System.out.println(ICalendarToString(calendar));
-	}
 	
-	public static String ICalendarToString(ICalendar calendar) {
-		return Stream.of(calendar.getEvents())
-				.map(e -> e.toString()).collect(Collectors.joining());
-	}
 
 	/**
 	 * Prints properties of BiWeekly calendar component;

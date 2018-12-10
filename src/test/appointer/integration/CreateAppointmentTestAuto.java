@@ -3,14 +3,14 @@ package appointer.integration;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
+import java.util.UUID;
 
 import org.junit.Test;
 
-import appointer.calendar.allcalendars.Calendars;
-import appointer.util.TestUtil;
-import appointer.util.io.console.CalendarPrinter;
-import biweekly.component.VEvent;
-import biweekly.property.Uid;
+
+import appointer.calendar.calendars.ICalendars;
+import appointer.calendar.event.IEvent;
+import appointer.util.AppointerUtil;
 
 /**
  * Integration test for create operation;
@@ -20,8 +20,8 @@ public class CreateAppointmentTestAuto {
 	private static final int CREATECOUNT = 10;
 	final static String Attendee = "Alyssa_P._Hacker";
 	final static String Organizer = "Ben_Bitdiddle";
-	final static Calendars AttendeeCalendars = new Calendars(Attendee);
-	final static Calendars OrganizerCalendars = new Calendars(Organizer);
+	final static ICalendars AttendeeCalendars = ICalendars.create(Attendee);
+	final static ICalendars OrganizerCalendars = ICalendars.create(Organizer);
 
 	/**
 	 * Tests that an appointment created produces the same event on attendee and
@@ -32,22 +32,22 @@ public class CreateAppointmentTestAuto {
 	@Test
 	public void testSingleCreation() throws URISyntaxException {
 
-		VEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
 
-		Uid eventI_UID = TestUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
+		IEvent eventToCreateI = AppointerUtil.createDemoEvent(Attendee, Organizer);
 
-		VEvent createdEventAttendee = AttendeeCalendars.readEvent(eventI_UID);
+		UUID eventI_UID = AppointerUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
 
-		VEvent createdEventOrganizer = OrganizerCalendars.readEvent(eventI_UID);
+		IEvent createdEventAttendee = AttendeeCalendars.getEvent(eventI_UID);
 
-		printAttendeAndOrganizerCalendars();
+		IEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventI_UID);
 
 		assertTrue(createdEventAttendee.equals(createdEventOrganizer));
 
 	}
 
 	/**
-	 * Test that many appointments created produces the same event list on attendee
+	 * Test that many appointments created produce 
+	 * the same event list on attendee
 	 * and organizer calendars
 	 * 
 	 * @throws URISyntaxException
@@ -55,22 +55,19 @@ public class CreateAppointmentTestAuto {
 	@Test
 	public void testMultiCreation() throws URISyntaxException {
 
-		for (int i = 0; i < CREATECOUNT; i++) {
-
-			TestUtil.createAppointmentTest(TestUtil.createDemoEvent(Attendee, Organizer), OrganizerCalendars,
+		for (int i = 0; i < CREATECOUNT; i++) {			
+			AppointerUtil.createAppointmentTest(
+					AppointerUtil.createDemoEvent(Attendee, Organizer),
+					OrganizerCalendars,
 					AttendeeCalendars);
-
 		}
 
-		assertTrue(AttendeeCalendars.getLocalCalendar().getEvents()
-				.equals(OrganizerCalendars.getLocalCalendar().getEvents()));
+		assertTrue(OrganizerCalendars.equalByEventSet(AttendeeCalendars));
 
 	}
 
 	public static void printAttendeAndOrganizerCalendars() {
-		System.out.println("Attendee " + Attendee);
-		CalendarPrinter.printCalendar(AttendeeCalendars.getLocalCalendar());
-		System.out.println("Organizer " + Organizer);
-		CalendarPrinter.printCalendar(OrganizerCalendars.getLocalCalendar());
+		System.out.println(AttendeeCalendars.toString());
+		System.out.println(OrganizerCalendars.toString());
 	}
 }

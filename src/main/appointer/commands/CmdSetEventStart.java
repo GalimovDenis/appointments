@@ -1,29 +1,28 @@
 package appointer.commands;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import appointer.util.date.DateAdapter;
-import biweekly.component.VEvent;
+import appointer.calendar.event.IEvent;
 
-public class CmdSetEventStart extends CmdLeaf implements AppCommand {
+public class CmdSetEventStart extends CmdSpecialLeaf implements IAppCommand {
 	
-	private final VEvent event;
-	private LocalDate currentStart;
-	private LocalDate previousStart; 
+	private final IEvent event;
+	private LocalDateTime currentStart;
+	private LocalDateTime previousStart; 
 	
-	public CmdSetEventStart(VEvent event, LocalDate start) {
+	public CmdSetEventStart(IEvent event, LocalDateTime start) {
 		this.event = event;
 		this.currentStart = start;
 	}
 
-	@Override 
+	@Override 	
 	public void execute() {
-		previousStart = DateAdapter.asLocalDate(event.getDateStart().getValue());
-		event.setDateStart(DateAdapter.asDate(currentStart));		
+		previousStart = event.getDateTimeStart();
+		event.setTimeStart(currentStart);		
 	}
 
 	@Override
 	public void undo() {
-		event.setDateStart(DateAdapter.asDate(previousStart));
+		event.setTimeStart(previousStart);
 	}
 }

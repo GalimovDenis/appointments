@@ -4,7 +4,7 @@ import biweekly.component.VEvent;
 import biweekly.property.DurationProperty;
 import biweekly.util.Duration;
 
-public class CmdSetEventDuration extends CmdLeaf implements AppCommand {
+public class CmdSetEventDuration extends CmdSpecialLeaf implements IAppCommand {
 	
 	private final VEvent event;  
 	private final Duration currentDuration;

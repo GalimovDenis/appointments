@@ -5,7 +5,7 @@ import biweekly.property.RecurrenceRule;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
 
-public class CmdSetEventRepeats  extends CmdLeaf implements AppCommand {
+public class CmdSetEventRepeats  extends CmdSpecialLeaf implements IAppCommand {
 	
 	private final VEvent event; 
  	private final Frequency frequency;

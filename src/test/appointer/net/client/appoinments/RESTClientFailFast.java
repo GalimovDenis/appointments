@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import appointer.calendar.allcalendars.Calendars;
+import appointer.calendar.calendars.ICalendars;
 import appointer.net.client.appointments.RESTClient_Step_1_PostNewRequest;
 import appointer.net.client.appointments.RESTClient_Step_2_GetPending;
 import appointer.net.client.appointments.RESTClient_Step_3_PostChanges;
@@ -13,16 +13,15 @@ import appointer.net.client.appointments.RESTClient_Step_4_GetResults;
 import appointer.net.client.appointments.RESTClient_Step_5_PostComplete;
 import appointer.net.dto.RequestType;
 
-// need to refactor the tested classes because in most 4 methods can be rewritten into one and 9 tests are much better than 33;
 /**
  * ` Testing net.client.appointments for fail-fast behavior;
  */
-public class RESTTests {
+public class RESTClientFailFast {
 
 	final static String Attendee = "Alyssa_P._Hacker";
 	final static String Organizer = "Ben_Bitdiddle";
-	final static Calendars AttendeeCalendars = new Calendars(Attendee);
-	final static Calendars OrganizerCalendars = new Calendars(Organizer);
+	final static ICalendars AttendeeCalendars = ICalendars.create(Attendee);
+	final static ICalendars OrganizerCalendars = ICalendars.create(Organizer);
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testINull() throws URISyntaxException {

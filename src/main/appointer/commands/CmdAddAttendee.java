@@ -1,17 +1,14 @@
 package appointer.commands;
 
-import java.util.List;
+import appointer.calendar.event.IEvent;
 
-import biweekly.component.VEvent;
-import biweekly.property.Attendee;
-
-public class CmdAddAttendee extends CmdLeaf implements AppCommand {
+public class CmdAddAttendee extends CmdSpecialLeaf implements IAppCommand {
 	
 	private final String user; 
-	private final VEvent event;  
-	private List<Attendee> currentAttendee;
+	private final IEvent event;  
+	private String currentAttendee;
  		
-	public CmdAddAttendee(String LocalName, VEvent event) {
+	public CmdAddAttendee(String LocalName, IEvent event) {
 		super();
 		this.user = LocalName;
 		this.event = event;
@@ -19,15 +16,14 @@ public class CmdAddAttendee extends CmdLeaf implements AppCommand {
 
 	@Override 
 	public void execute() {
-		currentAttendee = event.getAttendees();
-		event.addAttendee(new Attendee(user, ""));
+		currentAttendee = event.getAttendee();
+		event.setAttendee(user);
 	}
 
 	@Override
 	public void undo() {
-		//TODO: remove Attendee
+		event.setAttendee(currentAttendee);
 	}
-	// leaf node
 
 
 }
