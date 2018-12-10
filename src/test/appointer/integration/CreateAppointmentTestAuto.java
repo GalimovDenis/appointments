@@ -1,4 +1,4 @@
-package appointer;
+package appointer.integration;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.UUID;
 
 import org.junit.Test;
+
 
 import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IEvent;
@@ -31,6 +32,7 @@ public class CreateAppointmentTestAuto {
 	@Test
 	public void testSingleCreation() throws URISyntaxException {
 
+
 		IEvent eventToCreateI = AppointerUtil.createDemoEvent(Attendee, Organizer);
 
 		UUID eventI_UID = AppointerUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
@@ -53,8 +55,7 @@ public class CreateAppointmentTestAuto {
 	@Test
 	public void testMultiCreation() throws URISyntaxException {
 
-		for (int i = 0; i < CREATECOUNT; i++) {
-			
+		for (int i = 0; i < CREATECOUNT; i++) {			
 			AppointerUtil.createAppointmentTest(
 					AppointerUtil.createDemoEvent(Attendee, Organizer),
 					OrganizerCalendars,

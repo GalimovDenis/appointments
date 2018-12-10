@@ -21,7 +21,7 @@ import appointer.net.dto.RequestType;
  * Class with reusable test routines; is not a test itself
  *
  */
-public class AppointerUtil {
+public class TestUtil {
 
 	/**
 	 * Does compliant demo event;
