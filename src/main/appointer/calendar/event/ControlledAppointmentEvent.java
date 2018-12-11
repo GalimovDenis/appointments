@@ -1,15 +1,15 @@
 package appointer.calendar.event;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAmount;
 import java.util.UUID;
 
 import appointer.util.date.range.DateRange;
 import appointer.util.date.range.IDateRange;
-import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
 
 public class ControlledAppointmentEvent implements IAppointmentEvent {
+
+
 
 	private final LocalDateTime timestamp;
 	private final UUID uid; 
@@ -17,6 +17,7 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 	private final LocalDateTime end;
 	private final String organizer;
 	private final String attendee;
+	// recurrence and status are not in equals, because they are null unsafe
 	private final Recurrence repeats; 
 	private AppointmentStatus status;
 	
@@ -88,6 +89,61 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 	@Override
 	public void setStatus(AppointmentStatus status) {
 		this.status = status;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((attendee == null) ? 0 : attendee.hashCode());
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + ((organizer == null) ? 0 : organizer.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ControlledAppointmentEvent other = (ControlledAppointmentEvent) obj;
+		if (attendee == null) {
+			if (other.attendee != null)
+				return false;
+		} else if (!attendee.equals(other.attendee))
+			return false;
+		if (end == null) {
+			if (other.end != null)
+				return false;
+		} else if (!end.equals(other.end))
+			return false;
+		if (organizer == null) {
+			if (other.organizer != null)
+				return false;
+		} else if (!organizer.equals(other.organizer))
+			return false;
+		if (start == null) {
+			if (other.start != null)
+				return false;
+		} else if (!start.equals(other.start))
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		return true;
 	}
 
 }

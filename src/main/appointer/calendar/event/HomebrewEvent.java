@@ -14,9 +14,10 @@ import lombok.EqualsAndHashCode;
 /**
  * Homebrew event that doesn't carry VEvent inside; alternative IEvent implementation
  */
-@EqualsAndHashCode
 public final class HomebrewEvent implements IBuilderEvent {
 
+	
+	
 	private LocalDateTime timestamp;
 	private UUID uid; 
 	private LocalDateTime start;
@@ -147,5 +148,60 @@ public final class HomebrewEvent implements IBuilderEvent {
 		return null;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((attendee == null) ? 0 : attendee.hashCode());
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + ((organizer == null) ? 0 : organizer.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		HomebrewEvent other = (HomebrewEvent) obj;
+		if (attendee == null) {
+			if (other.attendee != null)
+				return false;
+		} else if (!attendee.equals(other.attendee))
+			return false;
+		if (end == null) {
+			if (other.end != null)
+				return false;
+		} else if (!end.equals(other.end))
+			return false;
+		if (organizer == null) {
+			if (other.organizer != null)
+				return false;
+		} else if (!organizer.equals(other.organizer))
+			return false;
+		if (start == null) {
+			if (other.start != null)
+				return false;
+		} else if (!start.equals(other.start))
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		return true;
+	}
 
 }

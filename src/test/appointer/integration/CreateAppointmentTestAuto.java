@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.junit.Test;
 
 import appointer.calendar.calendars.ICalendars;
-import appointer.calendar.event.IBuilderEvent;
+import appointer.calendar.event.IAppointmentEvent;
 import appointer.util.TestUtil;
 
 /**
@@ -34,14 +34,18 @@ public class CreateAppointmentTestAuto {
 	public void testSingleCreation() throws URISyntaxException {
 
 
-		IBuilderEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
+		IAppointmentEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer).buildAppointment();
 
 		UUID eventI_UID = TestUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
 
-		IBuilderEvent createdEventAttendee = AttendeeCalendars.getEvent(eventI_UID);
+		IAppointmentEvent createdEventAttendee = AttendeeCalendars.getEvent(eventI_UID);
 
-		IBuilderEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventI_UID);
+		System.out.println(createdEventAttendee);
+		
+		IAppointmentEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventI_UID);
 
+		System.out.println(createdEventOrganizer);
+		
 		assertTrue(createdEventAttendee.equals(createdEventOrganizer));
 
 	}
@@ -60,7 +64,7 @@ public class CreateAppointmentTestAuto {
 
 		for (int i = 0; i < CREATECOUNT; i++) {			
 			TestUtil.createAppointmentTest(
-					TestUtil.createDemoEvent(Attendee, Organizer),
+					TestUtil.createDemoEvent(Attendee, Organizer).buildAppointment(),
 					OrganizerCalendars,
 					AttendeeCalendars);
 		}

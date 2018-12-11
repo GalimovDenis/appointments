@@ -3,8 +3,8 @@ package appointer.calendar.calendars;
 import java.util.Set;
 import java.util.UUID;
 
+import appointer.calendar.event.IAppointmentEvent;
 import appointer.calendar.event.IBuilderEvent;
-import appointer.calendar.event.ITimeRangeEvent;
 import appointer.user.IUser;
 
 /**
@@ -50,11 +50,11 @@ public interface ICalendars {
 	/**
 	 * @param event must be an appointment event (has organizer, attendee, timestamp, uid, date start, date end);
 	 */
-	public boolean putEvent(IBuilderEvent event); // nice preconditions. can we make a better type pls?
+	public boolean putEvent(IAppointmentEvent event); // nice preconditions. can we make a better type pls?
 	
-	public IBuilderEvent getEvent(UUID uid);
+	public IAppointmentEvent getEvent(UUID uid);
 	
-	public boolean deleteEvent(IBuilderEvent event);
+	public boolean deleteEvent(IAppointmentEvent event);
 	
 	public boolean deleteEvent(UUID uid);
 

@@ -163,7 +163,7 @@ public class ControlledEvent implements IBuilderEvent {
 
 	@Override
 	public IAppointmentEvent buildAppointment() {
-		if (!isAppointment())
+		if (!this.isAppointment())
 			throw new IllegalStateException("Event not an appointment");
 
 		return new ControlledAppointmentEvent(getDateTimeStamp(), getUid(), getDateTimeStart(), getDateTimeEnd(),

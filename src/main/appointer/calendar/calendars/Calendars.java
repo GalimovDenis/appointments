@@ -10,7 +10,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import appointer.calendar.event.ControlledEvent;
+import appointer.calendar.event.IAppointmentEvent;
 import appointer.calendar.event.IBuilderEvent;
 import appointer.calendar.repository.CalendarsRepository;
 import appointer.calendar.repository.ICalendarsRepository;
@@ -19,6 +19,8 @@ import appointer.user.IUser;
 import appointer.util.date.DateAdapter;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
+import biweekly.property.Attendee;
+import biweekly.property.Organizer;
 
 /**
  * Represents user, local calendar and all remote calendars; Responsible for
@@ -62,7 +64,7 @@ public class Calendars implements ICalendars {
 	// }
 
 	@Override
-	public IBuilderEvent getEvent(UUID uid) {
+	public IAppointmentEvent getEvent(UUID uid) {
 
 		assertTrue(uids.contains(uid));
 
@@ -76,14 +78,15 @@ public class Calendars implements ICalendars {
 				event = ve;
 			}
 		}
-		return new ControlledEvent(event); // flywheel pattern here needed
+
+	//	System.out.println(event);
+		
+		return IBuilderEvent.produce(event).buildAppointment(); // flywheel pattern here needed
 
 	}
 
 	@Override
-	public boolean putEvent(IBuilderEvent event) { // unflexible due to NPE in getters; needs only appointment
-
-		if(!event.isAppointment()) throw new IllegalArgumentException("Calendars accept only appointment events");
+	public boolean putEvent(IAppointmentEvent event) { 
 		
 		UUID uid = UUID.fromString(event.getUid().toString());
 		if (uids.contains(uid))
@@ -91,8 +94,8 @@ public class Calendars implements ICalendars {
 		uids.add(uid);
 
 		VEvent vEvent = new VEvent();
-		vEvent.setOrganizer(event.getOrganizer());
-		vEvent.addAttendee(event.getAttendee());
+		vEvent.setOrganizer(new Organizer(event.getOrganizer(), ""));
+		vEvent.addAttendee(new Attendee(event.getAttendee(), ""));
 		vEvent.setDateTimeStamp(DateAdapter.asDate(event.getDateTimeStamp()));
 		vEvent.setDateStart(DateAdapter.asDate(event.getDateTimeStart()));
 		vEvent.setDateEnd(DateAdapter.asDate(event.getDateTimeEnd()));
@@ -103,7 +106,7 @@ public class Calendars implements ICalendars {
 	}
 
 	@Override
-	public boolean deleteEvent(IBuilderEvent event) {
+	public boolean deleteEvent(IAppointmentEvent event) {
 
 		
 		return deleteEvent(event.getUid()); // expensive

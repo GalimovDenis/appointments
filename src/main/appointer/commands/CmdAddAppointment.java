@@ -1,21 +1,18 @@
 package appointer.commands;
 
 import appointer.calendar.calendars.ICalendars;
-import appointer.calendar.event.IBuilderEvent;
-import appointer.user.SingletonAppUser;
+import appointer.calendar.event.IAppointmentEvent;
 
 public class CmdAddAppointment extends CmdSpecialComposite implements IAppCommand {
 	
 	private final ICalendars appCalendar;
-	private final IBuilderEvent event;
- 	private final String orgname;
+	private final IAppointmentEvent event;
 
  	
-	public CmdAddAppointment(ICalendars appCalendar, IBuilderEvent event, String organizer) {
+	public CmdAddAppointment(ICalendars appCalendar, IAppointmentEvent event) {
 		super();
 		this.appCalendar = appCalendar;
 		this.event = event;
-		this.orgname = organizer;
 		addSubCommands();
 		//TODO: async approve in remote;		
 		//TODO: command for CalendarStorage.getValueByName(orgname).addEvent(event);
@@ -23,7 +20,5 @@ public class CmdAddAppointment extends CmdSpecialComposite implements IAppComman
 
 	private void addSubCommands() {
 		add(new CmdAddEvent(appCalendar, event));
-		add(new CmdAddAttendee(SingletonAppUser.lazyGet().getName(), event));
-		add(new CmdSetOrganizer(event, orgname));
 	}
 }

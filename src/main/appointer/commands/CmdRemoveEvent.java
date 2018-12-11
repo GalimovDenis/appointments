@@ -2,7 +2,7 @@ package appointer.commands;
 
 
 import appointer.calendar.calendars.ICalendars;
-import appointer.calendar.event.IBuilderEvent;
+import appointer.calendar.event.IAppointmentEvent;
 
 /**
  * 
@@ -12,10 +12,10 @@ import appointer.calendar.event.IBuilderEvent;
 public class CmdRemoveEvent extends CmdSpecialLeaf implements IAppCommand {
 
 	private final ICalendars appCalendar;
-	private final IBuilderEvent event;
+	private final IAppointmentEvent event;
 	private boolean executed = false;
 
-	public CmdRemoveEvent(ICalendars appCalendar, IBuilderEvent event) {
+	public CmdRemoveEvent(ICalendars appCalendar, IAppointmentEvent event) {
 		this.appCalendar = appCalendar;
 		this.event = event;
 	}
