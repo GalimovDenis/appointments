@@ -1,4 +1,4 @@
-package appointer.calendar.event
+package appointer.calendar.event;
 
 public enum AppointmentStatus{
 }
