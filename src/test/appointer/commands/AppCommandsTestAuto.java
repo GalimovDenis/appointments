@@ -36,7 +36,7 @@ public class AppCommandsTestAuto {
 
 		final int eventsInit = appCalendar.getUids().size();
 
-		IAppointmentEvent event = IBuilderEvent.create().createTestAppointment().buildAppointment();
+		IAppointmentEvent event = IBuilderEvent.create().fillTestAppointment().buildAppointment();
 
 		List<IAppCommand> commands = createTestCommandAddRemove(appCalendar, event);
 
@@ -68,7 +68,7 @@ public class AppCommandsTestAuto {
 
 		final int eventsInit = appCalendar.getUids().size();
 
-		IAppointmentEvent event = IBuilderEvent.create().createTestAppointment().buildAppointment();
+		IAppointmentEvent event = IBuilderEvent.create().fillTestAppointment().buildAppointment();
 		
 		List<IAppCommand> commands = createTestCommandList(appCalendar, event);
 
@@ -106,7 +106,7 @@ public class AppCommandsTestAuto {
 
 		for (int i = 0; i < NEvents; i++) {
 
-			eventOne = IBuilderEvent.create().createTestAppointment().buildAppointment();
+			eventOne = IBuilderEvent.create().fillTestAppointment().buildAppointment();
 
 			CmdAddEvent cae = new CmdAddEvent(appCalendar, eventOne);
 

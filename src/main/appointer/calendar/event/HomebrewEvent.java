@@ -28,12 +28,7 @@ public final class HomebrewEvent implements IBuilderEvent {
 	private AppointmentStatus status;
 	
 
-	public HomebrewEvent() {
-		final LocalDateTime now = LocalDateTime.now();
-		timestamp = now.truncatedTo(ChronoUnit.SECONDS);
-		start = now.truncatedTo(ChronoUnit.MINUTES);
-		end = now.truncatedTo(ChronoUnit.MINUTES);
-		
+	public HomebrewEvent() {		
 	}
 	
 //	public HomebrewEvent(VEvent event) {

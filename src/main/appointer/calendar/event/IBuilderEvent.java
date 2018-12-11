@@ -2,6 +2,7 @@
 package appointer.calendar.event;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.UUID;
 
@@ -141,13 +142,30 @@ public interface IBuilderEvent {
 	/**
 	 * Test helping method
 	 */
-	public default IBuilderEvent createTestAppointment() {
+	public default IBuilderEvent fillTestAppointment() {
+		final LocalDateTime now = LocalDateTime.now();
+		setEventTimestamp(now.truncatedTo(ChronoUnit.SECONDS));
+		setTimeStart(now.truncatedTo(ChronoUnit.MINUTES));
+		setTimeEnd(now.truncatedTo(ChronoUnit.MINUTES));
 		setAttendee("Alyssa");
 		setOrganizer("Ben");
 		setEventID(UUID.randomUUID());
 		return this;
 	}
 
+	/**
+	 * Test helping method
+	 */
+	public default IBuilderEvent fillTestAppointment(String Attendee, String Organizer) {
+		final LocalDateTime now = LocalDateTime.now();
+		setEventTimestamp(now.truncatedTo(ChronoUnit.SECONDS));
+		setTimeStart(now.truncatedTo(ChronoUnit.MINUTES));
+		setTimeEnd(now.truncatedTo(ChronoUnit.MINUTES));
+		setAttendee(Attendee);
+		setOrganizer(Organizer);
+		setEventID(UUID.randomUUID());
+		return this;
+	}
 	
 
 }

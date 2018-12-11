@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IAppointmentEvent;
-import appointer.util.TestUtil;	
+import appointer.calendar.event.IBuilderEvent;	
 
 
 
@@ -28,7 +28,7 @@ public class DeleteAppointmentTestAuto {
 	@Test
 	public void testSingleDeletion() throws URISyntaxException {
 
-		IAppointmentEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer).buildAppointment();
+		IAppointmentEvent eventToCreateI = IBuilderEvent.create().fillTestAppointment(Attendee, Organizer).buildAppointment();
 		
 		OrganizerCalendars.putEvent(eventToCreateI);
 		
