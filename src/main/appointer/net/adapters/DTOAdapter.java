@@ -1,11 +1,9 @@
 package appointer.net.adapters;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-import appointer.calendar.event.ControlledEvent;
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 import appointer.net.dto.AppointmentDTO;
 import appointer.net.dto.BaseAppointmentDTO;
 import appointer.net.dto.IAppointmentDTO;
@@ -22,7 +20,7 @@ public class DTOAdapter {
 	 * @param event
 	 * @return
 	 */
-	private static <T extends BaseAppointmentDTO> T updateDTOFromEvent(T appDTO, IEvent event) {
+	private static <T extends BaseAppointmentDTO> T updateDTOFromEvent(T appDTO, IBuilderEvent event) {
 
 		appDTO.setOrganizer(event.getOrganizer());
 
@@ -35,20 +33,21 @@ public class DTOAdapter {
 		return appDTO;
 	}
 
-
+	
+	//TODO: IAppointmentEvent
 	/**
 	 * doing AppointmentDTO
 	 * 
 	 * @param event
 	 * @return
 	 */
-	public static AppointmentDTO toAppointmentDTO(RequestType type, IEvent event) {
+	public static AppointmentDTO toAppointmentDTO(RequestType type, IBuilderEvent event) {
 
 		ArgumentsChecker.checkNotNull(type, "RequestType");
 
 		ArgumentsChecker.checkNotNull(event, "VEvent");
 
-		final IDateRange range = event.createDateRange();
+		final IDateRange range = event.getDateRange();
 
 		final AppointmentDTO appDTO = DTOFactory.createAppointmentDTO(range, type);
 
@@ -57,16 +56,43 @@ public class DTOAdapter {
 		return appDTO;
 
 	}
+	
+	//refactor as toAppointmentDTO;
+	/**
+	 * updating an event based on the DTO;
+	 * returns DTO with the timestamp of Event modifiacation; 
+	 * @param eventToChange
+	 * @param appDTO.se
+	 */
+	public static IAppointmentDTO updateEvent(IBuilderEvent eventToChange, IAppointmentDTO appDTO) {
 
+		eventToChange.setOrganizer(appDTO.getOrganizer());
+
+		eventToChange.setAttendee(appDTO.getAttendee());
+
+		eventToChange.setTimeStart(appDTO.getDateRange().getStart());
+
+		eventToChange.setTimeEnd(appDTO.getDateRange().getEnd());
+
+		LocalDateTime timestamp = LocalDateTime.now();
+		
+		eventToChange.setEventTimestamp(timestamp);
+		
+		appDTO.setTimestamp(timestamp);
+		
+		return appDTO;
+	}
+
+	//TODO: IAppointmentEvent
 	/**
 	 * Converting appointmentDTO into IEvent
 	 * 
 	 * @param appCreation
 	 * @return
 	 */
-	public static IEvent toAppointmentEvent(IAppointmentDTO appCreation) {
+	public static IBuilderEvent toAppointmentEvent(IAppointmentDTO appCreation) {
 
-		final IEvent controlledEvent = IEvent.create();
+		final IBuilderEvent controlledEvent = IBuilderEvent.create();
 
 		controlledEvent.setOrganizer(appCreation.getOrganizer());
 
@@ -87,30 +113,6 @@ public class DTOAdapter {
 		return controlledEvent;
 	}
 
-	//refactor as toAppointmentDTO;
-	/**
-	 * updating an event based on the DTO;
-	 * returns DTO with the timestamp of Event modifiacation; 
-	 * @param eventToChange
-	 * @param appDTO.se
-	 */
-	public static IAppointmentDTO updateEvent(IEvent eventToChange, IAppointmentDTO appDTO) {
 
-		eventToChange.setOrganizer(appDTO.getOrganizer());
-
-		eventToChange.setAttendee(appDTO.getAttendee());
-
-		eventToChange.setTimeStart(appDTO.getDateRange().getStart());
-
-		eventToChange.setTimeEnd(appDTO.getDateRange().getEnd());
-
-		LocalDateTime timestamp = LocalDateTime.now();
-		
-		eventToChange.setEventTimestamp(timestamp);
-		
-		appDTO.setTimestamp(timestamp);
-		
-		return appDTO;
-	}
 
 }

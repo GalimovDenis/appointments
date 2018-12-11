@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import appointer.calendar.event.ControlledEvent;
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 import appointer.calendar.repository.CalendarsRepository;
 import appointer.calendar.repository.ICalendarsRepository;
 import appointer.user.AppUser;
@@ -62,7 +62,7 @@ public class Calendars implements ICalendars {
 	// }
 
 	@Override
-	public IEvent getEvent(UUID uid) {
+	public IBuilderEvent getEvent(UUID uid) {
 
 		assertTrue(uids.contains(uid));
 
@@ -81,7 +81,7 @@ public class Calendars implements ICalendars {
 	}
 
 	@Override
-	public boolean putEvent(IEvent event) { // unflexible due to NPE in getters; needs only appointment
+	public boolean putEvent(IBuilderEvent event) { // unflexible due to NPE in getters; needs only appointment
 
 		if(!event.isAppointment()) throw new IllegalArgumentException("Calendars accept only appointment events");
 		
@@ -103,7 +103,7 @@ public class Calendars implements ICalendars {
 	}
 
 	@Override
-	public boolean deleteEvent(IEvent event) {
+	public boolean deleteEvent(IBuilderEvent event) {
 
 		
 		return deleteEvent(event.getUid()); // expensive

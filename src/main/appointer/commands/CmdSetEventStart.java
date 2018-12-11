@@ -2,15 +2,15 @@ package appointer.commands;
 
 import java.time.LocalDateTime;
 
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 
 public class CmdSetEventStart extends CmdSpecialLeaf implements IAppCommand {
 	
-	private final IEvent event;
+	private final IBuilderEvent event;
 	private LocalDateTime currentStart;
 	private LocalDateTime previousStart; 
 	
-	public CmdSetEventStart(IEvent event, LocalDateTime start) {
+	public CmdSetEventStart(IBuilderEvent event, LocalDateTime start) {
 		this.event = event;
 		this.currentStart = start;
 	}

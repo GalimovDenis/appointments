@@ -1,15 +1,15 @@
 package appointer.commands;
 
 import appointer.calendar.calendars.ICalendars;
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 
 public class CmdAddEvent extends CmdSpecialLeaf implements IAppCommand {
 
 	private final ICalendars appCalendar;
-	private final IEvent event;
+	private final IBuilderEvent event;
 	private boolean executed = false;
 
-	public CmdAddEvent(ICalendars appCalendar, IEvent event) {
+	public CmdAddEvent(ICalendars appCalendar, IBuilderEvent event) {
 		this.appCalendar = appCalendar;
 		this.event = event;
 	}

@@ -1,14 +1,14 @@
 package appointer.commands;
 
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 
 public class CmdAddAttendee extends CmdSpecialLeaf implements IAppCommand {
 	
 	private final String user; 
-	private final IEvent event;  
+	private final IBuilderEvent event;  
 	private String currentAttendee;
  		
-	public CmdAddAttendee(String LocalName, IEvent event) {
+	public CmdAddAttendee(String LocalName, IBuilderEvent event) {
 		super();
 		this.user = LocalName;
 		this.event = event;

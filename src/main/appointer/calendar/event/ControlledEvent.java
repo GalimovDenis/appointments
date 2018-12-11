@@ -22,21 +22,21 @@ import lombok.EqualsAndHashCode;
  *
  */
 @EqualsAndHashCode
-public class ControlledEvent implements IEvent {
+public class ControlledEvent implements IBuilderEvent {
 
 	private final VEvent event;
 
 	public ControlledEvent() {
-		event = new VEvent(); // timestamp automatically not null! 
+		event = new VEvent(); // timestamp automatically not null!
 		final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 		setTimeStart(now);
 		setTimeEnd(now);
 	}
-	
+
 	public ControlledEvent(VEvent event) {
 		this.event = new VEvent(event);
 	}
-	
+
 	@Override
 	public void setEventID(UUID uid) {
 		this.event.setUid(uid.toString());
@@ -80,13 +80,13 @@ public class ControlledEvent implements IEvent {
 
 	@Override
 	public void setAttendee(String attendeeName) {
-		
+
 		event.getAttendees().clear();
-		
+
 		event.addAttendee(new Attendee(attendeeName, ""));
-		
+
 	}
-	
+
 	@Override
 	public LocalDateTime getDateTimeStart() {
 		return DateAdapter.asLocalDateTime(event.getDateStart().getValue());
@@ -99,30 +99,31 @@ public class ControlledEvent implements IEvent {
 
 	@Override
 	public String getOrganizer() {
-		
+
 		Organizer organizer = event.getOrganizer();
-		
-		if(organizer!=null) return organizer.getCommonName();
-		
-		return null; //mb empty string?
+
+		if (organizer != null)
+			return organizer.getCommonName();
+
+		return null; // mb empty string?
 	}
 
 	@Override
 	public String getAttendee() {
-		
+
 		List<Attendee> attendees = event.getAttendees();
-		
-		switch(attendees.size()) {
+
+		switch (attendees.size()) {
 		case 0:
 			return null;
 		case 1:
 			return attendees.get(0).getCommonName();
-		default: 
-			assert false; //either 0 or 1 attendee;
+		default:
+			assert false; // either 0 or 1 attendee;
 		}
 
 		return null;
-		
+
 	}
 
 	@Override
@@ -135,16 +136,38 @@ public class ControlledEvent implements IEvent {
 		return DateAdapter.asLocalDateTime(event.getDateTimeStamp().getValue());
 	}
 
-	@Override
-	public IDateRange createDateRange() {
-		return new DateRange(getDateTimeStart(), getDateTimeEnd());
-	}	
 
 	@Override
 	public String toString() {
 		return event.toString();
 	}
-	
 
+	@Override
+	public Recurrence getEventRepeats() {
+		return event.getRecurrenceRule().getValue();
+	}
+
+	@Override
+	public ITimeRangeEvent buildTimeRange() {
+		
+		if (!isTimeRange()) throw new IllegalStateException("Event not an appointment");
+		
+		return new TimeRangeEvent(
+				getDateTimeStamp(),
+				getUid(),
+				getDateTimeStart(),
+				getDateTimeEnd(),
+				getEventRepeats()
+				);			
+	}
+
+	@Override
+	public IAppointmentEvent buildAppointment() {
+		if (!isAppointment())
+			throw new IllegalStateException("Event not an appointment");
+
+		return new ControlledAppointmentEvent(getDateTimeStamp(), getUid(), getDateTimeStart(), getDateTimeEnd(),
+				getOrganizer(), getAttendee(), getEventRepeats());
+	}
 
 }

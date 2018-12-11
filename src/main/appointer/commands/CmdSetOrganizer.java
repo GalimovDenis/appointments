@@ -1,15 +1,15 @@
 package appointer.commands;
 
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 import biweekly.property.Organizer;
 
 public class CmdSetOrganizer extends CmdSpecialLeaf implements IAppCommand {
 	
-	private final IEvent event;  
+	private final IBuilderEvent event;  
 	private final String currentOrgName;
 	private String previousOrgName;
     
-	public CmdSetOrganizer(IEvent event, String organiser) {
+	public CmdSetOrganizer(IBuilderEvent event, String organiser) {
 		this.event = event;
 		this.currentOrgName = organiser;
 	}

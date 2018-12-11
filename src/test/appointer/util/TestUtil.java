@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import appointer.calendar.calendars.Calendars;
 import appointer.calendar.calendars.ICalendars;
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 import appointer.net.adapters.DTOAdapter;
 import appointer.net.client.appointments.RESTClient_Step_1_PostNewRequest;
 import appointer.net.client.appointments.RESTClient_Step_2_GetPending;
@@ -29,9 +29,9 @@ public class TestUtil {
 	 * @param Organizer
 	 * @return
 	 */
-	public static IEvent createDemoEvent(String Attendee, String Organizer) {
+	public static IBuilderEvent createDemoEvent(String Attendee, String Organizer) {
 
-		IEvent event = IEvent.create();
+		IBuilderEvent event = IBuilderEvent.create();
 
 		event.setAttendee(Attendee);
 
@@ -51,7 +51,7 @@ public class TestUtil {
 	 * @return
 	 * @throws URISyntaxException
 	 */
-	public static UUID createAppointmentTest(IEvent attendeeEvent, ICalendars OrganizerCalendars,
+	public static UUID createAppointmentTest(IBuilderEvent attendeeEvent, ICalendars OrganizerCalendars,
 			ICalendars AttendeeCalendars) throws URISyntaxException {
 
 		// Attendee creates appointment and packs it into a dto with unique UID;
@@ -72,7 +72,7 @@ public class TestUtil {
 		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
 		
 		// organizer adds event to Calendar;
-		IEvent organiserEvent = DTOAdapter.toAppointmentEvent(appAnswerOrganizer);
+		IBuilderEvent organiserEvent = DTOAdapter.toAppointmentEvent(appAnswerOrganizer);
 
 		OrganizerCalendars.putEvent(organiserEvent);
 
@@ -109,7 +109,7 @@ public class TestUtil {
 	 * @param AttendeeCalendars must include attendeeEvent
 	 * @throws URISyntaxException
 	 */
-	public static void updateAppointmentTest(IEvent attendeeEvent, Calendars OrganizerCalendars,
+	public static void updateAppointmentTest(IBuilderEvent attendeeEvent, Calendars OrganizerCalendars,
 			ICalendars AttendeeCalendars) throws URISyntaxException {
 
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentDTO(RequestType.CREATE, attendeeEvent);
@@ -139,7 +139,7 @@ public class TestUtil {
 		// organizer adds event to Calendar;
 		UUID organiserEventID = UUID.fromString(appAnswerOrganizer.getEventId());
 
-		IEvent organizerChangeEvent = OrganizerCalendars.getEvent(organiserEventID);
+		IBuilderEvent organizerChangeEvent = OrganizerCalendars.getEvent(organiserEventID);
 
 		assertTrue(organizerChangeEvent != null); // assuming the eventtoChange was found in the Calendar of the
 													// organizer;

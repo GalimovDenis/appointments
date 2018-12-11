@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import appointer.calendar.calendars.ICalendars;
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 
 public class AppCommandsTestAuto {
 
@@ -35,7 +35,7 @@ public class AppCommandsTestAuto {
 
 		final int eventsInit = appCalendar.getUids().size();
 
-		IEvent event = IEvent.create().makeAppointment();
+		IBuilderEvent event = IBuilderEvent.create().createTestAppointment();
 
 		List<IAppCommand> commands = createTestCommandAddRemove(appCalendar, event);
 
@@ -67,7 +67,7 @@ public class AppCommandsTestAuto {
 
 		final int eventsInit = appCalendar.getUids().size();
 
-		IEvent event = IEvent.create().makeAppointment();
+		IBuilderEvent event = IBuilderEvent.create().createTestAppointment();
 		
 		List<IAppCommand> commands = createTestCommandList(appCalendar, event);
 
@@ -101,11 +101,11 @@ public class AppCommandsTestAuto {
 	 */
 	private void addNEvents(ICalendars appCalendar, int NEvents) {
 
-		IEvent eventOne;
+		IBuilderEvent eventOne;
 
 		for (int i = 0; i < NEvents; i++) {
 
-			eventOne = IEvent.create().makeAppointment();
+			eventOne = IBuilderEvent.create().createTestAppointment();
 
 			CmdAddEvent cae = new CmdAddEvent(appCalendar, eventOne);
 
@@ -122,7 +122,7 @@ public class AppCommandsTestAuto {
 	 * @param event
 	 * @return
 	 */
-	private List<IAppCommand> createTestCommandList(ICalendars appCalendar, IEvent event) {
+	private List<IAppCommand> createTestCommandList(ICalendars appCalendar, IBuilderEvent event) {
 		List<IAppCommand> appCommands = new ArrayList<>();
 
 		appCommands.add(new CmdAddEvent(appCalendar, event));
@@ -153,7 +153,7 @@ public class AppCommandsTestAuto {
 	 * @param event
 	 * @return
 	 */
-	private List<IAppCommand> createTestCommandAddRemove(ICalendars appCalendar, IEvent event) {
+	private List<IAppCommand> createTestCommandAddRemove(ICalendars appCalendar, IBuilderEvent event) {
 
 		List<IAppCommand> appCommands = new ArrayList<>();
 

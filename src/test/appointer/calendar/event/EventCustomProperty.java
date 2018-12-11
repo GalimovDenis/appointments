@@ -6,7 +6,7 @@ import biweekly.component.VEvent;
 public class EventCustomProperty {
 	
 	public static void main(String[] args) {
-		IEvent event = IEvent.create();
+		IBuilderEvent event = IBuilderEvent.create();
 		VEvent vEvent = new VEvent();
 		vEvent.addExperimentalProperty("Registered", ICalDataType.BOOLEAN, "false");
 		vEvent.addExperimentalProperty("Responded", ICalDataType.BOOLEAN, "false");

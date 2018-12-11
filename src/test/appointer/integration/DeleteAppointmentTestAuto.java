@@ -7,7 +7,7 @@ import java.net.URISyntaxException;
 import org.junit.Test;
 
 import appointer.calendar.calendars.ICalendars;
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
 import appointer.util.TestUtil;	
 
 
@@ -28,7 +28,7 @@ public class DeleteAppointmentTestAuto {
 	@Test
 	public void testSingleDeletion() throws URISyntaxException {
 
-		IEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
+		IBuilderEvent eventToCreateI = TestUtil.createDemoEvent(Attendee, Organizer);
 		
 		OrganizerCalendars.putEvent(eventToCreateI);
 		
@@ -36,9 +36,9 @@ public class DeleteAppointmentTestAuto {
 
 		AttendeeCalendars.putEvent(eventToCreateI);
 
-		IEvent createdEventAttendee = AttendeeCalendars.getEvent(eventToCreateI.getUid());
+		IBuilderEvent createdEventAttendee = AttendeeCalendars.getEvent(eventToCreateI.getUid());
 
-		IEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventToCreateI.getUid());
+		IBuilderEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventToCreateI.getUid());
 
 		assertTrue(createdEventAttendee.equals(createdEventOrganizer));
 

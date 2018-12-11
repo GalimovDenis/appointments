@@ -21,9 +21,9 @@ public class EventEqualsTest {
 	@Test
 	public void testIEventEquals() throws InterruptedException {
 		
-		IEvent eventA = IEvent.create();
+		IBuilderEvent eventA = IBuilderEvent.create();
 		Thread.sleep(500); //If events have different timestamp, they are not equal. 
-		IEvent eventB = IEvent.create();
+		IBuilderEvent eventB = IBuilderEvent.create();
 		
 		//therefore we set timestamp as of now;
 		eventA.setEventTimestamp(timeNow);

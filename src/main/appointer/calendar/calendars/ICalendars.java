@@ -3,7 +3,8 @@ package appointer.calendar.calendars;
 import java.util.Set;
 import java.util.UUID;
 
-import appointer.calendar.event.IEvent;
+import appointer.calendar.event.IBuilderEvent;
+import appointer.calendar.event.ITimeRangeEvent;
 import appointer.user.IUser;
 
 /**
@@ -37,18 +38,23 @@ public interface ICalendars {
 	/**
 	 * Creates a new blank event.
 	 */
-	static IEvent newEvent() {
-		return IEvent.create();
+	static IBuilderEvent newEvent() {
+		return IBuilderEvent.create();
 	}
 	
+	
+	/*
+	 * IBuilderEvent probably should not be allowed to Calendar, kept only as incomplete object
+	 * Instead, stuff it with IAppointmentEvents and ITimeRangeEvents;
+	 */
 	/**
 	 * @param event must be an appointment event (has organizer, attendee, timestamp, uid, date start, date end);
 	 */
-	public boolean putEvent(IEvent event); // nice preconditions. can we make a better type pls?
+	public boolean putEvent(IBuilderEvent event); // nice preconditions. can we make a better type pls?
 	
-	public IEvent getEvent(UUID uid);
+	public IBuilderEvent getEvent(UUID uid);
 	
-	public boolean deleteEvent(IEvent event);
+	public boolean deleteEvent(IBuilderEvent event);
 	
 	public boolean deleteEvent(UUID uid);
 

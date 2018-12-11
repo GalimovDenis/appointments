@@ -15,10 +15,10 @@ import lombok.EqualsAndHashCode;
  * Homebrew event that doesn't carry VEvent inside; alternative IEvent implementation
  */
 @EqualsAndHashCode
-public final class HomebrewEvent implements IEvent {
+public final class HomebrewEvent implements IBuilderEvent {
 
-	private UUID uid; 
 	private LocalDateTime timestamp;
+	private UUID uid; 
 	private LocalDateTime start;
 	private LocalDateTime end;
 	private String organizer;
@@ -113,15 +113,39 @@ public final class HomebrewEvent implements IEvent {
 	}
 
 	@Override
-	public IDateRange createDateRange() {
-		return new DateRange(start, end);
-	}	
-
-	@Override
 	public String toString() {
 		return "HomebrewEvent [uid=" + uid + ", timestamp=" + timestamp + ", start=" + start + ", end=" + end
 				+ ", organizer=" + organizer + ", attendee=" + attendee + ", recur=" + recur + ", status=" + status
 				+ "]";
 	}
+
+	@Override
+	public IAppointmentEvent buildAppointment() {
+		
+		if (!isAppointment()) throw new IllegalStateException("Event not an appointment");
+		
+		return new ControlledAppointmentEvent(
+				getDateTimeStamp(),
+				getUid(),
+				getDateTimeStart(),
+				getDateTimeEnd(),
+				
+				getOrganizer(),
+				getAttendee(),
+				getEventRepeats()
+				);			
+	}
+
+	@Override
+	public Recurrence getEventRepeats() {
+		return recur;
+	}
+
+	@Override
+	public ITimeRangeEvent buildTimeRange() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
