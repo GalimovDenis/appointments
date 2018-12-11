@@ -1,13 +1,10 @@
 package appointer.util;
 
-import static org.junit.Assert.assertTrue;
-
 import java.net.URISyntaxException;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 
-import appointer.calendar.calendars.Calendars;
 import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IAppointmentEvent;
 import appointer.net.adapters.DTOAdapter;
@@ -107,11 +104,11 @@ public class TestUtil {
 		IAppointmentDTO appRequestAttendee;
 
 		// Attendee now must see Responded as True;
-		appRequestAttendee = RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.CREATE, organizerName,
-				attendeeEvent.getUid());
+		appRequestAttendee = RESTClient_Step_4_GetResults.attendeeReceiveReport(organizerName,
+				attendeeEvent.getUid(), attendeeEvent.getSequence());
 
-		appRequestAttendee = RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.CREATE, organizerName,
-				attendeeEvent.getUid());
+		appRequestAttendee = RESTClient_Step_4_GetResults.attendeeReceiveReport(organizerName,
+				attendeeEvent.getUid(), attendeeEvent.getSequence());
 
 		AttendeeCalendars.putEvent(DTOAdapter.toAppointmentEvent(appRequestAttendee)); //
 

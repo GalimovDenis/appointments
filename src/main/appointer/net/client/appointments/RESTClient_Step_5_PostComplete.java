@@ -23,14 +23,14 @@ public final class RESTClient_Step_5_PostComplete {
 
 		assertTrue(appDTO.isComplete());
 		
-		final String uid = appDTO.getRequestId().toString();
+		final String uid = appDTO.getSequence().toString();
 
 		final String organizerName = appDTO.getOrganizer();
 		
 		if (organizerName == "")
 			throw new IllegalArgumentException();
 		
-		final String urn = "?orgname=" + organizerName + "&uid="+uid;
+		final String urn = "?orgname=" + organizerName + "&uid="+uid + "&sequence="+appDTO.getSequence();
 		
 		return RESTExchanger.postAppointmentDTO(appDTO, url + urn);
 		

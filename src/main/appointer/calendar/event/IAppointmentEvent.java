@@ -6,6 +6,8 @@ package appointer.calendar.event;
  */
 public interface IAppointmentEvent extends ITimeRangeEvent {
 	
+	public int getSequence();
+	
 	public String getOrganizer();
 	
 	public default String getOwner() {return getAttendee();};

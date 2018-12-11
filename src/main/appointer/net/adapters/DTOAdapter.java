@@ -50,7 +50,7 @@ public class DTOAdapter {
 
 		final IDateRange range = event.getDateRange();
 
-		final AppointmentDTO appDTO = DTOFactory.createAppointmentDTO(range, type);
+		final AppointmentDTO appDTO = DTOFactory.createAppointmentDTO(event.getSequence(), range, type);
 
 		updateDTOFromEvent(appDTO, event);
 

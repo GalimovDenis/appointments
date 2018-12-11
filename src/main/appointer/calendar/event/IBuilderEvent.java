@@ -20,6 +20,10 @@ import biweekly.util.Recurrence;
  */
 public interface IBuilderEvent {
 	
+	public int getSequence();
+	
+	public void setSequence(int id);
+	
 	/**
 	 * Should contain the last mutation time.
 	 * @return
@@ -79,6 +83,8 @@ public interface IBuilderEvent {
 	public static IBuilderEvent produce(VEvent event) {
 		
 		IBuilderEvent builder = create();
+		builder.setSequence(event.getSequence().getValue());
+		
 		builder.setEventTimestamp(DateAdapter.asLocalDateTime(event.getDateTimeStamp().getValue()));
 		builder.setEventID(UUID.fromString(event.getUid().getValue()));
 		
@@ -144,6 +150,7 @@ public interface IBuilderEvent {
 	 */
 	public default IBuilderEvent fillTestAppointment() {
 		final LocalDateTime now = LocalDateTime.now();
+		setSequence(0);
 		setEventTimestamp(now.truncatedTo(ChronoUnit.SECONDS));
 		setTimeStart(now.truncatedTo(ChronoUnit.MINUTES));
 		setTimeEnd(now.truncatedTo(ChronoUnit.MINUTES));
@@ -158,6 +165,7 @@ public interface IBuilderEvent {
 	 */
 	public default IBuilderEvent fillTestAppointment(String Attendee, String Organizer) {
 		final LocalDateTime now = LocalDateTime.now();
+		setSequence(0);
 		setEventTimestamp(now.truncatedTo(ChronoUnit.SECONDS));
 		setTimeStart(now.truncatedTo(ChronoUnit.MINUTES));
 		setTimeEnd(now.truncatedTo(ChronoUnit.MINUTES));

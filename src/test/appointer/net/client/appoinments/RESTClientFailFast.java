@@ -53,24 +53,26 @@ public class RESTClientFailFast {
 		RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.READ, "");
 	}
 
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testIVFirstArgNull() throws URISyntaxException {
-		RESTClient_Step_4_GetResults.attendeeReceiveReport(null, Organizer, UUID.randomUUID());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport(null, UUID.randomUUID(), 0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testIVFirstArgEmpty() throws URISyntaxException {
+		RESTClient_Step_4_GetResults.attendeeReceiveReport("", UUID.randomUUID(), 0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testIVSecondArgNull() throws URISyntaxException {
-		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.READ, null, UUID.randomUUID());
+		RESTClient_Step_4_GetResults.attendeeReceiveReport("", null, 0);
 	}
+	
+//	@Test(expected = IllegalArgumentException.class)
+//	public void testIVThirdArgNull() throws URISyntaxException {
+//		RESTClient_Step_4_GetResults.attendeeReceiveReport(Organizer, UUID.randomUUID(), -100);
+//	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testIVSecondArgEmpty() throws URISyntaxException {
-		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.READ, "", UUID.randomUUID());
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testIVThirfArgNull() throws URISyntaxException {
-		RESTClient_Step_4_GetResults.attendeeReceiveReport(RequestType.READ, "", null);
-	}
 
 }

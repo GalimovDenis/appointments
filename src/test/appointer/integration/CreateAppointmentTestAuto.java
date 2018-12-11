@@ -38,7 +38,7 @@ public class CreateAppointmentTestAuto {
 
 		IAppointmentEvent eventToCreateI = IBuilderEvent.create().fillTestAppointment(Attendee, Organizer)
 				.buildAppointment();
-
+		
 		UUID eventI_UID = TestUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
 
 		IAppointmentEvent createdEventAttendee = AttendeeCalendars.getEvent(eventI_UID);
@@ -95,7 +95,7 @@ public class CreateAppointmentTestAuto {
 		IAppointmentEvent eventToCreateI = IBuilderEvent.create().fillTestAppointment(Attendee, Organizer)
 				.buildAppointment();
 
-		System.out.println("Respond: create" + eventToCreateI);
+//		System.out.println("Respond: create" + eventToCreateI);
 		TestUtil.registerEvent(eventToCreateI);  
 
 		TestUtil.registerEvent(eventToCreateI);
@@ -104,7 +104,7 @@ public class CreateAppointmentTestAuto {
 
 		IAppointmentEvent eventCreated = DTOAdapter.toAppointmentEvent(TestUtil.respondEvent(OrganizerCalendars));
 
-		System.out.println("Respond: created" + eventCreated);
+	//	System.out.println("Respond: created" + eventCreated);
 
 		assertTrue(eventCreated.equals(eventToCreateI));
 

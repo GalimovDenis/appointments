@@ -1,7 +1,6 @@
 package appointer.net.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,9 +12,7 @@ public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 	 * Data for handling the AppointmentDTO: its CRUD type and its unique ID
 	 */
 	private final RequestType requestType;
-	private final UUID requestId;
-
-	/**
+	private final int requestId;	/**
 	 * unique Event ID by which to search for it in the calendars
 	 */
 	private String eventId;
@@ -41,7 +38,7 @@ public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 	private boolean complete;
 
 	@JsonCreator
-	public BaseAppointmentDTO(@JsonProperty("requestId") UUID requestId,
+	public BaseAppointmentDTO(@JsonProperty("requestId") int requestId,
 			@JsonProperty("requestType") RequestType requestType) {
 		super();
 		this.requestId = requestId;
@@ -53,7 +50,7 @@ public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 		return requestType;
 	}
 
-	public UUID getRequestId() {
+	public Integer getSequence() {
 		return requestId;
 	}
 
@@ -115,11 +112,21 @@ public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 		this.complete = complete;
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
+		result = prime * result + ((attendee == null) ? 0 : attendee.hashCode());
+		result = prime * result + (complete ? 1231 : 1237);
+		result = prime * result + ((eventId == null) ? 0 : eventId.hashCode());
+		result = prime * result + ((organizer == null) ? 0 : organizer.hashCode());
+		result = prime * result + (registered ? 1231 : 1237);
+		result = prime * result + requestId;
+		result = prime * result + ((requestType == null) ? 0 : requestType.hashCode());
+		result = prime * result + (responded ? 1231 : 1237);
+		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		return result;
 	}
 
@@ -132,10 +139,35 @@ public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		BaseAppointmentDTO other = (BaseAppointmentDTO) obj;
-		if (requestId == null) {
-			if (other.requestId != null)
+		if (attendee == null) {
+			if (other.attendee != null)
 				return false;
-		} else if (!requestId.equals(other.requestId))
+		} else if (!attendee.equals(other.attendee))
+			return false;
+		if (complete != other.complete)
+			return false;
+		if (eventId == null) {
+			if (other.eventId != null)
+				return false;
+		} else if (!eventId.equals(other.eventId))
+			return false;
+		if (organizer == null) {
+			if (other.organizer != null)
+				return false;
+		} else if (!organizer.equals(other.organizer))
+			return false;
+		if (registered != other.registered)
+			return false;
+		if (requestId != other.requestId)
+			return false;
+		if (requestType != other.requestType)
+			return false;
+		if (responded != other.responded)
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
 			return false;
 		return true;
 	}

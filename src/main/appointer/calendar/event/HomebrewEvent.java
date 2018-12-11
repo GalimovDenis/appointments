@@ -1,15 +1,11 @@
 package appointer.calendar.event;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
 import java.util.UUID;
 
-import appointer.util.date.range.DateRange;
-import appointer.util.date.range.IDateRange;
 import biweekly.util.Frequency;
 import biweekly.util.Recurrence;
-import lombok.EqualsAndHashCode;
 
 /**
  * Homebrew event that doesn't carry VEvent inside; alternative IEvent implementation
@@ -17,7 +13,7 @@ import lombok.EqualsAndHashCode;
 public final class HomebrewEvent implements IBuilderEvent {
 
 	
-	
+	private int sequence;
 	private LocalDateTime timestamp;
 	private UUID uid; 
 	private LocalDateTime start;
@@ -30,11 +26,19 @@ public final class HomebrewEvent implements IBuilderEvent {
 
 	public HomebrewEvent() {		
 	}
-	
-//	public HomebrewEvent(VEvent event) {
-//		//TODO: stub;		
-//	}
-	
+
+	@Override
+	public int getSequence() {
+		return sequence;
+	}
+
+
+	@Override
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
+	}
+
+
 	@Override
 	public void setEventID(UUID uid) {
 		this.uid = uid;
@@ -121,6 +125,7 @@ public final class HomebrewEvent implements IBuilderEvent {
 		if (!isAppointment()) throw new IllegalStateException("Event not an appointment");
 		
 		return new ControlledAppointmentEvent(
+				getSequence(),
 				getDateTimeStamp(),
 				getUid(),
 				getDateTimeStart(),
@@ -150,12 +155,14 @@ public final class HomebrewEvent implements IBuilderEvent {
 		int result = 1;
 		result = prime * result + ((attendee == null) ? 0 : attendee.hashCode());
 		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + sequence;
 		result = prime * result + ((organizer == null) ? 0 : organizer.hashCode());
 		result = prime * result + ((start == null) ? 0 : start.hashCode());
 		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -175,6 +182,8 @@ public final class HomebrewEvent implements IBuilderEvent {
 			if (other.end != null)
 				return false;
 		} else if (!end.equals(other.end))
+			return false;
+		if (sequence != other.sequence)
 			return false;
 		if (organizer == null) {
 			if (other.organizer != null)

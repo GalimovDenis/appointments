@@ -10,7 +10,7 @@ import biweekly.util.Recurrence;
 public class ControlledAppointmentEvent implements IAppointmentEvent {
 
 
-
+	private final int mutationID;
 	private final LocalDateTime timestamp;
 	private final UUID uid; 
 	private final LocalDateTime start;
@@ -22,8 +22,9 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 	private AppointmentStatus status;
 	
 
-	protected ControlledAppointmentEvent(LocalDateTime timestamp, UUID uid, LocalDateTime start, LocalDateTime end,
+	protected ControlledAppointmentEvent(Integer mutationID, LocalDateTime timestamp, UUID uid, LocalDateTime start, LocalDateTime end,
 			String organizer, String attendee, Recurrence recur) {
+		this.mutationID = mutationID;
 		this.timestamp = timestamp;
 		this.uid = uid;
 		this.start = start;
@@ -34,6 +35,12 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 		this.repeats = recur;
 	}
 	
+
+	@Override
+	public int getSequence() {
+		return mutationID;
+	}
+
 	@Override
 	public LocalDateTime getDateTimeStart() {
 		return start; //immutable
@@ -71,7 +78,7 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 
 	@Override
 	public String toString() {
-		return "ControlledAppointmentEvent [uid=" + uid + ", timestamp=" + timestamp + ", start=" + start + ", end=" + end
+		return "ControlledAppointmentEvent [uid=" + uid + ", mutationID= " + mutationID + ", timestamp=" + timestamp + ", start=" + start + ", end=" + end
 				+ ", organizer=" + organizer + ", attendee=" + attendee + ", recur=" + repeats + ", status=" + status
 				+ "]";
 	}
@@ -90,19 +97,22 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 	public void setStatus(AppointmentStatus status) {
 		this.status = status;
 	}
-	
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((attendee == null) ? 0 : attendee.hashCode());
 		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + mutationID;
 		result = prime * result + ((organizer == null) ? 0 : organizer.hashCode());
 		result = prime * result + ((start == null) ? 0 : start.hashCode());
 		result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
 		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -122,6 +132,8 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 			if (other.end != null)
 				return false;
 		} else if (!end.equals(other.end))
+			return false;
+		if (mutationID != other.mutationID)
 			return false;
 		if (organizer == null) {
 			if (other.organizer != null)
@@ -146,4 +158,7 @@ public class ControlledAppointmentEvent implements IAppointmentEvent {
 		return true;
 	}
 
+
+
+	
 }

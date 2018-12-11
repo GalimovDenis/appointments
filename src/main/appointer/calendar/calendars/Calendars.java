@@ -94,6 +94,7 @@ public class Calendars implements ICalendars {
 		uids.add(uid);
 
 		VEvent vEvent = new VEvent();
+		vEvent.setSequence(event.getSequence());
 		vEvent.setOrganizer(new Organizer(event.getOrganizer(), ""));
 		vEvent.addAttendee(new Attendee(event.getAttendee(), ""));
 		vEvent.setDateTimeStamp(DateAdapter.asDate(event.getDateTimeStamp()));

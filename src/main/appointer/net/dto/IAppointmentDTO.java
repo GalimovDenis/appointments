@@ -1,7 +1,6 @@
 package appointer.net.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -17,7 +16,8 @@ public interface IAppointmentDTO {
 	
 	public RequestType getRequestType();
 	
-	public UUID getRequestId();
+	//every mutation in the calendar yields an auto-increment
+	public Integer getSequence();
 	
 	public String getEventId();
 
