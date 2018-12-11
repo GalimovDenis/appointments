@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 
@@ -37,9 +36,7 @@ public abstract class BaseAppointmentDTO implements IAppointmentDTO {
 	private boolean responded;
 	private boolean complete;
 
-	@JsonCreator
-	public BaseAppointmentDTO(@JsonProperty("requestId") int requestId,
-			@JsonProperty("requestType") RequestType requestType) {
+	public BaseAppointmentDTO(int requestId, RequestType requestType) {
 		super();
 		this.requestId = requestId;
 		this.requestType = requestType;

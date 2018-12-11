@@ -39,26 +39,35 @@ public class TestUtil {
 
 		HttpStatus statusOne = registerEvent(attendeeEvent);
 
+		//System.out.println("Status One  " + statusOne);
+		
 		IAppointmentDTO appAnswerOrganizer = respondEvent(OrganizerCalendars);
 
+		//System.out.println("DTO Two  " + appAnswerOrganizer);
+		
 		HttpStatus statusThree = reportEvent(appAnswerOrganizer);
 
+		//System.out.println("Status Three  " + statusThree);
+		
 		IAppointmentDTO appRequestAttendee = resultsEvent(attendeeEvent, AttendeeCalendars);
 
+		//System.out.println("DTO Four " + appRequestAttendee );
+		
 		HttpStatus statusFive = completeEvent(appRequestAttendee);
 
+		//System.out.println("Status Five " + statusFive);
+		
 		return UUID.fromString(appRequestAttendee.getEventId());
 
 	}
 
 	public static HttpStatus registerEvent(IAppointmentEvent attendeeEvent) throws URISyntaxException {
-		// Attendee creates appointment and packs it into a dto with unique UID;
+		
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentDTO(RequestType.CREATE, attendeeEvent);
 
 		HttpStatus res = null;
-		// Attendee sends a new appointment request
-		res = RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
+		//not idempotent any more. try until 200?
 		res = RESTClient_Step_1_PostNewRequest.attendeeRequest(appRequestAttendee);
 
 		return res;
@@ -70,8 +79,6 @@ public class TestUtil {
 		final String organizerName = OrganizerCalendars.getUser().getName();
 
 		// Organizer receives appointment to create
-		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
-
 		appAnswerOrganizer = RESTClient_Step_2_GetPending.organizerGetRequest(RequestType.CREATE, organizerName);
 
 		// organizer adds event to Calendar;
@@ -91,8 +98,6 @@ public class TestUtil {
 		// Organizer reports events
 		res = RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
-		res = RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
-
 		return res;
 	}
 
@@ -106,10 +111,7 @@ public class TestUtil {
 		// Attendee now must see Responded as True;
 		appRequestAttendee = RESTClient_Step_4_GetResults.attendeeReceiveReport(organizerName,
 				attendeeEvent.getUid(), attendeeEvent.getSequence());
-
-		appRequestAttendee = RESTClient_Step_4_GetResults.attendeeReceiveReport(organizerName,
-				attendeeEvent.getUid(), attendeeEvent.getSequence());
-
+		
 		AttendeeCalendars.putEvent(DTOAdapter.toAppointmentEvent(appRequestAttendee)); //
 
 		appRequestAttendee.setComplete(true);
@@ -119,8 +121,6 @@ public class TestUtil {
 	public static HttpStatus completeEvent(IAppointmentDTO appRequestAttendee) throws URISyntaxException {
 
 		HttpStatus res = null;
-
-		res = RESTClient_Step_5_PostComplete.attendeeConfirmComplete(appRequestAttendee);
 
 		res = RESTClient_Step_5_PostComplete.attendeeConfirmComplete(appRequestAttendee);
 

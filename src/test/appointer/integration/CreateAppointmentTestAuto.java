@@ -12,6 +12,7 @@ import appointer.calendar.calendars.ICalendars;
 import appointer.calendar.event.IAppointmentEvent;
 import appointer.calendar.event.IBuilderEvent;
 import appointer.net.adapters.DTOAdapter;
+import appointer.net.client.appointments.RESTExchanger;
 import appointer.util.TestUtil;
 
 /**
@@ -38,13 +39,15 @@ public class CreateAppointmentTestAuto {
 
 		IAppointmentEvent eventToCreateI = IBuilderEvent.create().fillTestAppointment(Attendee, Organizer)
 				.buildAppointment();
-		
+
 		UUID eventI_UID = TestUtil.createAppointmentTest(eventToCreateI, OrganizerCalendars, AttendeeCalendars);
 
 		IAppointmentEvent createdEventAttendee = AttendeeCalendars.getEvent(eventI_UID);
 
 		IAppointmentEvent createdEventOrganizer = OrganizerCalendars.getEvent(eventI_UID);
 
+		RESTExchanger.clearServer();
+		
 		assertTrue(createdEventAttendee.equals(createdEventOrganizer));
 
 	}
@@ -56,16 +59,21 @@ public class CreateAppointmentTestAuto {
 	 * Must have the server running
 	 * 
 	 * @throws URISyntaxException
+	 * @throws InterruptedException 
 	 */
 	@Test
-	public void testMultiCreation() throws URISyntaxException {
+	public void testMultiCreation() throws URISyntaxException, InterruptedException {
 
 		for (int i = 0; i < CREATECOUNT; i++) {
+			
 			TestUtil.createAppointmentTest(
 					IBuilderEvent.create().fillTestAppointment(Attendee, Organizer).buildAppointment(),
 					OrganizerCalendars, AttendeeCalendars);
 		}
 
+		RESTExchanger.clearServer();
+		
+		
 		assertTrue(OrganizerCalendars.equalByEventSet(AttendeeCalendars));
 
 	}
@@ -74,7 +82,11 @@ public class CreateAppointmentTestAuto {
 	public void testRegister() throws URISyntaxException {
 		IAppointmentEvent eventToCreateI = IBuilderEvent.create().fillTestAppointment(Attendee, Organizer)
 				.buildAppointment();
+		
 		assertTrue(TestUtil.registerEvent(eventToCreateI).equals(HttpStatus.ACCEPTED));
+		
+		RESTExchanger.clearServer();
+		
 	}
 
 	@Test
@@ -83,20 +95,28 @@ public class CreateAppointmentTestAuto {
 		IAppointmentEvent eventToCreateI = IBuilderEvent.create().fillTestAppointment(Attendee, Organizer)
 				.buildAppointment();
 
-		TestUtil.registerEvent(eventToCreateI); // test case: we try to register event twice;
+		assertTrue(TestUtil.registerEvent(eventToCreateI).equals(HttpStatus.ACCEPTED));
+		// test case: we try to register event twice;
 
-		assertTrue(TestUtil.registerEvent(eventToCreateI).equals(HttpStatus.NOT_ACCEPTABLE));
-
+		assertTrue(TestUtil.registerEvent(eventToCreateI).equals(HttpStatus.ALREADY_REPORTED));
+		
+		RESTExchanger.clearServer();
+		
 	}
 
 	@Test
-	public void testRespomd() throws URISyntaxException {
+	/**
+	 * Succeeds only if server is blank. if there are any appDTO's for this organizer, they'll go first. 
+	 * @throws URISyntaxException
+	 */
+	public void testRespond() throws URISyntaxException {
 
 		IAppointmentEvent eventToCreateI = IBuilderEvent.create().fillTestAppointment(Attendee, Organizer)
 				.buildAppointment();
 
-//		System.out.println("Respond: create" + eventToCreateI);
-		TestUtil.registerEvent(eventToCreateI);  
+	//	System.out.println("Respond: create" + eventToCreateI);
+
+		TestUtil.registerEvent(eventToCreateI);
 
 		TestUtil.registerEvent(eventToCreateI);
 
@@ -104,10 +124,14 @@ public class CreateAppointmentTestAuto {
 
 		IAppointmentEvent eventCreated = DTOAdapter.toAppointmentEvent(TestUtil.respondEvent(OrganizerCalendars));
 
-	//	System.out.println("Respond: created" + eventCreated);
+//		System.out.println("Respond: created" + eventCreated);
 
 		assertTrue(eventCreated.equals(eventToCreateI));
 
+		OrganizerCalendars.deleteEvent(eventCreated); //TODO: clear calendar;
+		
+		RESTExchanger.clearServer();
+		
 	}
 
 	public static void printAttendeAndOrganizerCalendars() {

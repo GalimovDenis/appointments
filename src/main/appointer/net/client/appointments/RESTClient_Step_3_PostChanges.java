@@ -20,7 +20,7 @@ public final class RESTClient_Step_3_PostChanges {
 		ArgumentsChecker.checkAppDTO(appDTO);
 
 		// produces urn like: create+?orgname=Organizer;
-		final String urn = appDTO.getRequestType().getURN() + "?orgname=" + appDTO.getOrganizer();
+		final String urn = "?orgname=" + appDTO.getOrganizer();
 		
 		return RESTExchanger.postAppointmentDTO(appDTO, url + urn);
 	

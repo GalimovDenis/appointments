@@ -55,4 +55,9 @@ public class RESTExchanger {
 		return response.getStatusCode();
 	}
 
+	public static void clearServer() {
+		
+		restTemplate.delete("http://localhost:8080/attendee/complete/clear");
+		
+	}
 }

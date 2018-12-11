@@ -98,7 +98,7 @@ public class DTOAdapter {
 	public static IAppointmentEvent toAppointmentEvent(IAppointmentDTO appCreation) {
 
 		final IBuilderEvent builderEvent = IBuilderEvent.create();
-
+		
 		builderEvent.setOrganizer(appCreation.getOrganizer());
 
 		builderEvent.setAttendee(appCreation.getAttendee());

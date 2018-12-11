@@ -23,7 +23,7 @@ public final class RESTClient_Step_5_PostComplete {
 
 		assertTrue(appDTO.isComplete());
 		
-		final String uid = appDTO.getSequence().toString();
+		final String uid = appDTO.getEventId();
 
 		final String organizerName = appDTO.getOrganizer();
 		
