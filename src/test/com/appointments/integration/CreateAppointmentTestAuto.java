@@ -64,6 +64,8 @@ public class CreateAppointmentTestAuto {
 	@Test
 	public void testMultiCreation() throws URISyntaxException, InterruptedException {
 
+		RESTExchanger.clearServer();
+		
 		for (int i = 0; i < CREATECOUNT; i++) {
 			
 			TestUtil.createAppointmentTest(

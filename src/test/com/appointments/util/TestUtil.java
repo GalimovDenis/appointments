@@ -64,7 +64,7 @@ public class TestUtil {
 	public static HttpStatus registerEvent(IAppointmentEvent attendeeEvent) throws URISyntaxException {
 		
 		IAppointmentDTO appRequestAttendee = DTOAdapter.toAppointmentDTO(RequestType.CREATE, attendeeEvent);
-
+		//System.out.println("ToReg"+appRequestAttendee);
 		HttpStatus res = null;
 
 		//not idempotent any more. try until 200?
@@ -87,7 +87,7 @@ public class TestUtil {
 		OrganizerCalendars.putEvent(organiserEvent);
 
 		appAnswerOrganizer.setResponded(true);
-
+		//System.out.println("Responded"+appAnswerOrganizer);
 		return appAnswerOrganizer;
 	}
 
@@ -98,6 +98,8 @@ public class TestUtil {
 		// Organizer reports events
 		res = RESTClient_Step_3_PostChanges.organizerReport(appAnswerOrganizer);
 
+		//System.out.println("OrgAnswer" + appAnswerOrganizer);
+		
 		return res;
 	}
 
@@ -115,15 +117,20 @@ public class TestUtil {
 		AttendeeCalendars.putEvent(DTOAdapter.toAppointmentEvent(appRequestAttendee)); //
 
 		appRequestAttendee.setComplete(true);
+		
 		return appRequestAttendee;
 	}
 
 	public static HttpStatus completeEvent(IAppointmentDTO appRequestAttendee) throws URISyntaxException {
 
 		HttpStatus res = null;
-
+		
+		//System.out.println("Complete + " + appRequestAttendee);
+		
 		res = RESTClient_Step_5_PostComplete.attendeeConfirmComplete(appRequestAttendee);
 
+		//System.out.println(res);
+		
 		return res;
 	}
 	
