@@ -1,4 +1,3 @@
-
 # appointments
 **Appointment client**
 
@@ -35,8 +34,8 @@ Creating an event:
 
   `IEventBuilder.create()`
   
-Creating an appointment:
-
+Creating an appointment
+   
    `IEventBuilder builder = IEventBuilder.create();
    
     builder.setSequence(int sequence);	// the revision number of an appointment
@@ -129,7 +128,7 @@ Creating an event:
   
 Creating an appointment
    
-   `IEventBuilder builder = IEventBuilder.create();
+ ```IEventBuilder builder = IEventBuilder.create();
    
     builder.setSequence(int sequence);	// the revision number of an appointment
 		
@@ -144,8 +143,8 @@ Creating an appointment
 		
     builder.setEventRepeats(biweekly.util.Frequency frequency); // repeat rules;
     
-    IAppointmentEvent appEvent = builder.buildAppointment(); // <- this is the final immutable appointment
-`
+    IAppointmentEvent appEvent = builder.buildAppointment(); // <- this is the final immutable appointment ```
+
 Changing an existing appointment:
 
    `IEventBuilder builder = IEventBuilder.produce(IAppointmentEvent appEvent);
