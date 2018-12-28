@@ -52,39 +52,3 @@ Creating an appointment
     
     IAppointmentEvent appEvent = builder.buildAppointment(); // <- this is the final immutable appointment```
 
-Changing an existing appointment:
-
-   `IEventBuilder builder = IEventBuilder.produce(IAppointmentEvent appEvent);
-    
-   builder.setAnything(....)
-   
-   IAppointmentEvent appEventChanged = builder.buildAppointment();`
-    
-Creating IAppointmentDTO from IAppointmentEvent
-
-   `DTOAdapter.toAppointmentDTO(RequestType type, IAppointmentEvent event)`
-   
-Creating IAppointmentEvent from IAppointmentDTO
-
-   `DTOAdapter.IAppointmentEvent(IAppointmentDTO appDTO)`
-
-Sending register request (attendee): *Under construction:*
-
-`TestUtil.registerEvent(IAppointmentEvent appEvent)`
-
-Responding to request (organizer): *Under construction:*
-
-`TestUtil.respondEvent(ICalendars organizerCalendar)`
-
-Reporting processed request (organizer): *Under construction:*
-
-`TestUtil.reportEvent(IAppointmentDTO appAnswerOrganizer`
-
-Reading request changes (attendee): *Under construction:*
-
-`TestUtil.resultsEvent(IAppointmentEvent attendeeEvent, ICalendars AttendeeCalendars`
-
-Marking request as complete (attendee): *Under construction:*
-
-`TestUtil.completeEvent(IAppointmentDTO completeEvent`
-
