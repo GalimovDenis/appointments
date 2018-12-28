@@ -17,18 +17,22 @@ com.appointments.calendar.event.IAppointmentEvent is an immutable appointment;
 *Not an interface yet!*
 com.appointments.net.adapters.DTOAdapter converts IAppointmentEvent into IAppointmentDTO and back 
 
-*Under construction:
+*Under construction:*
   src/test
 com.appointments.util.TestUtil is the entry point into client-server operations
 com.appointments.integration holds tests that run the everything above. 
-*
+
 
 Examples:
 
 Creating a calendar:
+
   `ICalendars.create(String userName);`
+  
 Creating an event:
+
   `IEventBuilder.create()`
+  
 Creating an appointment
    
    `IEventBuilder builder = IEventBuilder.create();
@@ -57,21 +61,33 @@ Creating an appointment
    IAppointmentEvent appEventChanged = builder.buildAppointment();`
     
 Creating IAppointmentDTO from IAppointmentEvent
+
    `DTOAdapter.toAppointmentDTO(RequestType type, IAppointmentEvent event)`
    
 Creating IAppointmentEvent from IAppointmentDTO
+
    `DTOAdapter.IAppointmentEvent(IAppointmentDTO appDTO)`
    
    
-*Under construction:
+*Under construction:*
 Sending register request (attendee):
+
 `TestUtil.registerEvent(IAppointmentEvent appEvent)`
+
 Responding to request (organizer):
+
 `TestUtil.respondEvent(ICalendars organizerCalendar)`
+
 Reporting processed request (organizer):
+
 `TestUtil.reportEvent(IAppointmentDTO appAnswerOrganizer)`
+
 Reading request changes (attendee):
+
 `TestUtil.resultsEvent(IAppointmentEvent attendeeEvent, ICalendars AttendeeCalendars)`
+
 Marking request as complete (attendee):
+
 `TestUtil.completeEvent(IAppointmentDTO completeEvent);`
-*
+
+
