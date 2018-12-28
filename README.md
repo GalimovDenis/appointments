@@ -35,8 +35,8 @@ Creating an event:
 
   `IEventBuilder.create()`
   
-Creating an appointment
-   
+Creating an appointment:
+
    `IEventBuilder builder = IEventBuilder.create();
    
     builder.setSequence(int sequence);	// the revision number of an appointment
