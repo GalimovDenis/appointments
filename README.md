@@ -5,6 +5,7 @@ Uses biWeekly library for ical format compatibility;
 Carries a map of calendars to users; supports commands for event manipulation; talks to the appointment server.
 
 **API:**
+
   src/main
 com.appointments.calendar.repository.ICalendarsRepository holds all calendars;
 
@@ -25,15 +26,15 @@ com.appointments.integration holds tests that run the everything above.  *Under 
 
 Creating a calendar:
 
-  `ICalendars.create(String userName);`
+  ```ICalendars.create(String userName);```
   
 Creating an event:
 
-  `IEventBuilder.create()`
+  ```IEventBuilder.create()```
   
 Creating an appointment
    
-   `IEventBuilder builder = IEventBuilder.create();
+   ```IEventBuilder builder = IEventBuilder.create();
    
     builder.setSequence(int sequence);	// the revision number of an appointment
 		
@@ -48,44 +49,44 @@ Creating an appointment
 		
     builder.setEventRepeats(biweekly.util.Frequency frequency); // repeat rules;
     
-    IAppointmentEvent appEvent = builder.buildAppointment(); // <- this is the final immutable appointment
+    IAppointmentEvent appEvent = builder.buildAppointment(); // <- this is the final immutable appointment ```
 
-`Changing an existing appointment:
+Changing an existing appointment:
 
-   `IEventBuilder builder = IEventBuilder.produce(IAppointmentEvent appEvent);
+   ```IEventBuilder builder = IEventBuilder.produce(IAppointmentEvent appEvent);
     
    builder.setAnything(....)
    
-   IAppointmentEvent appEventChanged = builder.buildAppointment();`
+   IAppointmentEvent appEventChanged = builder.buildAppointment();```
     
 Creating IAppointmentDTO from IAppointmentEvent
 
-   `DTOAdapter.toAppointmentDTO(RequestType type, IAppointmentEvent event)`
+   ```DTOAdapter.toAppointmentDTO(RequestType type, IAppointmentEvent event)```
    
 Creating IAppointmentEvent from IAppointmentDTO
 
-   `DTOAdapter.IAppointmentEvent(IAppointmentDTO appDTO)`
+   `DTOAdapter.IAppointmentEvent(IAppointmentDTO appDTO)```
    
    
 
 Sending register request (attendee): *Under construction:*
 
-`TestUtil.registerEvent(IAppointmentEvent appEvent)`
+```TestUtil.registerEvent(IAppointmentEvent appEvent)```
 
 Responding to request (organizer): *Under construction:*
 
-`TestUtil.respondEvent(ICalendars organizerCalendar)`
+```TestUtil.respondEvent(ICalendars organizerCalendar)```
 
 Reporting processed request (organizer): *Under construction:*
 
-`TestUtil.reportEvent(IAppointmentDTO appAnswerOrganizer)`
+```TestUtil.reportEvent(IAppointmentDTO appAnswerOrganizer)```
 
 Reading request changes (attendee): *Under construction:*
 
-`TestUtil.resultsEvent(IAppointmentEvent attendeeEvent, ICalendars AttendeeCalendars)`
+```TestUtil.resultsEvent(IAppointmentEvent attendeeEvent, ICalendars AttendeeCalendars)```
 
 Marking request as complete (attendee): *Under construction:*
 
-`TestUtil.completeEvent(IAppointmentDTO completeEvent);`
+```TestUtil.completeEvent(IAppointmentDTO completeEvent);```
 
 
