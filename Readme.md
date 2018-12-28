@@ -20,6 +20,7 @@ com.appointments.net.adapters.DTOAdapter converts IAppointmentEvent into IAppoin
   src/test
   
 com.appointments.util.TestUtil is the entry point into client-server operations *Under construction:*
+
 com.appointments.integration holds tests that run the everything above.  *Under construction:*
 
 
