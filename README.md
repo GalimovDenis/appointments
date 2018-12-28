@@ -7,6 +7,7 @@ Carries a map of calendars to users; supports commands for event manipulation; t
 **API:**
 
   src/main
+  
 com.appointments.calendar.repository.ICalendarsRepository holds all calendars;
 
 com.appointments.calendar.calendars.ICalendars controls access to the calendar;
@@ -18,6 +19,7 @@ com.appointments.calendar.event.IAppointmentEvent is an immutable appointment;
 com.appointments.net.adapters.DTOAdapter converts IAppointmentEvent into IAppointmentDTO and back  *Under construction:*
 
   src/test
+  
 com.appointments.util.TestUtil is the entry point into client-server operations *Under construction:*
 com.appointments.integration holds tests that run the everything above.  *Under construction:*
 
@@ -49,8 +51,8 @@ Creating an appointment
 		
     builder.setEventRepeats(biweekly.util.Frequency frequency); // repeat rules;
     
-    IAppointmentEvent appEvent = builder.buildAppointment(); // <- this is the final immutable appointment `
-
+    IAppointmentEvent appEvent = builder.buildAppointment(); // <- this is the final immutable appointment
+`
 Changing an existing appointment:
 
    `IEventBuilder builder = IEventBuilder.produce(IAppointmentEvent appEvent);
@@ -66,8 +68,6 @@ Creating IAppointmentDTO from IAppointmentEvent
 Creating IAppointmentEvent from IAppointmentDTO
 
    `DTOAdapter.IAppointmentEvent(IAppointmentDTO appDTO)`
-   
-   
 
 Sending register request (attendee): *Under construction:*
 
