@@ -1,10 +1,10 @@
 # appointments
-Appointment client
+**Appointment client**
 
 Uses biWeekly library for ical format compatibility;  
 Carries a map of calendars to users; supports commands for event manipulation; talks to the appointment server.
 
-API:
+**API:**
   src/main
 com.appointments.calendar.repository.ICalendarsRepository holds all calendars;
 
@@ -14,16 +14,14 @@ com.appointments.calendar.event.IEventBuilder is an appointment builder from eve
 
 com.appointments.calendar.event.IAppointmentEvent is an immutable appointment;
 
-*Not an interface yet!*
-com.appointments.net.adapters.DTOAdapter converts IAppointmentEvent into IAppointmentDTO and back 
+com.appointments.net.adapters.DTOAdapter converts IAppointmentEvent into IAppointmentDTO and back  *Under construction:*
 
-*Under construction:*
   src/test
-com.appointments.util.TestUtil is the entry point into client-server operations
-com.appointments.integration holds tests that run the everything above. 
+com.appointments.util.TestUtil is the entry point into client-server operations *Under construction:*
+com.appointments.integration holds tests that run the everything above.  *Under construction:*
 
 
-Examples:
+**Examples:**
 
 Creating a calendar:
 
@@ -56,7 +54,7 @@ Creating an appointment
 
    `IEventBuilder builder = IEventBuilder.produce(IAppointmentEvent appEvent);
     
-   // builder.setAnything(....)
+   builder.setAnything(....)
    
    IAppointmentEvent appEventChanged = builder.buildAppointment();`
     
@@ -69,24 +67,24 @@ Creating IAppointmentEvent from IAppointmentDTO
    `DTOAdapter.IAppointmentEvent(IAppointmentDTO appDTO)`
    
    
-*Under construction:*
-Sending register request (attendee):
+
+Sending register request (attendee): *Under construction:*
 
 `TestUtil.registerEvent(IAppointmentEvent appEvent)`
 
-Responding to request (organizer):
+Responding to request (organizer): *Under construction:*
 
 `TestUtil.respondEvent(ICalendars organizerCalendar)`
 
-Reporting processed request (organizer):
+Reporting processed request (organizer): *Under construction:*
 
 `TestUtil.reportEvent(IAppointmentDTO appAnswerOrganizer)`
 
-Reading request changes (attendee):
+Reading request changes (attendee): *Under construction:*
 
 `TestUtil.resultsEvent(IAppointmentEvent attendeeEvent, ICalendars AttendeeCalendars)`
 
-Marking request as complete (attendee):
+Marking request as complete (attendee): *Under construction:*
 
 `TestUtil.completeEvent(IAppointmentDTO completeEvent);`
 
