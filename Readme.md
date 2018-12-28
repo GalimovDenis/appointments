@@ -15,13 +15,13 @@ com.appointments.calendar.event.IEventBuilder is an appointment builder from eve
 
 com.appointments.calendar.event.IAppointmentEvent is an immutable appointment;
 
-com.appointments.net.adapters.DTOAdapter converts IAppointmentEvent into IAppointmentDTO and back  *Under construction:*
+com.appointments.net.adapters.DTOAdapter converts IAppointmentEvent into IAppointmentDTO and back  *Under construction*
 
   src/test
   
-com.appointments.util.TestUtil is the entry point into client-server operations *Under construction:*
+com.appointments.util.TestUtil is the entry point into client-server operations *Under construction*
 
-com.appointments.integration holds tests that run the everything above.  *Under construction:*
+com.appointments.integration holds tests that run the everything above.  *Under construction*
 
 
 **Examples:**
@@ -73,23 +73,23 @@ Creating IAppointmentEvent from IAppointmentDTO
 
    `DTOAdapter.IAppointmentEvent(IAppointmentDTO appDTO)`
 
-Sending register request (attendee): *Under construction:*
+Sending register request (attendee): *Under construction*
 
    `TestUtil.registerEvent(IAppointmentEvent appEvent)`
 
-Responding to request (organizer): *Under construction:*
+Responding to request (organizer): *Under construction*
 
    `TestUtil.respondEvent(ICalendars organizerCalendar)`
 
-Reporting processed request (organizer): *Under construction:*
+Reporting processed request (organizer): *Under construction*
 
    `TestUtil.reportEvent(IAppointmentDTO appAnswerOrganizer`
 
-Reading request changes (attendee): *Under construction:*
+Reading request changes (attendee): *Under construction*
 
    `TestUtil.resultsEvent(IAppointmentEvent attendeeEvent, ICalendars AttendeeCalendars`
 
-Marking request as complete (attendee): *Under construction:*
+Marking request as complete (attendee): *Under construction*
 
    `TestUtil.completeEvent(IAppointmentDTO completeEvent`
 
